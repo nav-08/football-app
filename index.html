@@ -1,302 +1,285 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2685.6">
-  <style type="text/css">
-    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; -webkit-text-stroke: #000000}
-    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; -webkit-text-stroke: #000000; min-height: 14.0px}
-    span.s1 {font-kerning: none}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rupa Super Cup 2026</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    .active-tab { border-bottom: 3px solid #eab308; color: #eab308; font-weight: bold; }
+    .team-lovers { color: #ec4899; }
+    .team-warriors { color: #eab308; }
+    .team-sniffers { color: #3b82f6; }
   </style>
 </head>
-<body>
-<p class="p1"><span class="s1">&lt;!DOCTYPE html&gt;</span></p>
-<p class="p1"><span class="s1">&lt;html lang="en"&gt;</span></p>
-<p class="p1"><span class="s1">&lt;head&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;meta charset="UTF-8"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;title&gt;Rupa Super Cup 2026&lt;/title&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;script src="https://cdn.tailwindcss.com"&gt;&lt;/script&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"&gt;&lt;/script&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;style&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.active-tab { border-bottom: 3px solid #eab308; color: #eab308; font-weight: bold; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.team-lovers { color: #ec4899; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.team-warriors { color: #eab308; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.team-sniffers { color: #3b82f6; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;/style&gt;</span></p>
-<p class="p1"><span class="s1">&lt;/head&gt;</span></p>
-<p class="p1"><span class="s1">&lt;body class="bg-slate-950 text-slate-100 font-sans min-h-screen pb-16"&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;!-- Header --&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;header class="bg-slate-900 border-b border-slate-800 p-4 sticky top-0 z-50 flex justify-between items-center shadow-lg"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;h1 class="text-xl font-black italic tracking-wider text-yellow-500 uppercase flex items-center gap-2"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;i class="fa-solid fa-trophy text-yellow-400"&gt;&lt;/i&gt; RUPA SUPER CUP</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;/h1&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;p class="text-[10px] text-slate-400"&gt;7v7 Football Tournament • The Playyard, Guwahati&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;button onclick="toggleAdminModal()" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 px-3 py-1.5 rounded-full border border-slate-700 transition"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;i class="fa-solid fa-lock mr-1"&gt;&lt;/i&gt; &lt;span id="admin-btn-text"&gt;Admin&lt;/span&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/button&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;/header&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;!-- Navigation Tabs --&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;nav class="bg-slate-900 shadow-md sticky top-[61px] z-40 flex justify-around text-xs text-slate-400 border-b border-slate-800 uppercase tracking-wider"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;button onclick="switchTab('matches')" id="tab-matches" class="py-3 px-2 active-tab"&gt;Matches&lt;/button&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;button onclick="switchTab('squads')" id="tab-squads" class="py-3 px-2"&gt;Squads&lt;/button&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;button onclick="switchTab('rules')" id="tab-rules" class="py-3 px-2"&gt;Rules&lt;/button&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;button onclick="switchTab('updates')" id="tab-updates" class="py-3 px-2"&gt;Live Updates&lt;/button&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;/nav&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;main class="max-w-md mx-auto p-4 space-y-4"&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;!-- TAB 1: MATCHES --&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;section id="sec-matches" class="space-y-3"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;div class="flex justify-between items-center"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;h2 class="text-xs font-bold text-slate-400 uppercase tracking-wider"&gt;Match Schedule&lt;/h2&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;span class="text-[10px] bg-yellow-500/10 text-yellow-400 px-2 py-0.5 rounded border border-yellow-500/20"&gt;5th Aug, 9:00 PM&lt;/span&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;div id="matches-list" class="space-y-3"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;p class="text-xs text-slate-500"&gt;Loading schedule...&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/section&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;!-- TAB 2: SQUADS --&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;section id="sec-squads" class="hidden space-y-4"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;!-- Lovers --&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;div class="bg-slate-900 border border-pink-500/30 rounded-lg p-4"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;h3 class="font-black text-pink-500 text-base mb-2 flex items-center gap-2"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;i class="fa-solid fa-heart"&gt;&lt;/i&gt; Rupa Lovers</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/h3&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="grid grid-cols-2 gap-2 text-xs text-slate-300" id="squad-lovers"&gt;&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;!-- Warriors --&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;div class="bg-slate-900 border border-yellow-500/30 rounded-lg p-4"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;h3 class="font-black text-yellow-500 text-base mb-2 flex items-center gap-2"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;i class="fa-solid fa-shield-halved"&gt;&lt;/i&gt; Rupa Warriors</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/h3&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="grid grid-cols-2 gap-2 text-xs text-slate-300" id="squad-warriors"&gt;&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;!-- Sniffers --&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;div class="bg-slate-900 border border-blue-500/30 rounded-lg p-4"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;h3 class="font-black text-blue-500 text-base mb-2 flex items-center gap-2"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;i class="fa-solid fa-wind"&gt;&lt;/i&gt; Rupa Sniffers</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/h3&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="grid grid-cols-2 gap-2 text-xs text-slate-300" id="squad-sniffers"&gt;&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/section&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;!-- TAB 3: RULES --&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;section id="sec-rules" class="hidden space-y-3 text-xs text-slate-300"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;div class="bg-slate-900 p-4 rounded-lg border border-slate-800 space-y-2"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;h3 class="font-bold text-yellow-500 uppercase"&gt;&lt;i class="fa-solid fa-clock mr-1"&gt;&lt;/i&gt; Match Duration&lt;/h3&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;p&gt;• League Matches: 15 mins (7.5 min halves, 1 min break)&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;p&gt;• Final: 20 mins (10 min halves, 2 min break)&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;div class="bg-slate-900 p-4 rounded-lg border border-slate-800 space-y-2"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;h3 class="font-bold text-yellow-500 uppercase"&gt;&lt;i class="fa-solid fa-users mr-1"&gt;&lt;/i&gt; Squad Rules&lt;/h3&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;p&gt;• 7 players on field (including goalkeeper).&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;p&gt;• 1 rolling substitute allowed anytime with referee permission.&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;div class="bg-slate-900 p-4 rounded-lg border border-slate-800 space-y-2"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;h3 class="font-bold text-yellow-500 uppercase"&gt;&lt;i class="fa-solid fa-award mr-1"&gt;&lt;/i&gt; Points &amp; Tie-Breakers&lt;/h3&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;p&gt;• Win: 3 pts | Draw: 1 pt | Loss: 0 pts&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;p&gt;• Tie-Breaker: Goal Difference ➔ Goals Scored ➔ Head-to-Head ➔ Penalty Shootout (3 penalties)&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/section&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;!-- TAB 4: UPDATES --&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;section id="sec-updates" class="hidden space-y-3"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;h2 class="text-xs font-bold text-slate-400 uppercase tracking-wider"&gt;Announcements&lt;/h2&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;div class="space-y-3" id="updates-list"&gt;&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/section&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;!-- ADMIN PANEL --&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;section id="sec-admin-panel" class="hidden bg-slate-900 border border-yellow-500/50 rounded-lg p-4 space-y-4 mt-6"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;div class="flex justify-between items-center border-b border-slate-800 pb-2"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;h3 class="font-bold text-yellow-500"&gt;&lt;i class="fa-solid fa-sliders mr-1"&gt;&lt;/i&gt; Admin Console&lt;/h3&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;button onclick="logoutAdmin()" class="text-xs text-red-400 font-bold"&gt;Logout&lt;/button&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;div class="space-y-2"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;label class="text-xs font-bold text-slate-400"&gt;Update Score &amp; Live Status&lt;/label&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;select id="admin-match-select" class="w-full text-xs p-2 border border-slate-700 bg-slate-950 text-slate-200 rounded"&gt;&lt;/select&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="flex gap-2"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;input type="number" id="home-score" placeholder="Home" class="w-1/3 p-2 text-xs border border-slate-700 bg-slate-950 text-slate-200 rounded"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;input type="number" id="away-score" placeholder="Away" class="w-1/3 p-2 text-xs border border-slate-700 bg-slate-950 text-slate-200 rounded"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;select id="match-status" class="w-1/3 text-xs p-2 border border-slate-700 bg-slate-950 text-slate-200 rounded"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;option value="LIVE 1st Half"&gt;LIVE 1st Half&lt;/option&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;option value="HT"&gt;HT (Half Time)&lt;/option&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;option value="LIVE 2nd Half"&gt;LIVE 2nd Half&lt;/option&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;option value="FT"&gt;FT (Finished)&lt;/option&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;option value="UPCOMING"&gt;UPCOMING&lt;/option&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;/select&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;button onclick="updateScore()" class="w-full bg-yellow-500 hover:bg-yellow-600 text-slate-950 py-2 rounded text-xs font-black shadow"&gt;Push Real-time Score&lt;/button&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;div class="space-y-2 pt-2 border-t border-slate-800"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;label class="text-xs font-bold text-slate-400"&gt;Post Live Update&lt;/label&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;input type="text" id="admin-update-text" placeholder="e.g. Goal by Abhinab!" class="w-full text-xs p-2 border border-slate-700 bg-slate-950 text-slate-200 rounded"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;button onclick="addUpdate()" class="w-full bg-blue-600 hover:bg-blue-500 text-white py-2 rounded text-xs font-bold shadow"&gt;Publish Announcement&lt;/button&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/section&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;/main&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;!-- Login Modal --&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;div id="login-modal" class="fixed inset-0 bg-black/80 hidden items-center justify-center p-4 z-50"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;div class="bg-slate-900 border border-slate-800 rounded-lg p-6 w-full max-w-xs space-y-4 shadow-2xl"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;h3 class="font-bold text-base text-slate-200"&gt;Admin Authentication&lt;/h3&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;input type="password" id="admin-pass" placeholder="Password (admin123)" class="w-full p-2 border border-slate-700 bg-slate-950 text-slate-200 rounded text-xs"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;div class="flex justify-end gap-2"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;button onclick="toggleAdminModal()" class="px-3 py-1.5 text-xs text-slate-400"&gt;Cancel&lt;/button&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;button onclick="loginAdmin()" class="px-4 py-1.5 text-xs bg-yellow-500 text-slate-950 rounded font-bold"&gt;Login&lt;/button&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;script&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const SUPABASE_URL = https://hnmqqycvigjemosajdov.supabase.co/rest/v1/;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const SUPABASE_ANON_KEY = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhubXFxeWN2aWdqZW1vc2FqZG92Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODU3NDE5NjEsImV4cCI6MjEwMTMxNzk2MX0.QFNTPe38DR-ab5ilU2aCKPcz1cbfj5gdg4DlmBZmWK4;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const squads = {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>lovers: ["Tanmoy", "Mayank", "Amar", "Abhishek", "Mrinal", "Divyansh", "Abhinab", "Rahul"],</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>warriors: ["Arpit", "Bhanu", "Shivam", "Sid", "Adhiraj", "Charchit", "Omesh", "Yash"],</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>sniffers: ["Dony", "Sourav", "Rohan", "Patna", "Rohit", "Dhiraj", "Abhijit", "Kaustav"]</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>};</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>let matches = [];</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>let updates = [];</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>function switchTab(tab) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>['matches', 'squads', 'rules', 'updates'].forEach(t =&gt; {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>document.getElementById(`sec-${t}`).classList.add('hidden');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>document.getElementById(`tab-${t}`).classList.remove('active-tab');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>});</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>document.getElementById(`sec-${tab}`).classList.remove('hidden');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>document.getElementById(`tab-${tab}`).classList.add('active-tab');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>async function fetchData() {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>const { data: matchData } = await supabaseClient.from('matches').select('*').order('id', { ascending: true });</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>const { data: updateData } = await supabaseClient.from('updates').select('*').order('created_at', { ascending: false });</span></p>
-<p class="p2"><span class="s1"><span class="Apple-converted-space">      </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>if(matchData) matches = matchData;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>if(updateData) updates = updateData;</span></p>
-<p class="p2"><span class="s1"><span class="Apple-converted-space">      </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>renderAll();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>function setupRealtimeSubscriptions() {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>supabaseClient</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.channel('public-schema-changes')</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.on('postgres_changes', { event: '*', schema: 'public', table: 'matches' }, () =&gt; fetchData())</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.on('postgres_changes', { event: '*', schema: 'public', table: 'updates' }, () =&gt; fetchData())</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.subscribe();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>function renderAll() {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>// Matches</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>const matchesEl = document.getElementById('matches-list');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>const matchSelect = document.getElementById('admin-match-select');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>matchesEl.innerHTML = '';</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>matchSelect.innerHTML = '';</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>matches.forEach(m =&gt; {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const isLive = m.status.includes('LIVE');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>matchesEl.innerHTML += `</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;div class="bg-slate-900 p-4 rounded-lg border border-slate-800 flex justify-between items-center shadow-md"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div class="space-y-1 w-2/3"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;div class="flex justify-between font-bold text-sm text-slate-200"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;span&gt;${m.home_team}&lt;/span&gt; &lt;span class="text-yellow-400"&gt;${m.home_score}&lt;/span&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;div class="flex justify-between font-bold text-sm text-slate-200"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;span&gt;${m.away_team}&lt;/span&gt; &lt;span class="text-yellow-400"&gt;${m.away_score}&lt;/span&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div class="text-right border-l border-slate-800 pl-3"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;span class="text-[9px] font-black px-2 py-0.5 rounded uppercase ${isLive ? 'bg-red-500/20 text-red-400 border border-red-500/30 animate-pulse' : 'bg-slate-800 text-slate-400'}"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>${m.status}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;/span&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;p class="text-[10px] text-slate-500 mt-1"&gt;${m.match_time || ''}&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;/div&gt;`;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>matchSelect.innerHTML += `&lt;option value="${m.id}"&gt;${m.home_team} vs ${m.away_team}&lt;/option&gt;`;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>});</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>// Squads</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>document.getElementById('squad-lovers').innerHTML = squads.lovers.map(p =&gt; `&lt;div class="bg-slate-950 p-2 rounded border border-slate-800"&gt;&lt;i class="fa-regular fa-user mr-1 text-pink-500"&gt;&lt;/i&gt;${p}&lt;/div&gt;`).join('');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>document.getElementById('squad-warriors').innerHTML = squads.warriors.map(p =&gt; `&lt;div class="bg-slate-950 p-2 rounded border border-slate-800"&gt;&lt;i class="fa-regular fa-user mr-1 text-yellow-500"&gt;&lt;/i&gt;${p}&lt;/div&gt;`).join('');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>document.getElementById('squad-sniffers').innerHTML = squads.sniffers.map(p =&gt; `&lt;div class="bg-slate-950 p-2 rounded border border-slate-800"&gt;&lt;i class="fa-regular fa-user mr-1 text-blue-500"&gt;&lt;/i&gt;${p}&lt;/div&gt;`).join('');</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>// Updates</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>const updatesEl = document.getElementById('updates-list');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>updatesEl.innerHTML = updates.map(u =&gt; {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const timeStr = new Date(u.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>return `</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;div class="bg-slate-900 p-3 rounded-lg border-l-2 border-yellow-500"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;p class="text-[10px] text-slate-500 font-bold mb-1"&gt;${timeStr}&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;p class="text-xs text-slate-300"&gt;${u.update_text}&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;/div&gt;`;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>}).join('');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>// Admin Handlers</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>async function updateScore() {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>const matchId = parseInt(document.getElementById('admin-match-select').value);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>const hScore = parseInt(document.getElementById('home-score').value);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>const aScore = parseInt(document.getElementById('away-score').value);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>const status = document.getElementById('match-status').value;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>if(isNaN(hScore) || isNaN(aScore)) return alert('Enter valid scores');</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>await supabaseClient</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.from('matches')</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.update({ home_score: hScore, away_score: aScore, status: status })</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.eq('id', matchId);</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>alert('Score updated!');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>async function addUpdate() {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>const text = document.getElementById('admin-update-text').value;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>if(!text) return;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>await supabaseClient.from('updates').insert([{ update_text: text }]);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>document.getElementById('admin-update-text').value = '';</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>function toggleAdminModal() {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>document.getElementById('login-modal').classList.toggle('hidden');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>document.getElementById('login-modal').classList.toggle('flex');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>function loginAdmin() {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>if(document.getElementById('admin-pass').value === 'admin123') {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>document.getElementById('sec-admin-panel').classList.remove('hidden');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>document.getElementById('admin-btn-text').innerText = 'Admin Active';</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>toggleAdminModal();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>} else {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>alert('Incorrect password!');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>function logoutAdmin() {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>document.getElementById('sec-admin-panel').classList.add('hidden');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>document.getElementById('admin-btn-text').innerText = 'Admin';</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>fetchData();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>setupRealtimeSubscriptions();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;/script&gt;</span></p>
-<p class="p1"><span class="s1">&lt;/body&gt;</span></p>
-<p class="p1"><span class="s1">&lt;/html&gt;</span></p>
+<body class="bg-slate-950 text-slate-100 font-sans min-h-screen pb-16">
+
+  <!-- Header -->
+  <header class="bg-slate-900 border-b border-slate-800 p-4 sticky top-0 z-50 flex justify-between items-center shadow-lg">
+    <div>
+      <h1 class="text-xl font-black italic tracking-wider text-yellow-500 uppercase flex items-center gap-2">
+        <i class="fa-solid fa-trophy text-yellow-400"></i> RUPA SUPER CUP
+      </h1>
+      <p class="text-[10px] text-slate-400">7v7 Football Tournament • The Playyard, Guwahati</p>
+    </div>
+    <button onclick="toggleAdminModal()" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 px-3 py-1.5 rounded-full border border-slate-700 transition">
+      <i class="fa-solid fa-lock mr-1"></i> <span id="admin-btn-text">Admin</span>
+    </button>
+  </header>
+
+  <!-- Navigation Tabs -->
+  <nav class="bg-slate-900 shadow-md sticky top-[61px] z-40 flex justify-around text-xs text-slate-400 border-b border-slate-800 uppercase tracking-wider">
+    <button onclick="switchTab('matches')" id="tab-matches" class="py-3 px-2 active-tab">Matches</button>
+    <button onclick="switchTab('squads')" id="tab-squads" class="py-3 px-2">Squads</button>
+    <button onclick="switchTab('rules')" id="tab-rules" class="py-3 px-2">Rules</button>
+    <button onclick="switchTab('updates')" id="tab-updates" class="py-3 px-2">Live Updates</button>
+  </nav>
+
+  <main class="max-w-md mx-auto p-4 space-y-4">
+
+    <!-- TAB 1: MATCHES -->
+    <section id="sec-matches" class="space-y-3">
+      <div class="flex justify-between items-center">
+        <h2 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Match Schedule</h2>
+        <span class="text-[10px] bg-yellow-500/10 text-yellow-400 px-2 py-0.5 rounded border border-yellow-500/20">5th Aug, 9:00 PM</span>
+      </div>
+      <div id="matches-list" class="space-y-3">
+        <p class="text-xs text-slate-500">Loading schedule...</p>
+      </div>
+    </section>
+
+    <!-- TAB 2: SQUADS -->
+    <section id="sec-squads" class="hidden space-y-4">
+      <!-- Lovers -->
+      <div class="bg-slate-900 border border-pink-500/30 rounded-lg p-4">
+        <h3 class="font-black text-pink-500 text-base mb-2 flex items-center gap-2">
+          <i class="fa-solid fa-heart"></i> Rupa Lovers
+        </h3>
+        <div class="grid grid-cols-2 gap-2 text-xs text-slate-300" id="squad-lovers"></div>
+      </div>
+      <!-- Warriors -->
+      <div class="bg-slate-900 border border-yellow-500/30 rounded-lg p-4">
+        <h3 class="font-black text-yellow-500 text-base mb-2 flex items-center gap-2">
+          <i class="fa-solid fa-shield-halved"></i> Rupa Warriors
+        </h3>
+        <div class="grid grid-cols-2 gap-2 text-xs text-slate-300" id="squad-warriors"></div>
+      </div>
+      <!-- Sniffers -->
+      <div class="bg-slate-900 border border-blue-500/30 rounded-lg p-4">
+        <h3 class="font-black text-blue-500 text-base mb-2 flex items-center gap-2">
+          <i class="fa-solid fa-wind"></i> Rupa Sniffers
+        </h3>
+        <div class="grid grid-cols-2 gap-2 text-xs text-slate-300" id="squad-sniffers"></div>
+      </div>
+    </section>
+
+    <!-- TAB 3: RULES -->
+    <section id="sec-rules" class="hidden space-y-3 text-xs text-slate-300">
+      <div class="bg-slate-900 p-4 rounded-lg border border-slate-800 space-y-2">
+        <h3 class="font-bold text-yellow-500 uppercase"><i class="fa-solid fa-clock mr-1"></i> Match Duration</h3>
+        <p>• League Matches: 15 mins (7.5 min halves, 1 min break)</p>
+        <p>• Final: 20 mins (10 min halves, 2 min break)</p>
+      </div>
+      <div class="bg-slate-900 p-4 rounded-lg border border-slate-800 space-y-2">
+        <h3 class="font-bold text-yellow-500 uppercase"><i class="fa-solid fa-users mr-1"></i> Squad Rules</h3>
+        <p>• 7 players on field (including goalkeeper).</p>
+        <p>• 1 rolling substitute allowed anytime with referee permission.</p>
+      </div>
+      <div class="bg-slate-900 p-4 rounded-lg border border-slate-800 space-y-2">
+        <h3 class="font-bold text-yellow-500 uppercase"><i class="fa-solid fa-award mr-1"></i> Points & Tie-Breakers</h3>
+        <p>• Win: 3 pts | Draw: 1 pt | Loss: 0 pts</p>
+        <p>• Tie-Breaker: Goal Difference ➔ Goals Scored ➔ Head-to-Head ➔ Penalty Shootout (3 penalties)</p>
+      </div>
+    </section>
+
+    <!-- TAB 4: UPDATES -->
+    <section id="sec-updates" class="hidden space-y-3">
+      <h2 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Announcements</h2>
+      <div class="space-y-3" id="updates-list"></div>
+    </section>
+
+    <!-- ADMIN PANEL -->
+    <section id="sec-admin-panel" class="hidden bg-slate-900 border border-yellow-500/50 rounded-lg p-4 space-y-4 mt-6">
+      <div class="flex justify-between items-center border-b border-slate-800 pb-2">
+        <h3 class="font-bold text-yellow-500"><i class="fa-solid fa-sliders mr-1"></i> Admin Console</h3>
+        <button onclick="logoutAdmin()" class="text-xs text-red-400 font-bold">Logout</button>
+      </div>
+
+      <div class="space-y-2">
+        <label class="text-xs font-bold text-slate-400">Update Score & Live Status</label>
+        <select id="admin-match-select" class="w-full text-xs p-2 border border-slate-700 bg-slate-950 text-slate-200 rounded"></select>
+        <div class="flex gap-2">
+          <input type="number" id="home-score" placeholder="Home" class="w-1/3 p-2 text-xs border border-slate-700 bg-slate-950 text-slate-200 rounded">
+          <input type="number" id="away-score" placeholder="Away" class="w-1/3 p-2 text-xs border border-slate-700 bg-slate-950 text-slate-200 rounded">
+          <select id="match-status" class="w-1/3 text-xs p-2 border border-slate-700 bg-slate-950 text-slate-200 rounded">
+            <option value="LIVE 1st Half">LIVE 1st Half</option>
+            <option value="HT">HT (Half Time)</option>
+            <option value="LIVE 2nd Half">LIVE 2nd Half</option>
+            <option value="FT">FT (Finished)</option>
+            <option value="UPCOMING">UPCOMING</option>
+          </select>
+        </div>
+        <button onclick="updateScore()" class="w-full bg-yellow-500 hover:bg-yellow-600 text-slate-950 py-2 rounded text-xs font-black shadow">Push Real-time Score</button>
+      </div>
+
+      <div class="space-y-2 pt-2 border-t border-slate-800">
+        <label class="text-xs font-bold text-slate-400">Post Live Update</label>
+        <input type="text" id="admin-update-text" placeholder="e.g. Goal by Abhinab!" class="w-full text-xs p-2 border border-slate-700 bg-slate-950 text-slate-200 rounded">
+        <button onclick="addUpdate()" class="w-full bg-blue-600 hover:bg-blue-500 text-white py-2 rounded text-xs font-bold shadow">Publish Announcement</button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Login Modal -->
+  <div id="login-modal" class="fixed inset-0 bg-black/80 hidden items-center justify-center p-4 z-50">
+    <div class="bg-slate-900 border border-slate-800 rounded-lg p-6 w-full max-w-xs space-y-4 shadow-2xl">
+      <h3 class="font-bold text-base text-slate-200">Admin Authentication</h3>
+      <input type="password" id="admin-pass" placeholder="Password (admin123)" class="w-full p-2 border border-slate-700 bg-slate-950 text-slate-200 rounded text-xs">
+      <div class="flex justify-end gap-2">
+        <button onclick="toggleAdminModal()" class="px-3 py-1.5 text-xs text-slate-400">Cancel</button>
+        <button onclick="loginAdmin()" class="px-4 py-1.5 text-xs bg-yellow-500 text-slate-950 rounded font-bold">Login</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const SUPABASE_URL = https://hnmqqycvigjemosajdov.supabase.co/rest/v1/;
+    const SUPABASE_ANON_KEY = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhubXFxeWN2aWdqZW1vc2FqZG92Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODU3NDE5NjEsImV4cCI6MjEwMTMxNzk2MX0.QFNTPe38DR-ab5ilU2aCKPcz1cbfj5gdg4DlmBZmWK4;
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    const squads = {
+      lovers: ["Tanmoy", "Mayank", "Amar", "Abhishek", "Mrinal", "Divyansh", "Abhinab", "Rahul"],
+      warriors: ["Arpit", "Bhanu", "Shivam", "Sid", "Adhiraj", "Charchit", "Omesh", "Yash"],
+      sniffers: ["Dony", "Sourav", "Rohan", "Patna", "Rohit", "Dhiraj", "Abhijit", "Kaustav"]
+    };
+
+    let matches = [];
+    let updates = [];
+
+    function switchTab(tab) {
+      ['matches', 'squads', 'rules', 'updates'].forEach(t => {
+        document.getElementById(`sec-${t}`).classList.add('hidden');
+        document.getElementById(`tab-${t}`).classList.remove('active-tab');
+      });
+      document.getElementById(`sec-${tab}`).classList.remove('hidden');
+      document.getElementById(`tab-${tab}`).classList.add('active-tab');
+    }
+
+    async function fetchData() {
+      const { data: matchData } = await supabaseClient.from('matches').select('*').order('id', { ascending: true });
+      const { data: updateData } = await supabaseClient.from('updates').select('*').order('created_at', { ascending: false });
+      
+      if(matchData) matches = matchData;
+      if(updateData) updates = updateData;
+      
+      renderAll();
+    }
+
+    function setupRealtimeSubscriptions() {
+      supabaseClient
+        .channel('public-schema-changes')
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'matches' }, () => fetchData())
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'updates' }, () => fetchData())
+        .subscribe();
+    }
+
+    function renderAll() {
+      // Matches
+      const matchesEl = document.getElementById('matches-list');
+      const matchSelect = document.getElementById('admin-match-select');
+      matchesEl.innerHTML = '';
+      matchSelect.innerHTML = '';
+
+      matches.forEach(m => {
+        const isLive = m.status.includes('LIVE');
+        matchesEl.innerHTML += `
+          <div class="bg-slate-900 p-4 rounded-lg border border-slate-800 flex justify-between items-center shadow-md">
+            <div class="space-y-1 w-2/3">
+              <div class="flex justify-between font-bold text-sm text-slate-200">
+                <span>${m.home_team}</span> <span class="text-yellow-400">${m.home_score}</span>
+              </div>
+              <div class="flex justify-between font-bold text-sm text-slate-200">
+                <span>${m.away_team}</span> <span class="text-yellow-400">${m.away_score}</span>
+              </div>
+            </div>
+            <div class="text-right border-l border-slate-800 pl-3">
+              <span class="text-[9px] font-black px-2 py-0.5 rounded uppercase ${isLive ? 'bg-red-500/20 text-red-400 border border-red-500/30 animate-pulse' : 'bg-slate-800 text-slate-400'}">
+                ${m.status}
+              </span>
+              <p class="text-[10px] text-slate-500 mt-1">${m.match_time || ''}</p>
+            </div>
+          </div>`;
+
+        matchSelect.innerHTML += `<option value="${m.id}">${m.home_team} vs ${m.away_team}</option>`;
+      });
+
+      // Squads
+      document.getElementById('squad-lovers').innerHTML = squads.lovers.map(p => `<div class="bg-slate-950 p-2 rounded border border-slate-800"><i class="fa-regular fa-user mr-1 text-pink-500"></i>${p}</div>`).join('');
+      document.getElementById('squad-warriors').innerHTML = squads.warriors.map(p => `<div class="bg-slate-950 p-2 rounded border border-slate-800"><i class="fa-regular fa-user mr-1 text-yellow-500"></i>${p}</div>`).join('');
+      document.getElementById('squad-sniffers').innerHTML = squads.sniffers.map(p => `<div class="bg-slate-950 p-2 rounded border border-slate-800"><i class="fa-regular fa-user mr-1 text-blue-500"></i>${p}</div>`).join('');
+
+      // Updates
+      const updatesEl = document.getElementById('updates-list');
+      updatesEl.innerHTML = updates.map(u => {
+        const timeStr = new Date(u.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        return `
+          <div class="bg-slate-900 p-3 rounded-lg border-l-2 border-yellow-500">
+            <p class="text-[10px] text-slate-500 font-bold mb-1">${timeStr}</p>
+            <p class="text-xs text-slate-300">${u.update_text}</p>
+          </div>`;
+      }).join('');
+    }
+
+    // Admin Handlers
+    async function updateScore() {
+      const matchId = parseInt(document.getElementById('admin-match-select').value);
+      const hScore = parseInt(document.getElementById('home-score').value);
+      const aScore = parseInt(document.getElementById('away-score').value);
+      const status = document.getElementById('match-status').value;
+
+      if(isNaN(hScore) || isNaN(aScore)) return alert('Enter valid scores');
+
+      await supabaseClient
+        .from('matches')
+        .update({ home_score: hScore, away_score: aScore, status: status })
+        .eq('id', matchId);
+
+      alert('Score updated!');
+    }
+
+    async function addUpdate() {
+      const text = document.getElementById('admin-update-text').value;
+      if(!text) return;
+
+      await supabaseClient.from('updates').insert([{ update_text: text }]);
+      document.getElementById('admin-update-text').value = '';
+    }
+
+    function toggleAdminModal() {
+      document.getElementById('login-modal').classList.toggle('hidden');
+      document.getElementById('login-modal').classList.toggle('flex');
+    }
+
+    function loginAdmin() {
+      if(document.getElementById('admin-pass').value === 'admin123') {
+        document.getElementById('sec-admin-panel').classList.remove('hidden');
+        document.getElementById('admin-btn-text').innerText = 'Admin Active';
+        toggleAdminModal();
+      } else {
+        alert('Incorrect password!');
+      }
+    }
+
+    function logoutAdmin() {
+      document.getElementById('sec-admin-panel').classList.add('hidden');
+      document.getElementById('admin-btn-text').innerText = 'Admin';
+    }
+
+    fetchData();
+    setupRealtimeSubscriptions();
+  </script>
 </body>
 </html>

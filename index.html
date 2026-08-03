@@ -59,8 +59,10 @@
 
   <main class="max-w-md mx-auto p-4 space-y-6">
 
-    <!-- TAB 1: MATCHES (Includes Schedule + Standings Table) -->
+    <!-- TAB 1: MATCHES (Schedule + Predictor Form + Standings) -->
     <section id="sec-matches" class="space-y-6">
+      
+      <!-- Match Schedule -->
       <div class="space-y-3">
         <div class="flex justify-between items-center">
           <h2 class="text-xs font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
@@ -70,6 +72,28 @@
         </div>
         <div id="matches-list" class="space-y-3">
           <p class="text-xs text-slate-500">Loading schedule...</p>
+        </div>
+      </div>
+
+      <!-- Match Predictor Card -->
+      <div class="bg-slate-900/90 border border-purple-500/30 rounded-xl p-4 space-y-3 shadow-lg">
+        <div class="flex justify-between items-center">
+          <h2 class="text-xs font-black text-purple-400 uppercase tracking-widest flex items-center gap-1.5">
+            <i class="fa-solid fa-crystal-ball"></i> Match Predictor Game
+          </h2>
+          <span class="text-[9px] bg-purple-500/20 text-purple-300 font-bold px-2 py-0.5 rounded">Pre-Tournament</span>
+        </div>
+        <p class="text-[11px] text-slate-300">Predict match scores to earn points on the Fan Leaderboard! (3 pts exact score, 1 pt correct winner)</p>
+        
+        <div class="space-y-2 bg-slate-950 p-3 rounded-lg border border-slate-800">
+          <input type="text" id="predictor-user-name" placeholder="Enter Your Name" class="w-full text-xs p-2 border border-slate-700 bg-slate-900 text-slate-200 rounded-lg">
+          <select id="predictor-match-select" class="w-full text-xs p-2 border border-slate-700 bg-slate-900 text-slate-200 rounded-lg"></select>
+          <div class="flex gap-2 items-center">
+            <input type="number" id="pred-home-score" placeholder="Home Score" class="w-1/2 p-2 text-xs border border-slate-700 bg-slate-900 text-slate-200 rounded-lg">
+            <span class="text-slate-500 font-bold text-xs">-</span>
+            <input type="number" id="pred-away-score" placeholder="Away Score" class="w-1/2 p-2 text-xs border border-slate-700 bg-slate-900 text-slate-200 rounded-lg">
+          </div>
+          <button onclick="submitMatchPrediction()" class="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold py-2 rounded-lg text-xs uppercase transition">Submit Prediction</button>
         </div>
       </div>
 
@@ -98,15 +122,24 @@
             <tbody id="standings-body" class="divide-y divide-slate-800/60 font-semibold text-slate-200"></tbody>
           </table>
         </div>
-        <p class="text-[10px] text-slate-500 italic text-center">Points: Win = 3, Draw = 1, Loss = 0. Tied teams separated by Goal Difference.</p>
       </div>
     </section>
 
-    <!-- TAB 2: AWARDS -->
+    <!-- TAB 2: AWARDS & LEADERBOARDS -->
     <section id="sec-awards" class="hidden space-y-6">
       
-      <!-- Golden Boot Leaderboard -->
+      <!-- Predictor Leaderboard -->
       <div class="space-y-3">
+        <h2 class="text-xs font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
+          <i class="fa-solid fa-trophy text-purple-400"></i> Predictor Fan Leaderboard
+        </h2>
+        <div class="bg-slate-900/90 border border-slate-800 rounded-xl divide-y divide-slate-800/60 overflow-hidden" id="predictor-tally-list">
+          <p class="p-4 text-xs text-slate-500">No predictions evaluated yet.</p>
+        </div>
+      </div>
+
+      <!-- Golden Boot Leaderboard -->
+      <div class="space-y-3 pt-4 border-t border-slate-800">
         <h2 class="text-xs font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
           <i class="fa-solid fa-football text-yellow-400"></i> Golden Boot Leaderboard
         </h2>
@@ -124,10 +157,8 @@
           <span class="text-[10px] bg-purple-500/10 text-purple-400 border border-purple-500/30 px-2 py-0.5 rounded font-bold">Spectator Vote</span>
         </div>
 
-        <!-- Voting Status Card -->
         <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4 space-y-3">
           <p class="text-xs text-slate-300">Tap below to cast your vote for the best overall player in the tournament!</p>
-          
           <div class="flex items-center gap-2">
             <select id="pott-vote-select" class="w-2/3 text-xs p-2.5 border border-slate-700 bg-slate-950 text-slate-200 rounded-lg"></select>
             <button onclick="castPottVote()" id="vote-btn" class="w-1/3 bg-[#ccff00] hover:bg-lime-400 text-slate-950 font-black py-2.5 rounded-lg text-xs uppercase shadow transition">Cast Vote</button>
@@ -135,7 +166,6 @@
           <p id="user-voted-msg" class="text-[10px] text-lime-400 font-bold hidden"><i class="fa-solid fa-check-circle mr-1"></i> You have cast your vote!</p>
         </div>
 
-        <!-- Live Vote Tally -->
         <div class="bg-slate-900/90 border border-slate-800 rounded-xl divide-y divide-slate-800/60 overflow-hidden" id="pott-tally-list">
           <p class="p-4 text-xs text-slate-500">No votes recorded yet.</p>
         </div>
@@ -225,7 +255,7 @@
       </div>
 
       <div class="space-y-3">
-        <h4 class="text-xs font-bold text-slate-300 uppercase">1. Match Score & Voting Controls</h4>
+        <h4 class="text-xs font-bold text-slate-300 uppercase">1. Match Score Controls</h4>
         <select id="admin-match-select" class="w-full text-xs p-2.5 border border-slate-700 bg-slate-900 text-slate-200 rounded-lg"></select>
         <div class="flex gap-2">
           <input type="number" id="home-score" placeholder="Home Score" class="w-1/3 p-2 text-xs border border-slate-700 bg-slate-900 text-slate-200 rounded-lg">
@@ -243,7 +273,7 @@
           <button onclick="resetMatchScore()" class="w-1/3 bg-red-600/20 hover:bg-red-600/30 text-red-400 border border-red-500/30 py-2 rounded-lg text-xs font-bold">Reset Score</button>
         </div>
         
-        <!-- Record Scorer & Reset Voting -->
+        <!-- Record Scorer & Reset Controls -->
         <div class="p-3 bg-slate-900/90 rounded-lg border border-slate-800 space-y-3">
           <p class="text-[10px] font-bold text-slate-400 uppercase">Record Scorer</p>
           <select id="goal-player-select" class="w-full text-xs p-2 border border-slate-700 bg-slate-950 text-slate-200 rounded-lg"></select>
@@ -251,8 +281,16 @@
 
           <div class="pt-2 border-t border-slate-800 flex justify-between items-center">
             <div>
-              <p class="text-[10px] font-bold text-slate-400 uppercase">Player of Tournament Voting</p>
-              <p class="text-[9px] text-slate-500">Reset all spectator votes</p>
+              <p class="text-[10px] font-bold text-slate-400 uppercase">Match Predictions</p>
+              <p class="text-[9px] text-slate-500">Reset spectator predictions</p>
+            </div>
+            <button onclick="resetPredictions()" class="bg-red-600/20 hover:bg-red-600/30 text-red-400 border border-red-500/30 px-3 py-1.5 rounded text-xs font-bold">Reset Predictions</button>
+          </div>
+
+          <div class="pt-2 border-t border-slate-800 flex justify-between items-center">
+            <div>
+              <p class="text-[10px] font-bold text-slate-400 uppercase">POTT Voting</p>
+              <p class="text-[9px] text-slate-500">Reset spectator votes</p>
             </div>
             <button onclick="resetPottVotes()" class="bg-red-600/20 hover:bg-red-600/30 text-red-400 border border-red-500/30 px-3 py-1.5 rounded text-xs font-bold">Reset Votes</button>
           </div>
@@ -323,6 +361,7 @@
     let updates = [];
     let photos = [];
     let votes = [];
+    let predictions = [];
 
     function switchTab(tab) {
       ['matches', 'awards', 'squads', 'gallery', 'rules', 'updates'].forEach(t => {
@@ -339,12 +378,14 @@
       const { data: goalData } = await supabaseClient.from('goals').select('*').order('created_at', { ascending: false });
       const { data: photoData } = await supabaseClient.from('photos').select('*').order('created_at', { ascending: false });
       const { data: voteData } = await supabaseClient.from('votes').select('*').order('created_at', { ascending: false });
+      const { data: predData } = await supabaseClient.from('predictions').select('*').order('created_at', { ascending: false });
       
       if(matchData) matches = matchData;
       if(updateData) updates = updateData;
       if(goalData) goals = goalData;
       if(photoData) photos = photoData;
       if(voteData) votes = voteData;
+      if(predData) predictions = predData;
       
       renderAll();
     }
@@ -357,6 +398,7 @@
         .on('postgres_changes', { event: '*', schema: 'public', table: 'goals' }, () => fetchData())
         .on('postgres_changes', { event: '*', schema: 'public', table: 'photos' }, () => fetchData())
         .on('postgres_changes', { event: '*', schema: 'public', table: 'votes' }, () => fetchData())
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'predictions' }, () => fetchData())
         .subscribe();
     }
 
@@ -368,11 +410,13 @@
     }
 
     function renderAll() {
-      // 1. Matches
+      // 1. Matches & Predictor Options
       const matchesEl = document.getElementById('matches-list');
       const matchSelect = document.getElementById('admin-match-select');
+      const predMatchSelect = document.getElementById('predictor-match-select');
       matchesEl.innerHTML = '';
       matchSelect.innerHTML = '';
+      predMatchSelect.innerHTML = '';
 
       if (matches.length > 0) {
         matches.forEach(m => {
@@ -398,10 +442,17 @@
             </div>`;
 
           matchSelect.innerHTML += `<option value="${m.id}">${m.home_team} vs ${m.away_team}</option>`;
+          predMatchSelect.innerHTML += `<option value="${m.id}">${m.home_team} vs ${m.away_team}</option>`;
         });
       }
 
-      // 2. Standings Grid
+      // Populate Predictor Name from LocalStorage if saved
+      const savedPredictorName = localStorage.getItem('rupa_predictor_name');
+      if(savedPredictorName && !document.getElementById('predictor-user-name').value) {
+        document.getElementById('predictor-user-name').value = savedPredictorName;
+      }
+
+      // 2. Compute Standings Grid
       const tableData = {
         'Rupa Lovers': { p: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0, gd: 0, pts: 0 },
         'Rupa Warriors': { p: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0, gd: 0, pts: 0 },
@@ -474,7 +525,47 @@
       document.getElementById('goal-player-select').innerHTML = allPlayers.map(p => `<option value="${p}">${p}</option>`).join('');
       document.getElementById('pott-vote-select').innerHTML = allPlayers.map(p => `<option value="${p}">${p}</option>`).join('');
 
-      // 4. Golden Boot Leaderboard
+      // 4. Compute Predictor Leaderboard Points
+      const userScores = {};
+      predictions.forEach(p => {
+        const match = matches.find(m => m.id === p.match_id);
+        if (match && match.status.includes('FT')) {
+          if (!userScores[p.predictor_name]) userScores[p.predictor_name] = 0;
+
+          const actualHome = match.home_score;
+          const actualAway = match.away_score;
+          const predHome = p.home_pred;
+          const predAway = p.away_pred;
+
+          // Exact Score match = 3 Points
+          if (actualHome === predHome && actualAway === predAway) {
+            userScores[p.predictor_name] += 3;
+          } 
+          // Correct Winner / Outcome = 1 Point
+          else if (
+            (actualHome > actualAway && predHome > predAway) ||
+            (actualAway > actualHome && predAway > predHome) ||
+            (actualHome === actualAway && predHome === predAway)
+          ) {
+            userScores[p.predictor_name] += 1;
+          }
+        }
+      });
+
+      const sortedPredictors = Object.entries(userScores).sort((a, b) => b[1] - a[1]);
+      const predTallyEl = document.getElementById('predictor-tally-list');
+
+      if (sortedPredictors.length === 0) {
+        predTallyEl.innerHTML = '<p class="p-4 text-xs text-slate-500">No scored predictions yet. Points update as matches finish!</p>';
+      } else {
+        predTallyEl.innerHTML = sortedPredictors.map(([name, pts], idx) => `
+          <div class="p-3.5 flex justify-between items-center text-xs">
+            <span class="font-bold text-slate-200">${idx + 1}. ${name}</span>
+            <span class="bg-purple-500/10 text-purple-400 font-black px-2.5 py-0.5 rounded border border-purple-500/20">${pts} Pt${pts !== 1 ? 's' : ''}</span>
+          </div>`).join('');
+      }
+
+      // 5. Golden Boot Leaderboard
       const goalCounts = {};
       goals.forEach(g => { goalCounts[g.player_name] = (goalCounts[g.player_name] || 0) + 1; });
       const sortedScorers = Object.entries(goalCounts).sort((a, b) => b[1] - a[1]);
@@ -490,7 +581,7 @@
           </div>`).join('');
       }
 
-      // 5. Player of the Tournament (POTT) Vote Tally
+      // 6. POTT Vote Tally
       const voteCounts = {};
       votes.forEach(v => { voteCounts[v.player_name] = (voteCounts[v.player_name] || 0) + 1; });
       const sortedVotes = Object.entries(voteCounts).sort((a, b) => b[1] - a[1]);
@@ -530,7 +621,7 @@
           </div>`).join('');
       }
 
-      // 6. Photo Gallery
+      // 7. Photo Gallery
       const photosGrid = document.getElementById('photos-grid');
       if (photos.length === 0) {
         photosGrid.innerHTML = '<p class="text-xs text-slate-500 col-span-2">No photos uploaded yet. Be the first!</p>';
@@ -546,7 +637,7 @@
           </div>`).join('');
       }
 
-      // 7. Updates
+      // 8. Updates
       const updatesEl = document.getElementById('updates-list');
       if (updates.length > 0) {
         updatesEl.innerHTML = updates.map(u => {
@@ -560,6 +651,43 @@
               ${isAdminLoggedIn ? `<button onclick="deleteUpdate(${u.id})" class="text-xs text-red-400 hover:text-red-300 font-bold px-2 py-1"><i class="fa-solid fa-trash"></i></button>` : ''}
             </div>`;
         }).join('');
+      }
+    }
+
+    // --- Prediction Functions ---
+    async function submitMatchPrediction() {
+      const name = document.getElementById('predictor-user-name').value.trim();
+      const matchId = parseInt(document.getElementById('predictor-match-select').value);
+      const hPred = parseInt(document.getElementById('pred-home-score').value);
+      const aPred = parseInt(document.getElementById('pred-away-score').value);
+
+      if (!name) return alert('Please enter your name!');
+      if (isNaN(hPred) || isNaN(aPred)) return alert('Please enter predicted scores!');
+
+      localStorage.setItem('rupa_predictor_name', name);
+
+      await supabaseClient.from('predictions').insert([{
+        predictor_name: name,
+        match_id: matchId,
+        home_pred: hPred,
+        away_pred: aPred
+      }]);
+
+      document.getElementById('pred-home-score').value = '';
+      document.getElementById('pred-away-score').value = '';
+      alert(`Prediction saved for ${name}!`);
+      fetchData();
+    }
+
+    async function resetPredictions() {
+      if (!confirm('Are you sure you want to reset ALL spectator match predictions?')) return;
+
+      const { error } = await supabaseClient.from('predictions').delete().neq('id', 0);
+      if (error) {
+        alert('Error resetting predictions: ' + error.message);
+      } else {
+        alert('Match predictions reset successfully!');
+        fetchData();
       }
     }
 
@@ -581,9 +709,7 @@
     async function resetPottVotes() {
       if (!confirm('Are you sure you want to reset ALL spectator votes for Player of the Tournament?')) return;
 
-      // Delete all records from votes table
       const { error } = await supabaseClient.from('votes').delete().neq('id', 0);
-      
       if (error) {
         alert('Error resetting votes: ' + error.message);
       } else {

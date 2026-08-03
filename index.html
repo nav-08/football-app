@@ -1,272 +1,251 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Football Tournament Hub</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <style>
-    .active-tab { border-bottom: 3px solid #16a34a; color: #16a34a; font-weight: bold; }
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2685.6">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
   </style>
 </head>
-<body class="bg-gray-100 font-sans min-h-screen pb-16">
-
-  <!-- Header -->
-  <header class="bg-emerald-700 text-white p-4 shadow-md sticky top-0 z-50 flex justify-between items-center">
-    <div>
-      <h1 class="text-xl font-black tracking-wide"><i class="fa-solid font-bold fa-futbol mr-2"></i>Championship 2026</h1>
-      <p class="text-xs text-emerald-200">Live Tournament Center</p>
-    </div>
-    <button onclick="toggleAdminModal()" class="text-xs bg-emerald-800 hover:bg-emerald-900 text-white px-3 py-1.5 rounded-full border border-emerald-600 transition">
-      <i class="fa-solid fa-lock mr-1"></i> <span id="admin-btn-text">Admin</span>
-    </button>
-  </header>
-
-  <!-- Navigation Tabs -->
-  <nav class="bg-white shadow-sm sticky top-[60px] z-40 flex justify-around text-sm text-gray-600 border-b">
-    <button onclick="switchTab('matches')" id="tab-matches" class="py-3 px-2 active-tab">Matches</button>
-    <button onclick="switchTab('standings')" id="tab-standings" class="py-3 px-2">Table</button>
-    <button onclick="switchTab('scorers')" id="tab-scorers" class="py-3 px-2">Top Scorers</button>
-    <button onclick="switchTab('updates')" id="tab-updates" class="py-3 px-2">Updates</button>
-  </nav>
-
-  <main class="max-w-md mx-auto p-4 space-y-4">
-
-    <!-- TAB 1: MATCHES -->
-    <section id="sec-matches" class="space-y-3">
-      <h2 class="text-xs font-bold text-gray-400 uppercase tracking-wider">Fixtures & Results</h2>
-      <div id="matches-list" class="space-y-3"></div>
-    </section>
-
-    <!-- TAB 2: STANDINGS -->
-    <section id="sec-standings" class="hidden">
-      <h2 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Group Standings</h2>
-      <div class="bg-white rounded-lg shadow overflow-hidden">
-        <table class="w-full text-left text-sm">
-          <thead class="bg-gray-50 border-b text-gray-500 text-xs uppercase">
-            <tr>
-              <th class="p-3">Team</th>
-              <th class="p-3 text-center">P</th>
-              <th class="p-3 text-center">GD</th>
-              <th class="p-3 text-center font-bold">Pts</th>
-            </tr>
-          </thead>
-          <tbody id="standings-body" class="divide-y"></tbody>
-        </table>
-      </div>
-    </section>
-
-    <!-- TAB 3: TOP SCORERS -->
-    <section id="sec-scorers" class="hidden">
-      <h2 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Golden Boot Leaders</h2>
-      <div class="bg-white rounded-lg shadow divide-y" id="scorers-list"></div>
-    </section>
-
-    <!-- TAB 4: UPDATES -->
-    <section id="sec-updates" class="hidden">
-      <h2 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Announcements</h2>
-      <div class="space-y-3" id="updates-list"></div>
-    </section>
-
-    <!-- ADMIN PANEL CONTROLS (Only visible when logged in) -->
-    <section id="sec-admin-panel" class="hidden bg-emerald-50 border border-emerald-200 rounded-lg p-4 space-y-4 mt-6">
-      <div class="flex justify-between items-center border-b border-emerald-200 pb-2">
-        <h3 class="font-bold text-emerald-900"><i class="fa-solid fa-sliders mr-1"></i> Admin Management</h3>
-        <button onclick="logoutAdmin()" class="text-xs text-red-600 font-bold">Logout</button>
-      </div>
-
-      <!-- Add Score -->
-      <div class="space-y-2">
-        <label class="text-xs font-bold text-gray-700">Update Match Score</label>
-        <select id="admin-match-select" class="w-full text-sm p-2 border rounded bg-white"></select>
-        <div class="flex gap-2">
-          <input type="number" id="home-score" placeholder="Home Score" class="w-1/2 p-2 text-sm border rounded">
-          <input type="number" id="away-score" placeholder="Away Score" class="w-1/2 p-2 text-sm border rounded">
-        </div>
-        <button onclick="updateScore()" class="w-full bg-emerald-600 text-white py-2 rounded text-sm font-bold shadow">Save Score</button>
-      </div>
-
-      <!-- Post Announcement -->
-      <div class="space-y-2 pt-2 border-t border-emerald-200">
-        <label class="text-xs font-bold text-gray-700">Post Quick Update</label>
-        <input type="text" id="admin-update-text" placeholder="e.g. Semi-final delayed by 15 mins" class="w-full text-sm p-2 border rounded">
-        <button onclick="addUpdate()" class="w-full bg-blue-600 text-white py-2 rounded text-sm font-bold shadow">Publish Update</button>
-      </div>
-    </section>
-
-  </main>
-
-  <!-- Login Modal -->
-  <div id="login-modal" class="fixed inset-0 bg-black/50 hidden items-center justify-center p-4 z-50">
-    <div class="bg-white rounded-lg p-6 w-full max-w-xs space-y-4 shadow-xl">
-      <h3 class="font-bold text-lg text-gray-800">Admin Authentication</h3>
-      <p class="text-xs text-gray-500">Default Password: <span class="font-mono bg-gray-100 p-1 rounded">admin123</span></p>
-      <input type="password" id="admin-pass" placeholder="Enter password" class="w-full p-2 border rounded text-sm">
-      <div class="flex justify-end gap-2">
-        <button onclick="toggleAdminModal()" class="px-3 py-1.5 text-xs text-gray-500">Cancel</button>
-        <button onclick="loginAdmin()" class="px-4 py-1.5 text-xs bg-emerald-600 text-white rounded font-bold">Login</button>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    // Local Data Store (Initialized with mock tournament data)
-    let tournamentData = JSON.parse(localStorage.getItem('footballApp_data')) || {
-      matches: [
-        { id: 1, home: "Red Dragons", away: "Blue Sharks", homeScore: 2, awayScore: 1, status: "FT", time: "10:00 AM" },
-        { id: 2, home: "Golden Eagles", away: "Thunder FC", homeScore: 0, awayScore: 0, status: "LIVE 35'", time: "11:30 AM" },
-        { id: 3, home: "Red Dragons", away: "Golden Eagles", homeScore: null, awayScore: null, status: "UPCOMING", time: "02:00 PM" }
-      ],
-      standings: [
-        { team: "Red Dragons", p: 1, gd: "+1", pts: 3 },
-        { team: "Blue Sharks", p: 1, gd: "-1", pts: 0 },
-        { team: "Golden Eagles", p: 0, gd: "0", pts: 0 },
-        { team: "Thunder FC", p: 0, gd: "0", pts: 0 }
-      ],
-      scorers: [
-        { name: "Alex Rivera", team: "Red Dragons", goals: 4 },
-        { name: "Marcus Vance", team: "Blue Sharks", goals: 3 },
-        { name: "David Kim", team: "Golden Eagles", goals: 2 }
-      ],
-      updates: [
-        { time: "10:45 AM", text: "Match 2 kick-off has been delayed by 10 minutes due to warm-ups." },
-        { time: "09:00 AM", text: "Tournament officially underway! Welcome all teams." }
-      ]
-    };
-
-    let isAdmin = false;
-
-    function saveState() {
-      localStorage.setItem('footballApp_data', JSON.stringify(tournamentData));
-      renderAll();
-    }
-
-    function switchTab(tab) {
-      ['matches', 'standings', 'scorers', 'updates'].forEach(t => {
-        document.getElementById(`sec-${t}`).classList.add('hidden');
-        document.getElementById(`tab-${t}`).classList.remove('active-tab');
-      });
-      document.getElementById(`sec-${tab}`).classList.remove('hidden');
-      document.getElementById(`tab-${tab}`).classList.add('active-tab');
-    }
-
-    function renderAll() {
-      // 1. Matches
-      const matchesEl = document.getElementById('matches-list');
-      const matchSelect = document.getElementById('admin-match-select');
-      matchesEl.innerHTML = '';
-      matchSelect.innerHTML = '';
-
-      tournamentData.matches.forEach(m => {
-        const isLive = m.status.includes('LIVE');
-        matchesEl.innerHTML += `
-          <div class="bg-white p-4 rounded-lg shadow border-l-4 ${isLive ? 'border-red-500' : 'border-emerald-600'} flex justify-between items-center">
-            <div class="space-y-1 w-2/3">
-              <div class="flex justify-between font-bold text-sm text-gray-800">
-                <span>${m.home}</span> <span>${m.homeScore !== null ? m.homeScore : '-'}</span>
-              </div>
-              <div class="flex justify-between font-bold text-sm text-gray-800">
-                <span>${m.away}</span> <span>${m.awayScore !== null ? m.awayScore : '-'}</span>
-              </div>
-            </div>
-            <div class="text-right border-l pl-3">
-              <span class="text-[10px] font-bold px-2 py-0.5 rounded ${isLive ? 'bg-red-100 text-red-600 animate-pulse' : 'bg-gray-100 text-gray-600'}">
-                ${m.status}
-              </span>
-              <p class="text-xs text-gray-400 mt-1">${m.time}</p>
-            </div>
-          </div>`;
-        
-        matchSelect.innerHTML += `<option value="${m.id}">${m.home} vs ${m.away}</option>`;
-      });
-
-      // 2. Standings
-      const standingsEl = document.getElementById('standings-body');
-      standingsEl.innerHTML = tournamentData.standings.map((s, idx) => `
-        <tr class="hover:bg-gray-50">
-          <td class="p-3 font-semibold text-gray-800"><span class="text-xs text-gray-400 mr-2">${idx+1}</span>${s.team}</td>
-          <td class="p-3 text-center text-gray-600">${s.p}</td>
-          <td class="p-3 text-center text-gray-600">${s.gd}</td>
-          <td class="p-3 text-center font-bold text-emerald-700">${s.pts}</td>
-        </tr>`).join('');
-
-      // 3. Scorers
-      const scorersEl = document.getElementById('scorers-list');
-      scorersEl.innerHTML = tournamentData.scorers.map((sc, idx) => `
-        <div class="p-3 flex justify-between items-center">
-          <div>
-            <p class="font-bold text-sm text-gray-800">${idx + 1}. ${sc.name}</p>
-            <p class="text-xs text-gray-400">${sc.team}</p>
-          </div>
-          <span class="bg-emerald-100 text-emerald-800 text-xs font-black px-2.5 py-1 rounded-full">${sc.goals} Goals</span>
-        </div>`).join('');
-
-      // 4. Updates
-      const updatesEl = document.getElementById('updates-list');
-      updatesEl.innerHTML = tournamentData.updates.map(u => `
-        <div class="bg-white p-3 rounded-lg shadow-sm border-l-2 border-blue-500">
-          <p class="text-xs text-gray-400 font-bold mb-1">${u.time}</p>
-          <p class="text-sm text-gray-700">${u.text}</p>
-        </div>`).join('');
-    }
-
-    // Admin Auth Functions
-    function toggleAdminModal() {
-      document.getElementById('login-modal').classList.toggle('hidden');
-      document.getElementById('login-modal').classList.toggle('flex');
-    }
-
-    function loginAdmin() {
-      const pass = document.getElementById('admin-pass').value;
-      if(pass === 'admin123') {
-        isAdmin = true;
-        document.getElementById('sec-admin-panel').classList.remove('hidden');
-        document.getElementById('admin-btn-text').innerText = 'Admin Active';
-        toggleAdminModal();
-        document.getElementById('admin-pass').value = '';
-      } else {
-        alert('Incorrect password!');
-      }
-    }
-
-    function logoutAdmin() {
-      isAdmin = false;
-      document.getElementById('sec-admin-panel').classList.add('hidden');
-      document.getElementById('admin-btn-text').innerText = 'Admin';
-    }
-
-    // Admin Action Handlers
-    function updateScore() {
-      const matchId = parseInt(document.getElementById('admin-match-select').value);
-      const hScore = parseInt(document.getElementById('home-score').value);
-      const aScore = parseInt(document.getElementById('away-score').value);
-
-      if(isNaN(hScore) || isNaN(aScore)) return alert('Enter valid scores');
-
-      const match = tournamentData.matches.find(m => m.id === matchId);
-      match.homeScore = hScore;
-      match.awayScore = aScore;
-      match.status = "LIVE";
-
-      saveState();
-      alert('Score updated!');
-    }
-
-    function addUpdate() {
-      const text = document.getElementById('admin-update-text').value;
-      if(!text) return;
-
-      const now = new Date();
-      const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-
-      tournamentData.updates.unshift({ time: timeStr, text: text });
-      document.getElementById('admin-update-text').value = '';
-      saveState();
-    }
-
-    // Initial Render
-    renderAll();
-  </script>
+<body>
+<p class="p1">&lt;!DOCTYPE html&gt;</p>
+<p class="p1">&lt;html lang="en"&gt;</p>
+<p class="p1">&lt;head&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;meta charset="UTF-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;title&gt;Real-time Football Tournament Hub&lt;/title&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;script src="https://cdn.tailwindcss.com"&gt;&lt;/script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;!-- Supabase JS Client Library --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"&gt;&lt;/script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;style&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.active-tab { border-bottom: 3px solid #16a34a; color: #16a34a; font-weight: bold; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/style&gt;</p>
+<p class="p1">&lt;/head&gt;</p>
+<p class="p1">&lt;body class="bg-gray-100 font-sans min-h-screen pb-16"&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;!-- Header --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;header class="bg-emerald-700 text-white p-4 shadow-md sticky top-0 z-50 flex justify-between items-center"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;h1 class="text-xl font-black tracking-wide"&gt;&lt;i class="fa-solid fa-futbol mr-2"&gt;&lt;/i&gt;Championship 2026&lt;/h1&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;p class="text-xs text-emerald-200 flex items-center gap-1"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"&gt;&lt;/span&gt; Live Supabase Sync</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;button onclick="toggleAdminModal()" class="text-xs bg-emerald-800 hover:bg-emerald-900 text-white px-3 py-1.5 rounded-full border border-emerald-600 transition"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;i class="fa-solid fa-lock mr-1"&gt;&lt;/i&gt; &lt;span id="admin-btn-text"&gt;Admin&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/header&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;!-- Navigation Tabs --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;nav class="bg-white shadow-sm sticky top-[60px] z-40 flex justify-around text-sm text-gray-600 border-b"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;button onclick="switchTab('matches')" id="tab-matches" class="py-3 px-2 active-tab"&gt;Matches&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;button onclick="switchTab('updates')" id="tab-updates" class="py-3 px-2"&gt;Live Updates&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/nav&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;main class="max-w-md mx-auto p-4 space-y-4"&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- TAB 1: MATCHES --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;section id="sec-matches" class="space-y-3"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;h2 class="text-xs font-bold text-gray-400 uppercase tracking-wider"&gt;Fixtures &amp; Live Results&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div id="matches-list" class="space-y-3"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;p class="text-xs text-gray-400"&gt;Loading live scores...&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/section&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- TAB 2: UPDATES --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;section id="sec-updates" class="hidden"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;h2 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2"&gt;Announcements&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="space-y-3" id="updates-list"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;p class="text-xs text-gray-400"&gt;Loading announcements...&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/section&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- ADMIN PANEL CONTROLS --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;section id="sec-admin-panel" class="hidden bg-emerald-50 border border-emerald-200 rounded-lg p-4 space-y-4 mt-6"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="flex justify-between items-center border-b border-emerald-200 pb-2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;h3 class="font-bold text-emerald-900"&gt;&lt;i class="fa-solid fa-sliders mr-1"&gt;&lt;/i&gt; Admin Management&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;button onclick="logoutAdmin()" class="text-xs text-red-600 font-bold"&gt;Logout&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;!-- Update Score --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="space-y-2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;label class="text-xs font-bold text-gray-700"&gt;Update Match Score &amp; Status&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;select id="admin-match-select" class="w-full text-sm p-2 border rounded bg-white"&gt;&lt;/select&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="flex gap-2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;input type="number" id="home-score" placeholder="Home Score" class="w-1/3 p-2 text-sm border rounded"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;input type="number" id="away-score" placeholder="Away Score" class="w-1/3 p-2 text-sm border rounded"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;select id="match-status" class="w-1/3 text-sm p-2 border rounded bg-white"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;option value="LIVE"&gt;LIVE&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;option value="FT"&gt;FT (Finished)&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;option value="UPCOMING"&gt;UPCOMING&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/select&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;button onclick="updateScore()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-2 rounded text-sm font-bold shadow"&gt;Push Live Update&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;!-- Post Announcement --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="space-y-2 pt-2 border-t border-emerald-200"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;label class="text-xs font-bold text-gray-700"&gt;Post Announcement&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;input type="text" id="admin-update-text" placeholder="e.g. Next game starting in 5 mins!" class="w-full text-sm p-2 border rounded"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;button onclick="addUpdate()" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded text-sm font-bold shadow"&gt;Publish Announcement&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/section&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/main&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;!-- Login Modal --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div id="login-modal" class="fixed inset-0 bg-black/50 hidden items-center justify-center p-4 z-50"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="bg-white rounded-lg p-6 w-full max-w-xs space-y-4 shadow-xl"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;h3 class="font-bold text-lg text-gray-800"&gt;Admin Login&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;input type="password" id="admin-pass" placeholder="Enter password (admin123)" class="w-full p-2 border rounded text-sm"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="flex justify-end gap-2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;button onclick="toggleAdminModal()" class="px-3 py-1.5 text-xs text-gray-500"&gt;Cancel&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;button onclick="loginAdmin()" class="px-4 py-1.5 text-xs bg-emerald-600 text-white rounded font-bold"&gt;Login&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>// -------------------------------------------------------------</p>
+<p class="p1"><span class="Apple-converted-space">    </span>// REPLACE THESE WITH YOUR SUPABASE KEYS FROM STEP 1</p>
+<p class="p1"><span class="Apple-converted-space">    </span>// -------------------------------------------------------------</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const SUPABASE_URL = https://hnmqqycvigjemosajdov.supabase.co/rest/v1/;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const SUPABASE_ANON_KEY = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhubXFxeWN2aWdqZW1vc2FqZG92Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODU3NDE5NjEsImV4cCI6MjEwMTMxNzk2MX0.QFNTPe38DR-ab5ilU2aCKPcz1cbfj5gdg4DlmBZmWK4;</p>
+<p class="p2"><span class="Apple-converted-space">    </span></p>
+<p class="p1"><span class="Apple-converted-space">    </span>const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>let matches = [];</p>
+<p class="p1"><span class="Apple-converted-space">    </span>let updates = [];</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// --- Tab Switcher ---</p>
+<p class="p1"><span class="Apple-converted-space">    </span>function switchTab(tab) {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>['matches', 'updates'].forEach(t =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>document.getElementById(`sec-${t}`).classList.add('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>document.getElementById(`tab-${t}`).classList.remove('active-tab');</p>
+<p class="p1"><span class="Apple-converted-space">      </span>});</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById(`sec-${tab}`).classList.remove('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById(`tab-${tab}`).classList.add('active-tab');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// --- Fetch Data ---</p>
+<p class="p1"><span class="Apple-converted-space">    </span>async function fetchData() {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const { data: matchData } = await supabaseClient.from('matches').select('*').order('id', { ascending: true });</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const { data: updateData } = await supabaseClient.from('updates').select('*').order('created_at', { ascending: false });</p>
+<p class="p2"><span class="Apple-converted-space">      </span></p>
+<p class="p1"><span class="Apple-converted-space">      </span>if(matchData) matches = matchData;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if(updateData) updates = updateData;</p>
+<p class="p2"><span class="Apple-converted-space">      </span></p>
+<p class="p1"><span class="Apple-converted-space">      </span>renderAll();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// --- Subscribe to Live Database Changes ---</p>
+<p class="p1"><span class="Apple-converted-space">    </span>function setupRealtimeSubscriptions() {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>supabaseClient</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.channel('public-schema-changes')</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.on('postgres_changes', { event: '*', schema: 'public', table: 'matches' }, () =&gt; fetchData())</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.on('postgres_changes', { event: '*', schema: 'public', table: 'updates' }, () =&gt; fetchData())</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.subscribe();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// --- Render UI ---</p>
+<p class="p1"><span class="Apple-converted-space">    </span>function renderAll() {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>// Matches</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const matchesEl = document.getElementById('matches-list');</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const matchSelect = document.getElementById('admin-match-select');</p>
+<p class="p1"><span class="Apple-converted-space">      </span>matchesEl.innerHTML = '';</p>
+<p class="p1"><span class="Apple-converted-space">      </span>matchSelect.innerHTML = '';</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>matches.forEach(m =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const isLive = m.status.includes('LIVE');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>matchesEl.innerHTML += `</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="bg-white p-4 rounded-lg shadow border-l-4 ${isLive ? 'border-red-500' : 'border-emerald-600'} flex justify-between items-center"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="space-y-1 w-2/3"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div class="flex justify-between font-bold text-sm text-gray-800"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;span&gt;${m.home_team}&lt;/span&gt; &lt;span&gt;${m.home_score}&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div class="flex justify-between font-bold text-sm text-gray-800"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;span&gt;${m.away_team}&lt;/span&gt; &lt;span&gt;${m.away_score}&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="text-right border-l pl-3"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;span class="text-[10px] font-bold px-2 py-0.5 rounded ${isLive ? 'bg-red-100 text-red-600 animate-pulse' : 'bg-gray-100 text-gray-600'}"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>${m.status}</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;p class="text-xs text-gray-400 mt-1"&gt;${m.match_time || ''}&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;`;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>matchSelect.innerHTML += `&lt;option value="${m.id}"&gt;${m.home_team} vs ${m.away_team}&lt;/option&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>// Updates</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const updatesEl = document.getElementById('updates-list');</p>
+<p class="p1"><span class="Apple-converted-space">      </span>updatesEl.innerHTML = updates.map(u =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const timeStr = new Date(u.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });</p>
+<p class="p1"><span class="Apple-converted-space">        </span>return `</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="bg-white p-3 rounded-lg shadow-sm border-l-2 border-blue-500"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;p class="text-xs text-gray-400 font-bold mb-1"&gt;${timeStr}&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;p class="text-sm text-gray-700"&gt;${u.update_text}&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}).join('');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// --- Admin Handlers ---</p>
+<p class="p1"><span class="Apple-converted-space">    </span>async function updateScore() {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const matchId = parseInt(document.getElementById('admin-match-select').value);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const hScore = parseInt(document.getElementById('home-score').value);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const aScore = parseInt(document.getElementById('away-score').value);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const status = document.getElementById('match-status').value;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>if(isNaN(hScore) || isNaN(aScore)) return alert('Enter valid scores');</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>await supabaseClient</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.from('matches')</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.update({ home_score: hScore, away_score: aScore, status: status })</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.eq('id', matchId);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>alert('Score updated live!');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>async function addUpdate() {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const text = document.getElementById('admin-update-text').value;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if(!text) return;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>await supabaseClient.from('updates').insert([{ update_text: text }]);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById('admin-update-text').value = '';</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// --- Modal &amp; Auth UI ---</p>
+<p class="p1"><span class="Apple-converted-space">    </span>function toggleAdminModal() {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById('login-modal').classList.toggle('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById('login-modal').classList.toggle('flex');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>function loginAdmin() {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if(document.getElementById('admin-pass').value === 'admin123') {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>document.getElementById('sec-admin-panel').classList.remove('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>document.getElementById('admin-btn-text').innerText = 'Admin Active';</p>
+<p class="p1"><span class="Apple-converted-space">        </span>toggleAdminModal();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>alert('Incorrect password!');</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>function logoutAdmin() {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById('sec-admin-panel').classList.add('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById('admin-btn-text').innerText = 'Admin';</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// Start App</p>
+<p class="p1"><span class="Apple-converted-space">    </span>fetchData();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>setupRealtimeSubscriptions();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/script&gt;</p>
+<p class="p1">&lt;/body&gt;</p>
+<p class="p1">&lt;/html&gt;</p>
 </body>
 </html>

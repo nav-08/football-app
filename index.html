@@ -49,7 +49,7 @@
   <nav class="bg-slate-950/80 backdrop-blur-sm sticky top-[67px] z-40 border-b border-slate-800 text-xs text-slate-400 font-bold uppercase tracking-wider">
     <div class="max-w-md mx-auto flex justify-around overflow-x-auto whitespace-nowrap scrollbar-none">
       <button onclick="switchTab('matches')" id="tab-matches" class="py-3 px-3 active-tab transition">Matches</button>
-      <button onclick="switchTab('scorers')" id="tab-scorers" class="py-3 px-3 transition">Golden Boot</button>
+      <button onclick="switchTab('awards')" id="tab-awards" class="py-3 px-3 transition">Awards & Voting</button>
       <button onclick="switchTab('squads')" id="tab-squads" class="py-3 px-3 transition">Squads</button>
       <button onclick="switchTab('gallery')" id="tab-gallery" class="py-3 px-3 transition">Gallery</button>
       <button onclick="switchTab('rules')" id="tab-rules" class="py-3 px-3 transition">Rules</button>
@@ -61,8 +61,6 @@
 
     <!-- TAB 1: MATCHES (Includes Schedule + Standings Table) -->
     <section id="sec-matches" class="space-y-6">
-      
-      <!-- Match Schedule -->
       <div class="space-y-3">
         <div class="flex justify-between items-center">
           <h2 class="text-xs font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
@@ -97,33 +95,59 @@
                 <th class="p-3 text-center text-[#ccff00] font-black">Pts</th>
               </tr>
             </thead>
-            <tbody id="standings-body" class="divide-y divide-slate-800/60 font-semibold text-slate-200">
-              <!-- Dynamically calculated -->
-            </tbody>
+            <tbody id="standings-body" class="divide-y divide-slate-800/60 font-semibold text-slate-200"></tbody>
           </table>
         </div>
         <p class="text-[10px] text-slate-500 italic text-center">Points: Win = 3, Draw = 1, Loss = 0. Tied teams separated by Goal Difference.</p>
       </div>
-
     </section>
 
-    <!-- TAB 2: TOP SCORERS -->
-    <section id="sec-scorers" class="hidden space-y-3">
-      <h2 class="text-xs font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
-        <i class="fa-solid fa-football text-yellow-400"></i> Golden Boot Leaderboard
-      </h2>
-      <div class="bg-slate-900/90 border border-slate-800 rounded-xl divide-y divide-slate-800/60 overflow-hidden" id="scorers-list">
-        <p class="p-4 text-xs text-slate-500">No goals logged yet.</p>
+    <!-- TAB 2: AWARDS & VOTING -->
+    <section id="sec-awards" class="hidden space-y-6">
+      
+      <!-- Golden Boot Leaderboard -->
+      <div class="space-y-3">
+        <h2 class="text-xs font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
+          <i class="fa-solid fa-football text-yellow-400"></i> Golden Boot Leaderboard
+        </h2>
+        <div class="bg-slate-900/90 border border-slate-800 rounded-xl divide-y divide-slate-800/60 overflow-hidden" id="scorers-list">
+          <p class="p-4 text-xs text-slate-500">No goals logged yet.</p>
+        </div>
       </div>
+
+      <!-- Player of the Tournament Voting -->
+      <div class="space-y-3 pt-4 border-t border-slate-800">
+        <div class="flex justify-between items-center">
+          <h2 class="text-xs font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
+            <i class="fa-solid fa-star text-[#ccff00]"></i> Player of the Tournament
+          </h2>
+          <span class="text-[10px] bg-purple-500/10 text-purple-400 border border-purple-500/30 px-2 py-0.5 rounded font-bold">Spectator Vote</span>
+        </div>
+
+        <!-- Voting Status Card -->
+        <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4 space-y-3">
+          <p class="text-xs text-slate-300">Tap below to cast your vote for the best overall player in the tournament!</p>
+          
+          <div class="flex items-center gap-2">
+            <select id="pott-vote-select" class="w-2/3 text-xs p-2.5 border border-slate-700 bg-slate-950 text-slate-200 rounded-lg"></select>
+            <button onclick="castPottVote()" id="vote-btn" class="w-1/3 bg-[#ccff00] hover:bg-lime-400 text-slate-950 font-black py-2.5 rounded-lg text-xs uppercase shadow transition">Cast Vote</button>
+          </div>
+          <p id="user-voted-msg" class="text-[10px] text-lime-400 font-bold hidden"><i class="fa-solid fa-check-circle mr-1"></i> You have cast your vote!</p>
+        </div>
+
+        <!-- Live Vote Tally -->
+        <div class="bg-slate-900/90 border border-slate-800 rounded-xl divide-y divide-slate-800/60 overflow-hidden" id="pott-tally-list">
+          <p class="p-4 text-xs text-slate-500">No votes recorded yet.</p>
+        </div>
+      </div>
+
     </section>
 
     <!-- TAB 3: SQUADS -->
     <section id="sec-squads" class="hidden space-y-4">
       <div class="bg-slate-900/80 border border-pink-500/30 rounded-xl p-4 space-y-3">
         <div class="flex items-center justify-between">
-          <h3 class="font-poster text-2xl font-bold text-pink-500 tracking-wide uppercase flex items-center gap-2">
-            <i class="fa-solid fa-heart"></i> Rupa Lovers
-          </h3>
+          <h3 class="font-poster text-2xl font-bold text-pink-500 tracking-wide uppercase flex items-center gap-2"><i class="fa-solid fa-heart"></i> Rupa Lovers</h3>
           <span class="badge-lovers text-[10px] font-bold px-2 py-0.5 rounded-full">8 Players</span>
         </div>
         <div class="grid grid-cols-2 gap-2 text-xs text-slate-300" id="squad-lovers"></div>
@@ -131,9 +155,7 @@
 
       <div class="bg-slate-900/80 border border-yellow-500/30 rounded-xl p-4 space-y-3">
         <div class="flex items-center justify-between">
-          <h3 class="font-poster text-2xl font-bold text-yellow-400 tracking-wide uppercase flex items-center gap-2">
-            <i class="fa-solid fa-shield-halved"></i> Rupa Warriors
-          </h3>
+          <h3 class="font-poster text-2xl font-bold text-yellow-400 tracking-wide uppercase flex items-center gap-2"><i class="fa-solid fa-shield-halved"></i> Rupa Warriors</h3>
           <span class="badge-warriors text-[10px] font-bold px-2 py-0.5 rounded-full">8 Players</span>
         </div>
         <div class="grid grid-cols-2 gap-2 text-xs text-slate-300" id="squad-warriors"></div>
@@ -141,9 +163,7 @@
 
       <div class="bg-slate-900/80 border border-blue-500/30 rounded-xl p-4 space-y-3">
         <div class="flex items-center justify-between">
-          <h3 class="font-poster text-2xl font-bold text-blue-400 tracking-wide uppercase flex items-center gap-2">
-            <i class="fa-solid fa-face-grin-tongue"></i> Rupa Sniffers
-          </h3>
+          <h3 class="font-poster text-2xl font-bold text-blue-400 tracking-wide uppercase flex items-center gap-2"><i class="fa-solid fa-face-grin-tongue"></i> Rupa Sniffers</h3>
           <span class="badge-sniffers text-[10px] font-bold px-2 py-0.5 rounded-full">8 Players</span>
         </div>
         <div class="grid grid-cols-2 gap-2 text-xs text-slate-300" id="squad-sniffers"></div>
@@ -154,9 +174,7 @@
     <section id="sec-gallery" class="hidden space-y-4">
       <div class="bg-slate-900/90 border border-slate-800 p-4 rounded-xl space-y-3">
         <div class="flex justify-between items-center">
-          <h2 class="text-xs font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
-            <i class="fa-solid fa-camera text-sky-400"></i> Matchday Gallery
-          </h2>
+          <h2 class="text-xs font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5"><i class="fa-solid fa-camera text-sky-400"></i> Matchday Gallery</h2>
           <span class="text-[10px] text-slate-500 font-bold">Public Uploads</span>
         </div>
         <div class="space-y-2 bg-slate-950/80 p-3 rounded-lg border border-slate-800">
@@ -195,9 +213,7 @@
 
     <!-- TAB 6: UPDATES -->
     <section id="sec-updates" class="hidden space-y-3">
-      <h2 class="text-xs font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
-        <i class="fa-solid fa-bullhorn text-lime-400"></i> Live Announcements
-      </h2>
+      <h2 class="text-xs font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5"><i class="fa-solid fa-bullhorn text-lime-400"></i> Live Announcements</h2>
       <div class="space-y-3" id="updates-list"></div>
     </section>
 
@@ -297,9 +313,10 @@
     let matches = [];
     let updates = [];
     let photos = [];
+    let votes = [];
 
     function switchTab(tab) {
-      ['matches', 'scorers', 'squads', 'gallery', 'rules', 'updates'].forEach(t => {
+      ['matches', 'awards', 'squads', 'gallery', 'rules', 'updates'].forEach(t => {
         document.getElementById(`sec-${t}`).classList.add('hidden');
         document.getElementById(`tab-${t}`).classList.remove('active-tab');
       });
@@ -312,11 +329,13 @@
       const { data: updateData } = await supabaseClient.from('updates').select('*').order('created_at', { ascending: false });
       const { data: goalData } = await supabaseClient.from('goals').select('*').order('created_at', { ascending: false });
       const { data: photoData } = await supabaseClient.from('photos').select('*').order('created_at', { ascending: false });
+      const { data: voteData } = await supabaseClient.from('votes').select('*').order('created_at', { ascending: false });
       
       if(matchData) matches = matchData;
       if(updateData) updates = updateData;
       if(goalData) goals = goalData;
       if(photoData) photos = photoData;
+      if(voteData) votes = voteData;
       
       renderAll();
     }
@@ -328,6 +347,7 @@
         .on('postgres_changes', { event: '*', schema: 'public', table: 'updates' }, () => fetchData())
         .on('postgres_changes', { event: '*', schema: 'public', table: 'goals' }, () => fetchData())
         .on('postgres_changes', { event: '*', schema: 'public', table: 'photos' }, () => fetchData())
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'votes' }, () => fetchData())
         .subscribe();
     }
 
@@ -339,7 +359,7 @@
     }
 
     function renderAll() {
-      // 1. Render Matches
+      // 1. Matches
       const matchesEl = document.getElementById('matches-list');
       const matchSelect = document.getElementById('admin-match-select');
       matchesEl.innerHTML = '';
@@ -372,7 +392,7 @@
         });
       }
 
-      // 2. Compute & Render Embedded Standings Grid
+      // 2. Standings Grid
       const tableData = {
         'Rupa Lovers': { p: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0, gd: 0, pts: 0 },
         'Rupa Warriors': { p: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0, gd: 0, pts: 0 },
@@ -436,15 +456,16 @@
         </tr>
       `).join('');
 
-      // 3. Render Squads
+      // 3. Squads & Player Dropdowns
       document.getElementById('squad-lovers').innerHTML = squads.lovers.map(p => `<div class="bg-slate-950/60 p-2 rounded-lg border border-slate-800/60 flex items-center gap-1.5"><i class="fa-regular fa-user text-pink-500 text-[10px]"></i>${p}</div>`).join('');
       document.getElementById('squad-warriors').innerHTML = squads.warriors.map(p => `<div class="bg-slate-950/60 p-2 rounded-lg border border-slate-800/60 flex items-center gap-1.5"><i class="fa-regular fa-user text-yellow-500 text-[10px]"></i>${p}</div>`).join('');
       document.getElementById('squad-sniffers').innerHTML = squads.sniffers.map(p => `<div class="bg-slate-950/60 p-2 rounded-lg border border-slate-800/60 flex items-center gap-1.5"><i class="fa-regular fa-user text-blue-500 text-[10px]"></i>${p}</div>`).join('');
 
       const allPlayers = [...squads.lovers, ...squads.warriors, ...squads.sniffers].sort();
       document.getElementById('goal-player-select').innerHTML = allPlayers.map(p => `<option value="${p}">${p}</option>`).join('');
+      document.getElementById('pott-vote-select').innerHTML = allPlayers.map(p => `<option value="${p}">${p}</option>`).join('');
 
-      // 4. Render Top Scorers
+      // 4. Golden Boot Leaderboard
       const goalCounts = {};
       goals.forEach(g => { goalCounts[g.player_name] = (goalCounts[g.player_name] || 0) + 1; });
       const sortedScorers = Object.entries(goalCounts).sort((a, b) => b[1] - a[1]);
@@ -460,6 +481,29 @@
           </div>`).join('');
       }
 
+      // 5. Player of the Tournament (POTT) Vote Tally
+      const voteCounts = {};
+      votes.forEach(v => { voteCounts[v.player_name] = (voteCounts[v.player_name] || 0) + 1; });
+      const sortedVotes = Object.entries(voteCounts).sort((a, b) => b[1] - a[1]);
+      const pottTallyEl = document.getElementById('pott-tally-list');
+
+      if (sortedVotes.length === 0) {
+        pottTallyEl.innerHTML = '<p class="p-4 text-xs text-slate-500">No votes recorded yet.</p>';
+      } else {
+        pottTallyEl.innerHTML = sortedVotes.map(([player, count], idx) => `
+          <div class="p-3.5 flex justify-between items-center text-xs">
+            <span class="font-bold text-slate-200">${idx + 1}. ${player}</span>
+            <span class="bg-purple-500/10 text-purple-400 font-bold px-2.5 py-0.5 rounded border border-purple-500/20">${count} Vote${count > 1 ? 's' : ''}</span>
+          </div>`).join('');
+      }
+
+      // Check Local Vote Status
+      if (localStorage.getItem('rupa_pott_voted')) {
+        document.getElementById('vote-btn').disabled = true;
+        document.getElementById('vote-btn').classList.add('opacity-50', 'cursor-not-allowed');
+        document.getElementById('user-voted-msg').classList.remove('hidden');
+      }
+
       // Admin Goal Log
       const adminGoalsLog = document.getElementById('admin-goals-log');
       if (goals.length === 0) {
@@ -472,7 +516,7 @@
           </div>`).join('');
       }
 
-      // 5. Render Photo Gallery
+      // 6. Photo Gallery
       const photosGrid = document.getElementById('photos-grid');
       if (photos.length === 0) {
         photosGrid.innerHTML = '<p class="text-xs text-slate-500 col-span-2">No photos uploaded yet. Be the first!</p>';
@@ -488,7 +532,7 @@
           </div>`).join('');
       }
 
-      // 6. Render Updates
+      // 7. Updates
       const updatesEl = document.getElementById('updates-list');
       if (updates.length > 0) {
         updatesEl.innerHTML = updates.map(u => {
@@ -503,6 +547,21 @@
             </div>`;
         }).join('');
       }
+    }
+
+    // --- Voting Handler ---
+    async function castPottVote() {
+      if (localStorage.getItem('rupa_pott_voted')) {
+        return alert('You have already cast your vote for Player of the Tournament!');
+      }
+
+      const player = document.getElementById('pott-vote-select').value;
+      if (!player) return;
+
+      await supabaseClient.from('votes').insert([{ player_name: player }]);
+      localStorage.setItem('rupa_pott_voted', 'true');
+      alert(`Vote cast for ${player}!`);
+      renderAll();
     }
 
     // --- Photo Gallery Functions ---

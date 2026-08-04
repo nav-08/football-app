@@ -25,6 +25,24 @@
     
     .glow-title { text-shadow: 0 0 12px rgba(204, 255, 0, 0.5); }
     .bg-pitch { background-color: #080c10; background-image: radial-gradient(#1e293b 1px, transparent 1px); background-size: 16px 16px; }
+
+    /* Mobile Touch Slider Smoothness Fix */
+    .smooth-nav-scroll {
+      display: flex;
+      overflow-x: auto;
+      white-space: nowrap;
+      -webkit-overflow-scrolling: touch; /* iOS Momentum Scrolling */
+      touch-action: pan-x;               /* Force smooth horizontal drag on touchscreens */
+      scrollbar-width: none;             /* Firefox hide scrollbar */
+      -ms-overflow-style: none;          /* IE/Edge hide scrollbar */
+    }
+    .smooth-nav-scroll::-webkit-scrollbar {
+      display: none;                     /* Chrome/Safari hide scrollbar */
+    }
+    .nav-tab-btn {
+      flex-shrink: 0;                    /* Prevent tab text from shrinking on narrow devices */
+      touch-action: manipulation;
+    }
   </style>
 </head>
 <body class="bg-pitch text-slate-100 font-sans min-h-screen pb-20 selection:bg-lime-400 selection:text-black">
@@ -45,24 +63,22 @@
     </div>
   </header>
 
-  <!-- Navigation -->
-  <nav class="bg-slate-950/80 backdrop-blur-sm sticky top-[67px] z-40 border-b border-slate-800 text-xs text-slate-400 font-bold uppercase tracking-wider">
-    <div class="max-w-md mx-auto flex justify-around overflow-x-auto whitespace-nowrap scrollbar-none">
-      <button onclick="switchTab('matches')" id="tab-matches" class="py-3 px-3 active-tab transition">Matches</button>
-      <button onclick="switchTab('awards')" id="tab-awards" class="py-3 px-3 transition">Awards</button>
-      <button onclick="switchTab('squads')" id="tab-squads" class="py-3 px-3 transition">Squads</button>
-      <button onclick="switchTab('gallery')" id="tab-gallery" class="py-3 px-3 transition">Gallery</button>
-      <button onclick="switchTab('rules')" id="tab-rules" class="py-3 px-3 transition">Rules</button>
-      <button onclick="switchTab('updates')" id="tab-updates" class="py-3 px-3 transition">Updates</button>
+  <!-- Touch-Optimized Navigation -->
+  <nav class="bg-slate-950/90 backdrop-blur-sm sticky top-[67px] z-40 border-b border-slate-800 text-xs text-slate-400 font-bold uppercase tracking-wider">
+    <div class="max-w-md mx-auto smooth-nav-scroll px-2">
+      <button onclick="switchTab('matches')" id="tab-matches" class="nav-tab-btn py-3 px-3 active-tab transition">Matches</button>
+      <button onclick="switchTab('awards')" id="tab-awards" class="nav-tab-btn py-3 px-3 transition">Awards</button>
+      <button onclick="switchTab('squads')" id="tab-squads" class="nav-tab-btn py-3 px-3 transition">Squads</button>
+      <button onclick="switchTab('gallery')" id="tab-gallery" class="nav-tab-btn py-3 px-3 transition">Gallery</button>
+      <button onclick="switchTab('rules')" id="tab-rules" class="nav-tab-btn py-3 px-3 transition">Rules</button>
+      <button onclick="switchTab('updates')" id="tab-updates" class="nav-tab-btn py-3 px-3 transition">Updates</button>
     </div>
   </nav>
 
   <main class="max-w-md mx-auto p-4 space-y-6">
 
-    <!-- TAB 1: MATCHES (Schedule + Predictor Form + Standings) -->
+    <!-- TAB 1: MATCHES -->
     <section id="sec-matches" class="space-y-6">
-      
-      <!-- Match Schedule -->
       <div class="space-y-3">
         <div class="flex justify-between items-center">
           <h2 class="text-xs font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
@@ -125,20 +141,17 @@
       </div>
     </section>
 
-    <!-- TAB 2: AWARDS & LEADERBOARDS -->
+    <!-- TAB 2: AWARDS -->
     <section id="sec-awards" class="hidden space-y-6">
-      
-      <!-- Predictor Leaderboard -->
       <div class="space-y-3">
         <h2 class="text-xs font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
           <i class="fa-solid fa-trophy text-purple-400"></i> Predictor Fan Leaderboard
         </h2>
         <div class="bg-slate-900/90 border border-slate-800 rounded-xl divide-y divide-slate-800/60 overflow-hidden" id="predictor-tally-list">
-          <p class="p-4 text-xs text-slate-500">No predictions evaluated yet.</p>
+          <p class="p-4 text-xs text-slate-500">No scored predictions yet. Points update as matches finish!</p>
         </div>
       </div>
 
-      <!-- Golden Boot Leaderboard -->
       <div class="space-y-3 pt-4 border-t border-slate-800">
         <h2 class="text-xs font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
           <i class="fa-solid fa-football text-yellow-400"></i> Golden Boot Leaderboard
@@ -148,7 +161,6 @@
         </div>
       </div>
 
-      <!-- Player of the Tournament Voting -->
       <div class="space-y-3 pt-4 border-t border-slate-800">
         <div class="flex justify-between items-center">
           <h2 class="text-xs font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
@@ -170,7 +182,6 @@
           <p class="p-4 text-xs text-slate-500">No votes recorded yet.</p>
         </div>
       </div>
-
     </section>
 
     <!-- TAB 3: SQUADS -->
@@ -273,7 +284,6 @@
           <button onclick="resetMatchScore()" class="w-1/3 bg-red-600/20 hover:bg-red-600/30 text-red-400 border border-red-500/30 py-2 rounded-lg text-xs font-bold">Reset Score</button>
         </div>
         
-        <!-- Record Scorer & Reset Controls -->
         <div class="p-3 bg-slate-900/90 rounded-lg border border-slate-800 space-y-3">
           <p class="text-[10px] font-bold text-slate-400 uppercase">Record Scorer</p>
           <select id="goal-player-select" class="w-full text-xs p-2 border border-slate-700 bg-slate-950 text-slate-200 rounded-lg"></select>
@@ -446,7 +456,6 @@
         });
       }
 
-      // Populate Predictor Name from LocalStorage if saved
       const savedPredictorName = localStorage.getItem('rupa_predictor_name');
       if(savedPredictorName && !document.getElementById('predictor-user-name').value) {
         document.getElementById('predictor-user-name').value = savedPredictorName;
@@ -537,11 +546,9 @@
           const predHome = p.home_pred;
           const predAway = p.away_pred;
 
-          // Exact Score match = 3 Points
           if (actualHome === predHome && actualAway === predAway) {
             userScores[p.predictor_name] += 3;
           } 
-          // Correct Winner / Outcome = 1 Point
           else if (
             (actualHome > actualAway && predHome > predAway) ||
             (actualAway > actualHome && predAway > predHome) ||

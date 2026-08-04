@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Rupa Super Cup 2026</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -26,22 +26,24 @@
     .glow-title { text-shadow: 0 0 12px rgba(204, 255, 0, 0.5); }
     .bg-pitch { background-color: #080c10; background-image: radial-gradient(#1e293b 1px, transparent 1px); background-size: 16px 16px; }
 
-    /* Mobile Touch Slider Smoothness */
-    .smooth-nav-scroll {
-      display: flex;
-      overflow-x: auto;
-      white-space: nowrap;
-      -webkit-overflow-scrolling: touch;
-      touch-action: pan-x;
-      scrollbar-width: none;
-      -ms-overflow-style: none;
+    /* Guaranteed Mobile Touch Slider Scroll Fix */
+    .mobile-tab-nav {
+      display: flex !important;
+      width: 100% !important;
+      overflow-x: scroll !important;
+      white-space: nowrap !important;
+      -webkit-overflow-scrolling: touch !important;
+      touch-action: pan-x !important;
+      scrollbar-width: none !important;
+      -ms-overflow-style: none !important;
     }
-    .smooth-nav-scroll::-webkit-scrollbar {
-      display: none;
+    .mobile-tab-nav::-webkit-scrollbar {
+      display: none !important;
     }
     .nav-tab-btn {
-      flex-shrink: 0;
-      touch-action: manipulation;
+      flex-shrink: 0 !important;
+      touch-action: manipulation !important;
+      user-select: none;
     }
   </style>
 </head>
@@ -63,21 +65,21 @@
     </div>
   </header>
 
-  <!-- Navigation Bar -->
-  <nav class="bg-slate-950/90 backdrop-blur-sm sticky top-[67px] z-40 border-b border-slate-800 text-xs text-slate-400 font-bold uppercase tracking-wider">
-    <div class="max-w-md mx-auto smooth-nav-scroll px-2">
-      <button onclick="switchTab('matches')" id="tab-matches" class="nav-tab-btn py-3 px-3 active-tab transition">Matches</button>
-      <button onclick="switchTab('awards')" id="tab-awards" class="nav-tab-btn py-3 px-3 transition">Awards</button>
-      <button onclick="switchTab('squads')" id="tab-squads" class="nav-tab-btn py-3 px-3 transition">Squads</button>
-      <button onclick="switchTab('gallery')" id="tab-gallery" class="nav-tab-btn py-3 px-3 transition">Gallery</button>
-      <button onclick="switchTab('rules')" id="tab-rules" class="nav-tab-btn py-3 px-3 transition">Rules</button>
-      <button onclick="switchTab('updates')" id="tab-updates" class="nav-tab-btn py-3 px-3 transition">Updates</button>
+  <!-- Mobile Touch Nav Slider -->
+  <nav class="bg-slate-950/90 backdrop-blur-sm sticky top-[67px] z-40 border-b border-slate-800 text-xs text-slate-400 font-bold uppercase tracking-wider w-full">
+    <div class="max-w-md mx-auto mobile-tab-nav px-2">
+      <button onclick="switchTab('matches')" id="tab-matches" class="nav-tab-btn py-3 px-3.5 active-tab transition">Matches</button>
+      <button onclick="switchTab('awards')" id="tab-awards" class="nav-tab-btn py-3 px-3.5 transition">Awards</button>
+      <button onclick="switchTab('squads')" id="tab-squads" class="nav-tab-btn py-3 px-3.5 transition">Squads</button>
+      <button onclick="switchTab('gallery')" id="tab-gallery" class="nav-tab-btn py-3 px-3.5 transition">Gallery</button>
+      <button onclick="switchTab('rules')" id="tab-rules" class="nav-tab-btn py-3 px-3.5 transition">Rules</button>
+      <button onclick="switchTab('updates')" id="tab-updates" class="nav-tab-btn py-3 px-3.5 transition">Updates</button>
     </div>
   </nav>
 
   <main class="max-w-md mx-auto p-4 space-y-6">
 
-    <!-- TAB 1: MATCHES (Schedule + Predictor Form + Realtime Predictions + Standings) -->
+    <!-- TAB 1: MATCHES -->
     <section id="sec-matches" class="space-y-6">
       
       <!-- Match Schedule -->
@@ -89,7 +91,7 @@
           <span class="text-[10px] font-bold bg-[#ccff00]/10 text-[#ccff00] border border-[#ccff00]/30 px-2 py-0.5 rounded">5th Aug, 9:00 PM</span>
         </div>
         <div id="matches-list" class="space-y-3">
-          <p class="text-xs text-slate-500">Loading schedule...</p>
+          <!-- Rendered instantly from local cache, updated via Supabase -->
         </div>
       </div>
 
@@ -103,7 +105,6 @@
         </div>
         <p class="text-[11px] text-slate-300">Predict match scores to earn points on the Fan Leaderboard! (3 pts exact score, 1 pt correct winner)</p>
         
-        <!-- Submit Prediction Input -->
         <div class="space-y-2 bg-slate-950 p-3 rounded-lg border border-slate-800">
           <input type="text" id="predictor-user-name" placeholder="Enter Your Name" class="w-full text-xs p-2 border border-slate-700 bg-slate-900 text-slate-200 rounded-lg">
           <select id="predictor-match-select" class="w-full text-xs p-2 border border-slate-700 bg-slate-900 text-slate-200 rounded-lg"></select>
@@ -115,7 +116,6 @@
           <button onclick="submitMatchPrediction()" class="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold py-2 rounded-lg text-xs uppercase transition">Submit Prediction</button>
         </div>
 
-        <!-- Realtime Public Predictions Feed -->
         <div class="space-y-2 pt-2 border-t border-slate-800">
           <div class="flex justify-between items-center">
             <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Live Spectator Predictions</span>
@@ -155,7 +155,7 @@
       </div>
     </section>
 
-    <!-- TAB 2: AWARDS & LEADERBOARDS -->
+    <!-- TAB 2: AWARDS -->
     <section id="sec-awards" class="hidden space-y-6">
       <div class="space-y-3">
         <h2 class="text-xs font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
@@ -374,14 +374,22 @@
 
     let isAdminLoggedIn = false;
 
+    // Local Default Matches Fallback for 0ms Fast Page Load
+    const defaultMatches = [
+      { id: 1, home_team: 'Rupa Lovers', away_team: 'Rupa Warriors', home_score: 0, away_score: 0, status: 'UPCOMING', match_time: '9:00 PM' },
+      { id: 2, home_team: 'Rupa Sniffers', away_team: 'Rupa Lovers', home_score: 0, away_score: 0, status: 'UPCOMING', match_time: '9:20 PM' },
+      { id: 3, home_team: 'Rupa Warriors', away_team: 'Rupa Sniffers', home_score: 0, away_score: 0, status: 'UPCOMING', match_time: '9:40 PM' },
+      { id: 4, home_team: 'Top 2 Teams', away_team: 'Final', home_score: 0, away_score: 0, status: 'UPCOMING', match_time: '10:05 PM' }
+    ];
+
     let squads = JSON.parse(localStorage.getItem('rupa_squads')) || {
       lovers: ["Tanmoy", "Mayank", "Amar", "Abhishek", "Mrinal", "Divyansh", "Abhinab", "Rahul"],
       warriors: ["Arpit", "Bhanu", "Shivam", "Sid", "Adhiraj", "Charchit", "Omesh", "Yash"],
       sniffers: ["Dony", "Sourav", "Rohan", "Patna", "Rohit", "Dhiraj", "Abhijit", "Kaustav"]
     };
 
+    let matches = JSON.parse(localStorage.getItem('rupa_matches_cache')) || defaultMatches;
     let goals = [];
-    let matches = [];
     let updates = [];
     let photos = [];
     let votes = [];
@@ -404,7 +412,10 @@
       const { data: voteData } = await supabaseClient.from('votes').select('*').order('created_at', { ascending: false });
       const { data: predData } = await supabaseClient.from('predictions').select('*').order('created_at', { ascending: false });
       
-      if(matchData) matches = matchData;
+      if(matchData && matchData.length > 0) {
+        matches = matchData;
+        localStorage.setItem('rupa_matches_cache', JSON.stringify(matchData));
+      }
       if(updateData) updates = updateData;
       if(goalData) goals = goalData;
       if(photoData) photos = photoData;
@@ -434,7 +445,7 @@
     }
 
     function renderAll() {
-      // 1. Matches & Predictor Options
+      // 1. Instant Match Render
       const matchesEl = document.getElementById('matches-list');
       const matchSelect = document.getElementById('admin-match-select');
       const predMatchSelect = document.getElementById('predictor-match-select');
@@ -475,7 +486,7 @@
         document.getElementById('predictor-user-name').value = savedPredictorName;
       }
 
-      // Render Realtime Public Predictions Feed
+      // Live Spectator Predictions Feed
       const predFeedEl = document.getElementById('live-predictions-feed');
       document.getElementById('pred-count-badge').innerText = `${predictions.length} Submission${predictions.length !== 1 ? 's' : ''}`;
       
@@ -562,7 +573,7 @@
         </tr>
       `).join('');
 
-      // 3. Squads & Player Dropdowns
+      // 3. Squads & Dropdowns
       document.getElementById('squad-lovers').innerHTML = squads.lovers.map(p => `<div class="bg-slate-950/60 p-2 rounded-lg border border-slate-800/60 flex items-center gap-1.5"><i class="fa-regular fa-user text-pink-500 text-[10px]"></i>${p}</div>`).join('');
       document.getElementById('squad-warriors').innerHTML = squads.warriors.map(p => `<div class="bg-slate-950/60 p-2 rounded-lg border border-slate-800/60 flex items-center gap-1.5"><i class="fa-regular fa-user text-yellow-500 text-[10px]"></i>${p}</div>`).join('');
       document.getElementById('squad-sniffers').innerHTML = squads.sniffers.map(p => `<div class="bg-slate-950/60 p-2 rounded-lg border border-slate-800/60 flex items-center gap-1.5"><i class="fa-regular fa-user text-blue-500 text-[10px]"></i>${p}</div>`).join('');
@@ -571,7 +582,7 @@
       document.getElementById('goal-player-select').innerHTML = allPlayers.map(p => `<option value="${p}">${p}</option>`).join('');
       document.getElementById('pott-vote-select').innerHTML = allPlayers.map(p => `<option value="${p}">${p}</option>`).join('');
 
-      // 4. Compute Predictor Leaderboard Points
+      // 4. Compute Predictor Points
       const userScores = {};
       predictions.forEach(p => {
         const match = matches.find(m => m.id === p.match_id);
@@ -914,6 +925,7 @@
       renderAll();
     }
 
+    // Instant Initial Render + Background Supabase Fetch
     renderAll();
     fetchData();
     setupRealtimeSubscriptions();

@@ -374,12 +374,12 @@
 
     let isAdminLoggedIn = false;
 
-    // Local Default Matches Fallback for 0ms Fast Page Load
+    // Updated Default Matches Fallback: Team 1 vs Team 2 for Final
     const defaultMatches = [
       { id: 1, home_team: 'Rupa Lovers', away_team: 'Rupa Warriors', home_score: 0, away_score: 0, status: 'UPCOMING', match_time: '9:00 PM' },
       { id: 2, home_team: 'Rupa Sniffers', away_team: 'Rupa Lovers', home_score: 0, away_score: 0, status: 'UPCOMING', match_time: '9:20 PM' },
       { id: 3, home_team: 'Rupa Warriors', away_team: 'Rupa Sniffers', home_score: 0, away_score: 0, status: 'UPCOMING', match_time: '9:40 PM' },
-      { id: 4, home_team: 'Top 2 Teams', away_team: 'Final', home_score: 0, away_score: 0, status: 'UPCOMING', match_time: '10:05 PM' }
+      { id: 4, home_team: 'Team 1', away_team: 'Team 2', home_score: 0, away_score: 0, status: 'UPCOMING', match_time: '10:05 PM' }
     ];
 
     let squads = JSON.parse(localStorage.getItem('rupa_squads')) || {
@@ -509,7 +509,7 @@
         }).join('');
       }
 
-      // 2. Compute Standings Grid
+      // 2. Compute Standings Grid (Excluding Team 1 vs Team 2 final match)
       const tableData = {
         'Rupa Lovers': { p: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0, gd: 0, pts: 0 },
         'Rupa Warriors': { p: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0, gd: 0, pts: 0 },
@@ -517,7 +517,7 @@
       };
 
       matches.forEach(m => {
-        if (m.home_team !== 'Top 2 Teams' && (m.status.includes('FT') || m.status.includes('LIVE'))) {
+        if (m.home_team !== 'Team 1' && m.home_team !== 'Top 2 Teams' && (m.status.includes('FT') || m.status.includes('LIVE'))) {
           const home = m.home_team;
           const away = m.away_team;
           const hScore = m.home_score || 0;

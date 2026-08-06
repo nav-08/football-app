@@ -4,6 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Rupa Super Cup 2026</title>
+
+  <!-- PWA Meta Tags -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#080c10">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Rupa Cup">
+  <link rel="apple-touch-icon" href="icon-192.png">
+
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -26,7 +35,6 @@
     .glow-title { text-shadow: 0 0 12px rgba(204, 255, 0, 0.5); }
     .bg-pitch { background-color: #080c10; background-image: radial-gradient(#1e293b 1px, transparent 1px); background-size: 16px 16px; }
 
-    /* Mobile Touch Slider Scroll Fix */
     .mobile-tab-nav {
       display: flex !important;
       width: 100% !important;
@@ -81,8 +89,6 @@
 
     <!-- TAB 1: MATCHES -->
     <section id="sec-matches" class="space-y-6">
-      
-      <!-- Match Schedule -->
       <div class="space-y-3">
         <div class="flex justify-between items-center">
           <h2 class="text-xs font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
@@ -125,7 +131,7 @@
         </div>
       </div>
 
-      <!-- Embedded Standings Grid -->
+      <!-- Standings Grid -->
       <div class="space-y-3 pt-2 border-t border-slate-800/80">
         <div class="flex justify-between items-center">
           <h2 class="text-xs font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
@@ -281,7 +287,6 @@
         <h4 class="text-xs font-bold text-slate-300 uppercase">1. Match Score & Team Names Controls</h4>
         <select id="admin-match-select" onchange="populateAdminMatchInputs()" class="w-full text-xs p-2.5 border border-slate-700 bg-slate-900 text-slate-200 rounded-lg"></select>
         
-        <!-- Added Home Team and Away Team Name Inputs -->
         <div class="flex gap-2">
           <input type="text" id="admin-home-name" placeholder="Home Team Name" class="w-1/2 p-2 text-xs border border-slate-700 bg-slate-900 text-slate-200 rounded-lg">
           <input type="text" id="admin-away-name" placeholder="Away Team Name" class="w-1/2 p-2 text-xs border border-slate-700 bg-slate-900 text-slate-200 rounded-lg">
@@ -461,7 +466,6 @@
     }
 
     function renderAll() {
-      // 1. Instant Match Render
       const matchesEl = document.getElementById('matches-list');
       const matchSelect = document.getElementById('admin-match-select');
       const predMatchSelect = document.getElementById('predictor-match-select');
@@ -504,7 +508,6 @@
         document.getElementById('predictor-user-name').value = savedPredictorName;
       }
 
-      // Live Spectator Predictions Feed
       const predFeedEl = document.getElementById('live-predictions-feed');
       document.getElementById('pred-count-badge').innerText = `${predictions.length} Submission${predictions.length !== 1 ? 's' : ''}`;
       
@@ -527,7 +530,6 @@
         }).join('');
       }
 
-      // 2. Compute Standings Grid
       const tableData = {
         'Rupa Lovers': { p: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0, gd: 0, pts: 0 },
         'Rupa Warriors': { p: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0, gd: 0, pts: 0 },
@@ -591,7 +593,6 @@
         </tr>
       `).join('');
 
-      // 3. Squads & Dropdowns
       document.getElementById('squad-lovers').innerHTML = squads.lovers.map(p => `<div class="bg-slate-950/60 p-2 rounded-lg border border-slate-800/60 flex items-center gap-1.5"><i class="fa-regular fa-user text-pink-500 text-[10px]"></i>${p}</div>`).join('');
       document.getElementById('squad-warriors').innerHTML = squads.warriors.map(p => `<div class="bg-slate-950/60 p-2 rounded-lg border border-slate-800/60 flex items-center gap-1.5"><i class="fa-regular fa-user text-yellow-500 text-[10px]"></i>${p}</div>`).join('');
       document.getElementById('squad-sniffers').innerHTML = squads.sniffers.map(p => `<div class="bg-slate-950/60 p-2 rounded-lg border border-slate-800/60 flex items-center gap-1.5"><i class="fa-regular fa-user text-blue-500 text-[10px]"></i>${p}</div>`).join('');
@@ -600,7 +601,6 @@
       document.getElementById('goal-player-select').innerHTML = allPlayers.map(p => `<option value="${p}">${p}</option>`).join('');
       document.getElementById('pott-vote-select').innerHTML = allPlayers.map(p => `<option value="${p}">${p}</option>`).join('');
 
-      // 4. Compute Predictor Points
       const userScores = {};
       predictions.forEach(p => {
         const match = matches.find(m => m.id === p.match_id);
@@ -638,7 +638,6 @@
           </div>`).join('');
       }
 
-      // 5. Golden Boot Leaderboard
       const goalCounts = {};
       goals.forEach(g => { goalCounts[g.player_name] = (goalCounts[g.player_name] || 0) + 1; });
       const sortedScorers = Object.entries(goalCounts).sort((a, b) => b[1] - a[1]);
@@ -654,7 +653,6 @@
           </div>`).join('');
       }
 
-      // 6. POTT Vote Tally
       const voteCounts = {};
       votes.forEach(v => { voteCounts[v.player_name] = (voteCounts[v.player_name] || 0) + 1; });
       const sortedVotes = Object.entries(voteCounts).sort((a, b) => b[1] - a[1]);
@@ -670,7 +668,6 @@
           </div>`).join('');
       }
 
-      // Check Local Vote Status
       const voteBtn = document.getElementById('vote-btn');
       if (localStorage.getItem('rupa_pott_voted')) {
         voteBtn.disabled = true;
@@ -682,7 +679,6 @@
         document.getElementById('user-voted-msg').classList.add('hidden');
       }
 
-      // Admin Goal Log
       const adminGoalsLog = document.getElementById('admin-goals-log');
       if (goals.length === 0) {
         adminGoalsLog.innerHTML = '<p class="text-[10px] text-slate-500 p-1">No recorded goals.</p>';
@@ -694,7 +690,6 @@
           </div>`).join('');
       }
 
-      // 7. Photo Gallery
       const photosGrid = document.getElementById('photos-grid');
       if (photos.length === 0) {
         photosGrid.innerHTML = '<p class="text-xs text-slate-500 col-span-2">No photos uploaded yet. Be the first!</p>';
@@ -710,7 +705,6 @@
           </div>`).join('');
       }
 
-      // 8. Updates
       const updatesEl = document.getElementById('updates-list');
       if (updates.length > 0) {
         updatesEl.innerHTML = updates.map(u => {
@@ -727,7 +721,6 @@
       }
     }
 
-    // --- Prediction Functions ---
     async function submitMatchPrediction() {
       const name = document.getElementById('predictor-user-name').value.trim();
       const matchId = parseInt(document.getElementById('predictor-match-select').value);
@@ -764,7 +757,6 @@
       }
     }
 
-    // --- Voting Functions ---
     async function castPottVote() {
       if (localStorage.getItem('rupa_pott_voted')) {
         return alert('You have already cast your vote for Player of the Tournament!');
@@ -792,7 +784,6 @@
       }
     }
 
-    // --- Photo Gallery Functions ---
     async function uploadPhoto() {
       const fileInput = document.getElementById('photo-input');
       const captionInput = document.getElementById('photo-caption');
@@ -843,7 +834,6 @@
       await supabaseClient.from('photos').delete().eq('id', photoId);
     }
 
-    // --- Admin Actions ---
     async function updateScore() {
       const matchId = parseInt(document.getElementById('admin-match-select').value);
       const hName = document.getElementById('admin-home-name').value.trim();
@@ -913,7 +903,6 @@
       alert(`Added ${name} to ${team}!`);
     }
 
-    // --- Auth & Password Management ---
     function getAdminPassword() {
       return localStorage.getItem('rupa_admin_pass') || 'admin123';
     }
@@ -953,10 +942,20 @@
       renderAll();
     }
 
-    // Instant Initial Render + Background Supabase Fetch
     renderAll();
     fetchData();
     setupRealtimeSubscriptions();
+  </script>
+
+  <!-- PWA Service Worker Registration -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then(() => console.log('Service Worker Registered Successfully'))
+          .catch(err => console.error('Service Worker Registration Failed:', err));
+      });
+    }
   </script>
 </body>
 </html>

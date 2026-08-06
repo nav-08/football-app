@@ -57,7 +57,7 @@
 </head>
 <body class="bg-pitch text-slate-100 font-sans min-h-screen pb-20 selection:bg-lime-400 selection:text-black">
 
-  <!-- PRE-NAVIGATION TOURNAMENT LANDING / SELECTOR OVERLAY -->
+  <!-- PRE-NAVIGATION TOURNAMENT LANDING OVERLAY -->
   <div id="tournament-selector-overlay" class="fixed inset-0 bg-slate-950/95 backdrop-blur-md z-50 p-4 flex flex-col justify-center items-center">
     <div class="max-w-md w-full space-y-6 text-center">
       <div class="space-y-1">
@@ -68,9 +68,7 @@
         <p class="text-xs text-slate-400 font-semibold tracking-wider uppercase">Select a tournament edition to enter</p>
       </div>
 
-      <div class="space-y-3 max-h-80 overflow-y-auto pr-1" id="landing-tournaments-list">
-        <!-- Loaded dynamically -->
-      </div>
+      <div class="space-y-3 max-h-80 overflow-y-auto pr-1" id="landing-tournaments-list"></div>
 
       <button onclick="toggleAdminModal()" class="text-xs bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-700 px-4 py-2 rounded-lg font-bold transition inline-flex items-center gap-2">
         <i class="fa-solid fa-user-shield text-[#ccff00]"></i> <span>Admin Access</span>
@@ -134,7 +132,9 @@
         
         <div class="space-y-2 bg-slate-950 p-3 rounded-lg border border-slate-800">
           <input type="text" id="predictor-user-name" placeholder="Enter Your Name" class="w-full text-xs p-2 border border-slate-700 bg-slate-900 text-slate-200 rounded-lg">
-          <select id="predictor-match-select" class="w-full text-xs p-2 border border-slate-700 bg-slate-900 text-slate-200 rounded-lg"></select>
+          <select id="predictor-match-select" class="w-full text-xs p-2 border border-slate-700 bg-slate-900 text-slate-200 rounded-lg">
+            <option value="">-- Select Match --</option>
+          </select>
           <div class="flex gap-2 items-center">
             <input type="number" id="pred-home-score" placeholder="Home Score" class="w-1/2 p-2 text-xs border border-slate-700 bg-slate-900 text-slate-200 rounded-lg">
             <span class="text-slate-500 font-bold text-xs">-</span>
@@ -213,7 +213,9 @@
         <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4 space-y-3">
           <p class="text-xs text-slate-300">Tap below to cast your vote for the best overall player in the tournament!</p>
           <div class="flex items-center gap-2">
-            <select id="pott-vote-select" class="w-2/3 text-xs p-2.5 border border-slate-700 bg-slate-950 text-slate-200 rounded-lg"></select>
+            <select id="pott-vote-select" class="w-2/3 text-xs p-2.5 border border-slate-700 bg-slate-950 text-slate-200 rounded-lg">
+              <option value="">-- Select Player --</option>
+            </select>
             <button onclick="castPottVote()" id="vote-btn" class="w-1/3 bg-[#ccff00] hover:bg-lime-400 text-slate-950 font-black py-2.5 rounded-lg text-xs uppercase shadow transition">Cast Vote</button>
           </div>
           <p id="user-voted-msg" class="text-[10px] text-lime-400 font-bold hidden"><i class="fa-solid fa-check-circle mr-1"></i> You have cast your vote!</p>
@@ -277,12 +279,12 @@
       <div class="space-y-3" id="updates-list"></div>
     </section>
 
-    <!-- REDESIGNED ADMIN MANAGEMENT PANEL -->
+    <!-- ADMIN MANAGEMENT PANEL -->
     <section id="sec-admin-panel" class="hidden bg-slate-950 border border-lime-500/40 rounded-2xl p-4 space-y-5 shadow-2xl mt-6">
       <div class="flex justify-between items-center border-b border-slate-800 pb-3">
         <div>
           <h3 class="font-poster text-2xl font-bold text-[#ccff00] uppercase leading-none"><i class="fa-solid fa-sliders mr-1.5"></i> Admin Console</h3>
-          <p class="text-[10px] text-slate-400 font-bold uppercase mt-0.5" id="admin-active-tourney-label">Managing: Season 1</p>
+          <p class="text-[10px] text-slate-400 font-bold uppercase mt-0.5" id="admin-active-tourney-label">Managing Tournament</p>
         </div>
         <button onclick="logoutAdmin()" class="text-xs text-red-400 font-bold bg-red-500/10 border border-red-500/30 px-3 py-1.5 rounded-lg">Logout</button>
       </div>
@@ -300,7 +302,7 @@
         </div>
       </div>
 
-      <!-- CARD 2: Add Match & Match Manager (With Delete Functionality) -->
+      <!-- CARD 2: Fixture Manager -->
       <div class="bg-slate-900/90 border border-sky-500/30 rounded-xl p-3.5 space-y-3">
         <h4 class="text-xs font-black text-sky-400 uppercase tracking-wider flex items-center gap-1.5"><i class="fa-solid fa-calendar-plus"></i> 2. Fixture & Match Manager</h4>
         
@@ -315,10 +317,11 @@
         </div>
 
         <div class="space-y-2 pt-2 border-t border-slate-800">
-          <span class="text-[10px] font-bold text-slate-400 uppercase">Update Existing Match Score & Names</span>
+          <span class="text-[10px] font-bold text-slate-400 uppercase">Update Score & Team Names</span>
           <div class="flex gap-2 items-center">
-            <select id="admin-match-select" onchange="populateAdminMatchInputs()" class="w-4/5 text-xs p-2 border border-slate-700 bg-slate-950 text-slate-200 rounded-lg"></select>
-            <!-- DELETE MATCH BUTTON -->
+            <select id="admin-match-select" onchange="populateAdminMatchInputs()" class="w-4/5 text-xs p-2 border border-slate-700 bg-slate-950 text-slate-200 rounded-lg">
+              <option value="">-- Select Match --</option>
+            </select>
             <button onclick="deleteSelectedMatch()" title="Delete Match" class="w-1/5 bg-red-600/20 hover:bg-red-600/40 text-red-400 border border-red-500/30 py-2 rounded-lg text-xs font-bold transition flex justify-center items-center gap-1">
               <i class="fa-solid fa-trash"></i>
             </button>
@@ -346,7 +349,9 @@
       <div class="bg-slate-900/90 border border-emerald-500/30 rounded-xl p-3.5 space-y-3">
         <h4 class="text-xs font-black text-emerald-400 uppercase tracking-wider flex items-center gap-1.5"><i class="fa-solid fa-football"></i> 3. Record Live Goal Scorer</h4>
         <div class="space-y-2">
-          <select id="goal-player-select" class="w-full text-xs p-2 border border-slate-700 bg-slate-950 text-slate-200 rounded-lg"></select>
+          <select id="goal-player-select" class="w-full text-xs p-2 border border-slate-700 bg-slate-950 text-slate-200 rounded-lg">
+            <option value="">-- Select Player --</option>
+          </select>
           <button onclick="logGoal()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2 rounded-lg text-xs uppercase shadow transition">+ Log Goal Entry</button>
           <div class="pt-2 border-t border-slate-800 space-y-1">
             <span class="text-[10px] font-bold text-slate-400 uppercase">Logged Goals Log</span>
@@ -406,26 +411,9 @@
     let isAdminLoggedIn = false;
     let currentTournamentId = parseInt(localStorage.getItem('rupa_active_tournament_id')) || 1;
 
-    let tournaments = [
-      { id: 1, name: 'Rupa Super Cup', season: 'Season 1', location: 'The Playyard, Guwahati', status: 'ACTIVE' }
-    ];
-
-    const defaultMatches = [
-      { id: 1, tournament_id: 1, home_team: 'Rupa Lovers', away_team: 'Rupa Warriors', home_score: 0, away_score: 0, status: 'UPCOMING', match_time: '9:00 PM' },
-      { id: 2, tournament_id: 1, home_team: 'Rupa Sniffers', away_team: 'Rupa Lovers', home_score: 0, away_score: 0, status: 'UPCOMING', match_time: '9:20 PM' },
-      { id: 3, tournament_id: 1, home_team: 'Rupa Warriors', away_team: 'Rupa Sniffers', home_score: 0, away_score: 0, status: 'UPCOMING', match_time: '9:40 PM' },
-      { id: 4, tournament_id: 1, home_team: 'Team 1', away_team: 'Team 2', home_score: 0, away_score: 0, status: 'UPCOMING', match_time: '10:05 PM' }
-    ];
-
-    let tournamentSquads = JSON.parse(localStorage.getItem('rupa_squads_by_tourney')) || {
-      "1": {
-        "Rupa Lovers": ["Tanmoy", "Mayank", "Amar", "Abhishek", "Mrinal", "Divyansh", "Abhinab", "Rahul"],
-        "Rupa Warriors": ["Arpit", "Bhanu", "Shivam", "Sid", "Adhiraj", "Charchit", "Omesh", "Yash"],
-        "Rupa Sniffers": ["Dony", "Sourav", "Rohan", "Patna", "Rohit", "Dhiraj", "Abhijit", "Kaustav"]
-      }
-    };
-
-    let matches = JSON.parse(localStorage.getItem('rupa_matches_cache')) || defaultMatches;
+    let tournaments = [];
+    let matches = [];
+    let squads = [];
     let goals = [];
     let updates = [];
     let photos = [];
@@ -457,9 +445,11 @@
       const { data: tourneyData } = await supabaseClient.from('tournaments').select('*').order('id', { ascending: false });
       if (tourneyData && tourneyData.length > 0) {
         tournaments = tourneyData;
+      } else {
+        tournaments = [{ id: 1, name: 'Rupa Super Cup', season: 'Season 1', location: 'The Playyard, Guwahati' }];
       }
 
-      // Populate Landing Overlay List
+      // Populate Overlay Selection List
       const landingList = document.getElementById('landing-tournaments-list');
       landingList.innerHTML = tournaments.map(t => `
         <div onclick="selectTournament(${t.id})" class="p-3.5 bg-slate-900 hover:bg-slate-800 border ${t.id === currentTournamentId ? 'border-[#ccff00]' : 'border-slate-800'} rounded-xl cursor-pointer flex justify-between items-center text-left shadow transition">
@@ -480,8 +470,9 @@
         document.getElementById('admin-active-tourney-label').innerText = `Managing: ${activeTourney.name} (${activeTourney.season})`;
       }
 
-      // 2. Fetch Tournament-Specific Data
+      // 2. Fetch All Tables Filtered by Tournament ID
       const { data: matchData } = await supabaseClient.from('matches').select('*').eq('tournament_id', currentTournamentId).order('id', { ascending: true });
+      const { data: squadData } = await supabaseClient.from('squads').select('*').eq('tournament_id', currentTournamentId).order('id', { ascending: true });
       const { data: updateData } = await supabaseClient.from('updates').select('*').eq('tournament_id', currentTournamentId).order('created_at', { ascending: false });
       const { data: goalData } = await supabaseClient.from('goals').select('*').eq('tournament_id', currentTournamentId).order('created_at', { ascending: false });
       const { data: photoData } = await supabaseClient.from('photos').select('*').eq('tournament_id', currentTournamentId).order('created_at', { ascending: false });
@@ -489,6 +480,7 @@
       const { data: predData } = await supabaseClient.from('predictions').select('*').eq('tournament_id', currentTournamentId).order('created_at', { ascending: false });
       
       matches = matchData || [];
+      squads = squadData || [];
       updates = updateData || [];
       goals = goalData || [];
       photos = photoData || [];
@@ -503,6 +495,7 @@
         .channel('public-schema-changes')
         .on('postgres_changes', { event: '*', schema: 'public', table: 'tournaments' }, () => fetchData())
         .on('postgres_changes', { event: '*', schema: 'public', table: 'matches' }, () => fetchData())
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'squads' }, () => fetchData())
         .on('postgres_changes', { event: '*', schema: 'public', table: 'updates' }, () => fetchData())
         .on('postgres_changes', { event: '*', schema: 'public', table: 'goals' }, () => fetchData())
         .on('postgres_changes', { event: '*', schema: 'public', table: 'photos' }, () => fetchData())
@@ -536,9 +529,10 @@
       const matchesEl = document.getElementById('matches-list');
       const matchSelect = document.getElementById('admin-match-select');
       const predMatchSelect = document.getElementById('predictor-match-select');
+      
       matchesEl.innerHTML = '';
-      matchSelect.innerHTML = '';
-      predMatchSelect.innerHTML = '';
+      matchSelect.innerHTML = '<option value="">-- Select Match --</option>';
+      predMatchSelect.innerHTML = '<option value="">-- Select Match --</option>';
 
       if (matches.length > 0) {
         matches.forEach(m => {
@@ -566,7 +560,6 @@
           matchSelect.innerHTML += `<option value="${m.id}">${m.home_team} vs ${m.away_team}</option>`;
           predMatchSelect.innerHTML += `<option value="${m.id}">${m.home_team} vs ${m.away_team}</option>`;
         });
-        populateAdminMatchInputs();
       } else {
         matchesEl.innerHTML = '<p class="text-xs text-slate-500 italic">No matches scheduled for this tournament yet.</p>';
       }
@@ -598,7 +591,7 @@
         }).join('');
       }
 
-      // Standings Grid Calculation
+      // Standings Grid
       const tableData = {};
       matches.forEach(m => {
         if (!tableData[m.home_team]) tableData[m.home_team] = { p: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0, gd: 0, pts: 0 };
@@ -658,31 +651,48 @@
         </tr>
       `).join('');
 
-      // Render Tournament Squads
-      const currentSquads = tournamentSquads[currentTournamentId] || tournamentSquads["1"] || {};
+      // Render Squads from Supabase Database
+      const squadGroups = {};
+      squads.forEach(s => {
+        if (!squadGroups[s.team_name]) squadGroups[s.team_name] = [];
+        squadGroups[s.team_name].push(s.player_name);
+      });
+
       const squadsContainer = document.getElementById('squads-container');
       squadsContainer.innerHTML = '';
       
       const allPlayers = [];
-      Object.entries(currentSquads).forEach(([teamName, players]) => {
-        allPlayers.push(...players);
-        squadsContainer.innerHTML += `
-          <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-4 space-y-3">
-            <div class="flex items-center justify-between">
-              <h3 class="font-poster text-2xl font-bold text-[#ccff00] tracking-wide uppercase flex items-center gap-2">${teamName}</h3>
-              <span class="text-[10px] bg-slate-800 font-bold px-2 py-0.5 rounded-full text-slate-300">${players.length} Players</span>
-            </div>
-            <div class="grid grid-cols-2 gap-2 text-xs text-slate-300">
-              ${players.map(p => `<div class="bg-slate-950/60 p-2 rounded-lg border border-slate-800/60 flex items-center gap-1.5"><i class="fa-regular fa-user text-slate-500 text-[10px]"></i>${p}</div>`).join('')}
-            </div>
-          </div>`;
-      });
+      if (Object.keys(squadGroups).length === 0) {
+        squadsContainer.innerHTML = '<p class="text-xs text-slate-500 italic">No squad rosters added for this tournament yet.</p>';
+      } else {
+        Object.entries(squadGroups).forEach(([teamName, players]) => {
+          allPlayers.push(...players);
+          squadsContainer.innerHTML += `
+            <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-4 space-y-3">
+              <div class="flex items-center justify-between">
+                <h3 class="font-poster text-2xl font-bold text-[#ccff00] tracking-wide uppercase flex items-center gap-2">${teamName}</h3>
+                <span class="text-[10px] bg-slate-800 font-bold px-2 py-0.5 rounded-full text-slate-300">${players.length} Players</span>
+              </div>
+              <div class="grid grid-cols-2 gap-2 text-xs text-slate-300">
+                ${players.map(p => `<div class="bg-slate-950/60 p-2 rounded-lg border border-slate-800/60 flex items-center gap-1.5"><i class="fa-regular fa-user text-slate-500 text-[10px]"></i>${p}</div>`).join('')}
+              </div>
+            </div>`;
+        });
+      }
 
       const uniquePlayers = [...new Set(allPlayers)].sort();
-      document.getElementById('goal-player-select').innerHTML = uniquePlayers.map(p => `<option value="${p}">${p}</option>`).join('');
-      document.getElementById('pott-vote-select').innerHTML = uniquePlayers.map(p => `<option value="${p}">${p}</option>`).join('');
+      
+      const goalSelect = document.getElementById('goal-player-select');
+      const pottSelect = document.getElementById('pott-vote-select');
+      goalSelect.innerHTML = '<option value="">-- Select Player --</option>';
+      pottSelect.innerHTML = '<option value="">-- Select Player --</option>';
 
-      // Leaderboard Calculations
+      uniquePlayers.forEach(p => {
+        goalSelect.innerHTML += `<option value="${p}">${p}</option>`;
+        pottSelect.innerHTML += `<option value="${p}">${p}</option>`;
+      });
+
+      // Predictor Leaderboard
       const userScores = {};
       predictions.forEach(p => {
         const match = matches.find(m => m.id === p.match_id);
@@ -711,7 +721,7 @@
       const predTallyEl = document.getElementById('predictor-tally-list');
 
       if (sortedPredictors.length === 0) {
-        predTallyEl.innerHTML = '<p class="p-4 text-xs text-slate-500">No scored predictions yet. Points update as matches finish!</p>';
+        predTallyEl.innerHTML = '<p class="p-4 text-xs text-slate-500 italic">No scored predictions yet. Points update as matches finish!</p>';
       } else {
         predTallyEl.innerHTML = sortedPredictors.map(([name, pts], idx) => `
           <div class="p-3.5 flex justify-between items-center text-xs">
@@ -720,13 +730,14 @@
           </div>`).join('');
       }
 
+      // Golden Boot Leaderboard
       const goalCounts = {};
       goals.forEach(g => { goalCounts[g.player_name] = (goalCounts[g.player_name] || 0) + 1; });
       const sortedScorers = Object.entries(goalCounts).sort((a, b) => b[1] - a[1]);
       const scorersEl = document.getElementById('scorers-list');
       
       if(sortedScorers.length === 0) {
-        scorersEl.innerHTML = '<p class="p-4 text-xs text-slate-500">No goals logged yet.</p>';
+        scorersEl.innerHTML = '<p class="p-4 text-xs text-slate-500 italic">No goals logged yet.</p>';
       } else {
         scorersEl.innerHTML = sortedScorers.map(([player, goalNum], idx) => `
           <div class="p-3.5 flex justify-between items-center text-xs">
@@ -735,13 +746,14 @@
           </div>`).join('');
       }
 
+      // POTT Vote Tally
       const voteCounts = {};
       votes.forEach(v => { voteCounts[v.player_name] = (voteCounts[v.player_name] || 0) + 1; });
       const sortedVotes = Object.entries(voteCounts).sort((a, b) => b[1] - a[1]);
       const pottTallyEl = document.getElementById('pott-tally-list');
 
       if (sortedVotes.length === 0) {
-        pottTallyEl.innerHTML = '<p class="p-4 text-xs text-slate-500">No votes recorded yet.</p>';
+        pottTallyEl.innerHTML = '<p class="p-4 text-xs text-slate-500 italic">No votes recorded yet.</p>';
       } else {
         pottTallyEl.innerHTML = sortedVotes.map(([player, count], idx) => `
           <div class="p-3.5 flex justify-between items-center text-xs">
@@ -761,9 +773,10 @@
         document.getElementById('user-voted-msg').classList.add('hidden');
       }
 
+      // Admin Goal Log
       const adminGoalsLog = document.getElementById('admin-goals-log');
       if (goals.length === 0) {
-        adminGoalsLog.innerHTML = '<p class="text-[10px] text-slate-500 p-1">No recorded goals.</p>';
+        adminGoalsLog.innerHTML = '<p class="text-[10px] text-slate-500 p-1 italic">No recorded goals.</p>';
       } else {
         adminGoalsLog.innerHTML = goals.map(g => `
           <div class="flex justify-between items-center py-1 text-xs text-slate-300">
@@ -772,9 +785,10 @@
           </div>`).join('');
       }
 
+      // Photo Gallery
       const photosGrid = document.getElementById('photos-grid');
       if (photos.length === 0) {
-        photosGrid.innerHTML = '<p class="text-xs text-slate-500 col-span-2">No photos uploaded yet. Be the first!</p>';
+        photosGrid.innerHTML = '<p class="text-xs text-slate-500 col-span-2 italic">No photos uploaded yet. Be the first!</p>';
       } else {
         photosGrid.innerHTML = photos.map(p => `
           <div class="bg-slate-900 border border-slate-800 rounded-lg overflow-hidden space-y-1 relative group">
@@ -787,6 +801,7 @@
           </div>`).join('');
       }
 
+      // Announcements
       const updatesEl = document.getElementById('updates-list');
       if (updates.length > 0) {
         updatesEl.innerHTML = updates.map(u => {
@@ -801,11 +816,11 @@
             </div>`;
         }).join('');
       } else {
-        updatesEl.innerHTML = '<p class="text-xs text-slate-500">No live announcements posted for this tournament yet.</p>';
+        updatesEl.innerHTML = '<p class="text-xs text-slate-500 italic">No live announcements posted for this tournament yet.</p>';
       }
     }
 
-    // --- Admin Tournament & Match Creation ---
+    // --- Admin Actions ---
     async function createNewTournament() {
       const name = document.getElementById('new-tourney-name').value.trim();
       const season = document.getElementById('new-tourney-season').value.trim();
@@ -854,13 +869,12 @@
       fetchData();
     }
 
-    // DELETE MATCH FUNCTION
     async function deleteSelectedMatch() {
       const matchSelect = document.getElementById('admin-match-select');
-      if (!matchSelect || !matchSelect.value) return alert('No match selected to delete!');
+      if (!matchSelect || !matchSelect.value) return alert('Please select a match to delete!');
       const matchId = parseInt(matchSelect.value);
 
-      if (!confirm('Are you sure you want to DELETE this match? This action cannot be undone.')) return;
+      if (!confirm('Are you sure you want to DELETE this match?')) return;
 
       const { error } = await supabaseClient.from('matches').delete().eq('id', matchId);
       if (error) {
@@ -871,11 +885,31 @@
       }
     }
 
-    // --- User Game Interactions ---
+    async function addPlayerToSquad() {
+      const team = document.getElementById('squad-team-name').value.trim();
+      const name = document.getElementById('new-player-name').value.trim();
+
+      if(!team || !name) return alert('Enter team name and player name!');
+
+      const { error } = await supabaseClient.from('squads').insert([{
+        tournament_id: currentTournamentId,
+        team_name: team,
+        player_name: name
+      }]);
+
+      if (error) {
+        alert('Error adding squad player: ' + error.message);
+      } else {
+        document.getElementById('new-player-name').value = '';
+        alert(`Added ${name} to ${team}!`);
+        fetchData();
+      }
+    }
+
     async function submitMatchPrediction() {
       const name = document.getElementById('predictor-user-name').value.trim();
       const matchSelect = document.getElementById('predictor-match-select');
-      if (!matchSelect || !matchSelect.value) return alert('No match selected!');
+      if (!matchSelect || !matchSelect.value) return alert('Please select a match!');
       const matchId = parseInt(matchSelect.value);
       const hPred = parseInt(document.getElementById('pred-home-score').value);
       const aPred = parseInt(document.getElementById('pred-away-score').value);
@@ -912,7 +946,7 @@
       }
 
       const player = document.getElementById('pott-vote-select').value;
-      if (!player) return;
+      if (!player) return alert('Please select a player!');
 
       await supabaseClient.from('votes').insert([{ 
         tournament_id: currentTournamentId, 
@@ -984,7 +1018,7 @@
 
     async function updateScore() {
       const matchSelect = document.getElementById('admin-match-select');
-      if (!matchSelect || !matchSelect.value) return alert('No match selected!');
+      if (!matchSelect || !matchSelect.value) return alert('Please select a match!');
       const matchId = parseInt(matchSelect.value);
 
       const hName = document.getElementById('admin-home-name').value.trim();
@@ -1020,7 +1054,7 @@
 
     async function logGoal() {
       const player = document.getElementById('goal-player-select').value;
-      if(!player) return;
+      if(!player) return alert('Please select a player!');
 
       await supabaseClient.from('goals').insert([{ 
         tournament_id: currentTournamentId,
@@ -1036,7 +1070,7 @@
 
     async function addUpdate() {
       const text = document.getElementById('admin-update-text').value;
-      if(!text) return;
+      if(!text) return alert('Enter announcement text!');
 
       await supabaseClient.from('updates').insert([{ 
         tournament_id: currentTournamentId,
@@ -1048,26 +1082,6 @@
     async function deleteUpdate(updateId) {
       if(!confirm('Delete announcement?')) return;
       await supabaseClient.from('updates').delete().eq('id', updateId);
-    }
-
-    function addPlayerToSquad() {
-      const team = document.getElementById('squad-team-name').value.trim();
-      const name = document.getElementById('new-player-name').value.trim();
-
-      if(!team || !name) return alert('Enter team name and player name!');
-
-      if (!tournamentSquads[currentTournamentId]) {
-        tournamentSquads[currentTournamentId] = {};
-      }
-      if (!tournamentSquads[currentTournamentId][team]) {
-        tournamentSquads[currentTournamentId][team] = [];
-      }
-
-      tournamentSquads[currentTournamentId][team].push(name);
-      localStorage.setItem('rupa_squads_by_tourney', JSON.stringify(tournamentSquads));
-      document.getElementById('new-player-name').value = '';
-      renderAll();
-      alert(`Added ${name} to ${team}!`);
     }
 
     function getAdminPassword() {

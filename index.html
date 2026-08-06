@@ -57,15 +57,14 @@
 </head>
 <body class="bg-pitch text-slate-100 font-sans min-h-screen pb-20 selection:bg-lime-400 selection:text-black">
 
-  <!-- Header Section -->
+  <!-- Header Section with Multi-Tournament Dropdown -->
   <header class="bg-slate-950/90 backdrop-blur-md border-b border-lime-500/20 sticky top-0 z-50 p-4 shadow-2xl">
-    <div class="max-w-md mx-auto flex justify-between items-center">
-      <div>
-        <div class="text-xs font-black tracking-widest text-pink-500 uppercase">It's Not Just A Game, It's A War</div>
-        <h1 class="text-3xl font-black font-poster italic tracking-wide text-[#ccff00] uppercase leading-none glow-title">
-          RUPA SUPER CUP
-        </h1>
-        <p class="text-[10px] text-slate-400 font-semibold tracking-wider uppercase">7v7 Football • The Playyard, Guwahati</p>
+    <div class="max-w-md mx-auto flex justify-between items-center gap-2">
+      <div class="w-2/3">
+        <select id="global-tournament-select" onchange="switchTournament(this.value)" class="bg-slate-900 text-[#ccff00] text-xs font-bold font-poster tracking-wide p-1.5 rounded border border-lime-500/30 uppercase w-full cursor-pointer">
+          <option value="1">Rupa Super Cup • Season 1</option>
+        </select>
+        <p id="tourney-location-sub" class="text-[9px] text-slate-400 font-semibold tracking-wider uppercase mt-0.5">7v7 Football • The Playyard, Guwahati</p>
       </div>
       <button onclick="toggleAdminModal()" class="text-xs bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-700 px-3 py-1.5 rounded-md font-bold transition flex items-center gap-1.5">
         <i class="fa-solid fa-user-shield text-[#ccff00]"></i> <span id="admin-btn-text">Admin</span>
@@ -73,7 +72,7 @@
     </div>
   </header>
 
-  <!-- Mobile Touch Nav Slider -->
+  <!-- Navigation Slider -->
   <nav class="bg-slate-950/90 backdrop-blur-sm sticky top-[67px] z-40 border-b border-slate-800 text-xs text-slate-400 font-bold uppercase tracking-wider w-full">
     <div class="max-w-md mx-auto mobile-tab-nav px-2">
       <button onclick="switchTab('matches')" id="tab-matches" class="nav-tab-btn py-3 px-3.5 active-tab transition">Matches</button>
@@ -94,7 +93,7 @@
           <h2 class="text-xs font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
             <i class="fa-solid fa-calendar-days text-[#ccff00]"></i> Fixtures & Results
           </h2>
-          <span class="text-[10px] font-bold bg-[#ccff00]/10 text-[#ccff00] border border-[#ccff00]/30 px-2 py-0.5 rounded">5th Aug, 9:00 PM</span>
+          <span id="active-tourney-badge" class="text-[10px] font-bold bg-[#ccff00]/10 text-[#ccff00] border border-[#ccff00]/30 px-2 py-0.5 rounded">Season 1</span>
         </div>
         <div id="matches-list" class="space-y-3"></div>
       </div>
@@ -105,7 +104,7 @@
           <h2 class="text-xs font-black text-purple-400 uppercase tracking-widest flex items-center gap-1.5">
             <i class="fa-solid fa-crystal-ball"></i> Match Predictor Game
           </h2>
-          <span class="text-[9px] bg-purple-500/20 text-purple-300 font-bold px-2 py-0.5 rounded">Pre-Tournament</span>
+          <span class="text-[9px] bg-purple-500/20 text-purple-300 font-bold px-2 py-0.5 rounded">Fan Game</span>
         </div>
         <p class="text-[11px] text-slate-300">Predict match scores to earn points on the Fan Leaderboard! (3 pts exact score, 1 pt correct winner)</p>
         
@@ -283,8 +282,35 @@
         <button onclick="logoutAdmin()" class="text-xs text-red-400 font-bold bg-red-500/10 border border-red-500/30 px-3 py-1 rounded">Logout</button>
       </div>
 
+      <!-- Section 0: Create New Tournament -->
+      <div class="space-y-3 p-3 bg-slate-900/90 border border-lime-500/30 rounded-xl">
+        <h4 class="text-xs font-bold text-lime-400 uppercase flex items-center gap-1.5"><i class="fa-solid fa-plus-circle"></i> Create New Tournament</h4>
+        <div class="space-y-2">
+          <input type="text" id="new-tourney-name" placeholder="Tournament Name (e.g. Rupa Super Cup)" class="w-full text-xs p-2 border border-slate-700 bg-slate-950 text-slate-200 rounded-lg">
+          <div class="flex gap-2">
+            <input type="text" id="new-tourney-season" placeholder="Season (e.g. Season 2)" class="w-1/2 text-xs p-2 border border-slate-700 bg-slate-950 text-slate-200 rounded-lg">
+            <input type="text" id="new-tourney-loc" placeholder="Location (e.g. Guwahati)" class="w-1/2 text-xs p-2 border border-slate-700 bg-slate-950 text-slate-200 rounded-lg">
+          </div>
+          <button onclick="createNewTournament()" class="w-full bg-lime-500 hover:bg-lime-400 text-slate-950 font-black py-2 rounded-lg text-xs uppercase shadow">Launch Tournament</button>
+        </div>
+      </div>
+
+      <!-- Section 0.5: Add Match to Active Tournament -->
+      <div class="space-y-3 p-3 bg-slate-900/90 border border-slate-800 rounded-xl">
+        <h4 class="text-xs font-bold text-sky-400 uppercase flex items-center gap-1.5"><i class="fa-solid fa-calendar-plus"></i> Add Match to Selected Tournament</h4>
+        <div class="space-y-2">
+          <div class="flex gap-2">
+            <input type="text" id="new-match-home" placeholder="Home Team" class="w-1/2 text-xs p-2 border border-slate-700 bg-slate-950 text-slate-200 rounded-lg">
+            <input type="text" id="new-match-away" placeholder="Away Team" class="w-1/2 text-xs p-2 border border-slate-700 bg-slate-950 text-slate-200 rounded-lg">
+          </div>
+          <input type="text" id="new-match-time" placeholder="Kickoff Time (e.g. 9:00 PM)" class="w-full text-xs p-2 border border-slate-700 bg-slate-950 text-slate-200 rounded-lg">
+          <button onclick="createNewMatch()" class="w-full bg-sky-600 hover:bg-sky-500 text-white font-bold py-2 rounded-lg text-xs uppercase">+ Add Match</button>
+        </div>
+      </div>
+
+      <!-- Section 1: Score Controls -->
       <div class="space-y-3">
-        <h4 class="text-xs font-bold text-slate-300 uppercase">1. Match Score & Team Names Controls</h4>
+        <h4 class="text-xs font-bold text-slate-300 uppercase">1. Match Score Controls</h4>
         <select id="admin-match-select" onchange="populateAdminMatchInputs()" class="w-full text-xs p-2.5 border border-slate-700 bg-slate-900 text-slate-200 rounded-lg"></select>
         
         <div class="flex gap-2">
@@ -304,7 +330,7 @@
           </select>
         </div>
         <div class="flex gap-2">
-          <button onclick="updateScore()" class="w-2/3 bg-[#ccff00] hover:bg-lime-400 text-slate-950 py-2 rounded-lg text-xs font-black shadow uppercase">Save Details & Score</button>
+          <button onclick="updateScore()" class="w-2/3 bg-[#ccff00] hover:bg-lime-400 text-slate-950 py-2 rounded-lg text-xs font-black shadow uppercase">Save Score</button>
           <button onclick="resetMatchScore()" class="w-1/3 bg-red-600/20 hover:bg-red-600/30 text-red-400 border border-red-500/30 py-2 rounded-lg text-xs font-bold">Reset Score</button>
         </div>
         
@@ -383,12 +409,17 @@
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     let isAdminLoggedIn = false;
+    let currentTournamentId = parseInt(localStorage.getItem('rupa_active_tournament_id')) || 1;
+
+    let tournaments = [
+      { id: 1, name: 'Rupa Super Cup', season: 'Season 1', location: 'The Playyard, Guwahati', status: 'ACTIVE' }
+    ];
 
     const defaultMatches = [
-      { id: 1, home_team: 'Rupa Lovers', away_team: 'Rupa Warriors', home_score: 0, away_score: 0, status: 'UPCOMING', match_time: '9:00 PM' },
-      { id: 2, home_team: 'Rupa Sniffers', away_team: 'Rupa Lovers', home_score: 0, away_score: 0, status: 'UPCOMING', match_time: '9:20 PM' },
-      { id: 3, home_team: 'Rupa Warriors', away_team: 'Rupa Sniffers', home_score: 0, away_score: 0, status: 'UPCOMING', match_time: '9:40 PM' },
-      { id: 4, home_team: 'Team 1', away_team: 'Team 2', home_score: 0, away_score: 0, status: 'UPCOMING', match_time: '10:05 PM' }
+      { id: 1, tournament_id: 1, home_team: 'Rupa Lovers', away_team: 'Rupa Warriors', home_score: 0, away_score: 0, status: 'UPCOMING', match_time: '9:00 PM' },
+      { id: 2, tournament_id: 1, home_team: 'Rupa Sniffers', away_team: 'Rupa Lovers', home_score: 0, away_score: 0, status: 'UPCOMING', match_time: '9:20 PM' },
+      { id: 3, tournament_id: 1, home_team: 'Rupa Warriors', away_team: 'Rupa Sniffers', home_score: 0, away_score: 0, status: 'UPCOMING', match_time: '9:40 PM' },
+      { id: 4, tournament_id: 1, home_team: 'Team 1', away_team: 'Team 2', home_score: 0, away_score: 0, status: 'UPCOMING', match_time: '10:05 PM' }
     ];
 
     let squads = JSON.parse(localStorage.getItem('rupa_squads')) || {
@@ -413,15 +444,41 @@
       document.getElementById(`tab-${tab}`).classList.add('active-tab');
     }
 
+    function switchTournament(tourneyId) {
+      currentTournamentId = parseInt(tourneyId);
+      localStorage.setItem('rupa_active_tournament_id', currentTournamentId);
+      fetchData();
+    }
+
     async function fetchData() {
-      const { data: matchData } = await supabaseClient.from('matches').select('*').order('id', { ascending: true });
-      const { data: updateData } = await supabaseClient.from('updates').select('*').order('created_at', { ascending: false });
-      const { data: goalData } = await supabaseClient.from('goals').select('*').order('created_at', { ascending: false });
-      const { data: photoData } = await supabaseClient.from('photos').select('*').order('created_at', { ascending: false });
-      const { data: voteData } = await supabaseClient.from('votes').select('*').order('created_at', { ascending: false });
-      const { data: predData } = await supabaseClient.from('predictions').select('*').order('created_at', { ascending: false });
+      // 1. Fetch Tournaments List
+      const { data: tourneyData } = await supabaseClient.from('tournaments').select('*').order('id', { ascending: false });
+      if (tourneyData && tourneyData.length > 0) {
+        tournaments = tourneyData;
+        if (!tournaments.some(t => t.id === currentTournamentId)) {
+          currentTournamentId = tournaments[0].id;
+        }
+      }
+
+      // Update Header Dropdown
+      const selectEl = document.getElementById('global-tournament-select');
+      selectEl.innerHTML = tournaments.map(t => `<option value="${t.id}" ${t.id === currentTournamentId ? 'selected' : ''}>${t.name} • ${t.season}</option>`).join('');
       
-      if(matchData && matchData.length > 0) {
+      const activeTourney = tournaments.find(t => t.id === currentTournamentId);
+      if(activeTourney) {
+        document.getElementById('tourney-location-sub').innerText = `7v7 Football • ${activeTourney.location || 'The Playyard, Guwahati'}`;
+        document.getElementById('active-tourney-badge').innerText = activeTourney.season;
+      }
+
+      // 2. Fetch Data Filtered by Active Tournament ID
+      const { data: matchData } = await supabaseClient.from('matches').select('*').eq('tournament_id', currentTournamentId).order('id', { ascending: true });
+      const { data: updateData } = await supabaseClient.from('updates').select('*').eq('tournament_id', currentTournamentId).order('created_at', { ascending: false });
+      const { data: goalData } = await supabaseClient.from('goals').select('*').eq('tournament_id', currentTournamentId).order('created_at', { ascending: false });
+      const { data: photoData } = await supabaseClient.from('photos').select('*').eq('tournament_id', currentTournamentId).order('created_at', { ascending: false });
+      const { data: voteData } = await supabaseClient.from('votes').select('*').eq('tournament_id', currentTournamentId).order('created_at', { ascending: false });
+      const { data: predData } = await supabaseClient.from('predictions').select('*').eq('tournament_id', currentTournamentId).order('created_at', { ascending: false });
+      
+      if(matchData) {
         matches = matchData;
         localStorage.setItem('rupa_matches_cache', JSON.stringify(matchData));
       }
@@ -437,6 +494,7 @@
     function setupRealtimeSubscriptions() {
       supabaseClient
         .channel('public-schema-changes')
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'tournaments' }, () => fetchData())
         .on('postgres_changes', { event: '*', schema: 'public', table: 'matches' }, () => fetchData())
         .on('postgres_changes', { event: '*', schema: 'public', table: 'updates' }, () => fetchData())
         .on('postgres_changes', { event: '*', schema: 'public', table: 'goals' }, () => fetchData())
@@ -454,7 +512,9 @@
     }
 
     function populateAdminMatchInputs() {
-      const matchId = parseInt(document.getElementById('admin-match-select').value);
+      const matchSelect = document.getElementById('admin-match-select');
+      if (!matchSelect || !matchSelect.value) return;
+      const matchId = parseInt(matchSelect.value);
       const match = matches.find(m => m.id === matchId);
       if (match) {
         document.getElementById('admin-home-name').value = match.home_team;
@@ -499,9 +559,10 @@
           matchSelect.innerHTML += `<option value="${m.id}">${m.home_team} vs ${m.away_team}</option>`;
           predMatchSelect.innerHTML += `<option value="${m.id}">${m.home_team} vs ${m.away_team}</option>`;
         });
+        populateAdminMatchInputs();
+      } else {
+        matchesEl.innerHTML = '<p class="text-xs text-slate-500">No matches scheduled for this tournament yet.</p>';
       }
-
-      populateAdminMatchInputs();
 
       const savedPredictorName = localStorage.getItem('rupa_predictor_name');
       if(savedPredictorName && !document.getElementById('predictor-user-name').value) {
@@ -669,7 +730,7 @@
       }
 
       const voteBtn = document.getElementById('vote-btn');
-      if (localStorage.getItem('rupa_pott_voted')) {
+      if (localStorage.getItem(`rupa_pott_voted_${currentTournamentId}`)) {
         voteBtn.disabled = true;
         voteBtn.classList.add('opacity-50', 'cursor-not-allowed');
         document.getElementById('user-voted-msg').classList.remove('hidden');
@@ -718,12 +779,66 @@
               ${isAdminLoggedIn ? `<button onclick="deleteUpdate(${u.id})" class="text-xs text-red-400 hover:text-red-300 font-bold px-2 py-1"><i class="fa-solid fa-trash"></i></button>` : ''}
             </div>`;
         }).join('');
+      } else {
+        updatesEl.innerHTML = '<p class="text-xs text-slate-500">No live announcements posted for this tournament yet.</p>';
       }
     }
 
+    // --- Admin Tournament & Match Creation ---
+    async function createNewTournament() {
+      const name = document.getElementById('new-tourney-name').value.trim();
+      const season = document.getElementById('new-tourney-season').value.trim();
+      const location = document.getElementById('new-tourney-loc').value.trim();
+
+      if (!name || !season) return alert('Enter tournament name and season!');
+
+      const { data, error } = await supabaseClient.from('tournaments').insert([
+        { name, season, location: location || 'Guwahati' }
+      ]).select();
+
+      if (error) {
+        alert('Error launching tournament: ' + error.message);
+      } else if (data && data.length > 0) {
+        alert(`Successfully launched ${name} (${season})!`);
+        currentTournamentId = data[0].id;
+        localStorage.setItem('rupa_active_tournament_id', currentTournamentId);
+        document.getElementById('new-tourney-name').value = '';
+        document.getElementById('new-tourney-season').value = '';
+        document.getElementById('new-tourney-loc').value = '';
+        fetchData();
+      }
+    }
+
+    async function createNewMatch() {
+      const hName = document.getElementById('new-match-home').value.trim();
+      const aName = document.getElementById('new-match-away').value.trim();
+      const timeStr = document.getElementById('new-match-time').value.trim();
+
+      if (!hName || !aName) return alert('Enter Home and Away team names!');
+
+      await supabaseClient.from('matches').insert([{
+        tournament_id: currentTournamentId,
+        home_team: hName,
+        away_team: aName,
+        home_score: 0,
+        away_score: 0,
+        status: 'UPCOMING',
+        match_time: timeStr || 'TBD'
+      }]);
+
+      document.getElementById('new-match-home').value = '';
+      document.getElementById('new-match-away').value = '';
+      document.getElementById('new-match-time').value = '';
+      alert(`Match added to tournament!`);
+      fetchData();
+    }
+
+    // --- User Game Interactions ---
     async function submitMatchPrediction() {
       const name = document.getElementById('predictor-user-name').value.trim();
-      const matchId = parseInt(document.getElementById('predictor-match-select').value);
+      const matchSelect = document.getElementById('predictor-match-select');
+      if (!matchSelect || !matchSelect.value) return alert('No match selected!');
+      const matchId = parseInt(matchSelect.value);
       const hPred = parseInt(document.getElementById('pred-home-score').value);
       const aPred = parseInt(document.getElementById('pred-away-score').value);
 
@@ -733,6 +848,7 @@
       localStorage.setItem('rupa_predictor_name', name);
 
       await supabaseClient.from('predictions').insert([{
+        tournament_id: currentTournamentId,
         predictor_name: name,
         match_id: matchId,
         home_pred: hPred,
@@ -746,42 +862,36 @@
     }
 
     async function resetPredictions() {
-      if (!confirm('Are you sure you want to reset ALL spectator match predictions?')) return;
-
-      const { error } = await supabaseClient.from('predictions').delete().neq('id', 0);
-      if (error) {
-        alert('Error resetting predictions: ' + error.message);
-      } else {
-        alert('Match predictions reset successfully!');
-        fetchData();
-      }
+      if (!confirm('Reset ALL spectator predictions for this tournament?')) return;
+      await supabaseClient.from('predictions').delete().eq('tournament_id', currentTournamentId);
+      alert('Match predictions reset!');
+      fetchData();
     }
 
     async function castPottVote() {
-      if (localStorage.getItem('rupa_pott_voted')) {
+      if (localStorage.getItem(`rupa_pott_voted_${currentTournamentId}`)) {
         return alert('You have already cast your vote for Player of the Tournament!');
       }
 
       const player = document.getElementById('pott-vote-select').value;
       if (!player) return;
 
-      await supabaseClient.from('votes').insert([{ player_name: player }]);
-      localStorage.setItem('rupa_pott_voted', 'true');
+      await supabaseClient.from('votes').insert([{ 
+        tournament_id: currentTournamentId, 
+        player_name: player 
+      }]);
+      
+      localStorage.setItem(`rupa_pott_voted_${currentTournamentId}`, 'true');
       alert(`Vote cast for ${player}!`);
       renderAll();
     }
 
     async function resetPottVotes() {
-      if (!confirm('Are you sure you want to reset ALL spectator votes for Player of the Tournament?')) return;
-
-      const { error } = await supabaseClient.from('votes').delete().neq('id', 0);
-      if (error) {
-        alert('Error resetting votes: ' + error.message);
-      } else {
-        localStorage.removeItem('rupa_pott_voted');
-        alert('Voting has been reset! Spectators can now vote again.');
-        fetchData();
-      }
+      if (!confirm('Reset ALL spectator votes for this tournament?')) return;
+      await supabaseClient.from('votes').delete().eq('tournament_id', currentTournamentId);
+      localStorage.removeItem(`rupa_pott_voted_${currentTournamentId}`);
+      alert('Voting reset!');
+      fetchData();
     }
 
     async function uploadPhoto() {
@@ -816,21 +926,21 @@
         .from('tournament-photos')
         .getPublicUrl(filePath);
 
-      const publicUrl = publicUrlData.publicUrl;
-
-      await supabaseClient.from('photos').insert([
-        { photo_url: publicUrl, caption: captionInput.value.trim() }
-      ]);
+      await supabaseClient.from('photos').insert([{ 
+        tournament_id: currentTournamentId,
+        photo_url: publicUrlData.publicUrl, 
+        caption: captionInput.value.trim() 
+      }]);
 
       fileInput.value = '';
       captionInput.value = '';
       uploadBtn.disabled = false;
       uploadBtn.innerHTML = '<i class="fa-solid fa-cloud-arrow-up"></i> Upload Photo';
-      alert('Photo uploaded to gallery successfully!');
+      alert('Photo uploaded successfully!');
     }
 
     async function deletePhoto(photoId) {
-      if(!confirm('Delete this photo from the gallery?')) return;
+      if(!confirm('Delete photo?')) return;
       await supabaseClient.from('photos').delete().eq('id', photoId);
     }
 
@@ -853,12 +963,12 @@
         status: status 
       }).eq('id', matchId);
       
-      alert('Match details and score updated live!');
+      alert('Match details updated!');
     }
 
     async function resetMatchScore() {
       const matchId = parseInt(document.getElementById('admin-match-select').value);
-      if(!confirm('Reset this match score back to 0 - 0?')) return;
+      if(!confirm('Reset score to 0 - 0?')) return;
 
       await supabaseClient.from('matches').update({ home_score: 0, away_score: 0, status: 'UPCOMING' }).eq('id', matchId);
       alert('Match score reset!');
@@ -868,12 +978,15 @@
       const player = document.getElementById('goal-player-select').value;
       if(!player) return;
 
-      await supabaseClient.from('goals').insert([{ player_name: player }]);
-      alert(`Goal recorded live for ${player}!`);
+      await supabaseClient.from('goals').insert([{ 
+        tournament_id: currentTournamentId,
+        player_name: player 
+      }]);
+      alert(`Goal recorded for ${player}!`);
     }
 
     async function deleteGoalRecord(goalId) {
-      if(!confirm('Delete this goal record?')) return;
+      if(!confirm('Delete goal entry?')) return;
       await supabaseClient.from('goals').delete().eq('id', goalId);
     }
 
@@ -881,12 +994,15 @@
       const text = document.getElementById('admin-update-text').value;
       if(!text) return;
 
-      await supabaseClient.from('updates').insert([{ update_text: text }]);
+      await supabaseClient.from('updates').insert([{ 
+        tournament_id: currentTournamentId,
+        update_text: text 
+      }]);
       document.getElementById('admin-update-text').value = '';
     }
 
     async function deleteUpdate(updateId) {
-      if(!confirm('Delete this announcement?')) return;
+      if(!confirm('Delete announcement?')) return;
       await supabaseClient.from('updates').delete().eq('id', updateId);
     }
 
@@ -952,8 +1068,8 @@
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('./sw.js')
-          .then(() => console.log('Service Worker Registered Successfully'))
-          .catch(err => console.error('Service Worker Registration Failed:', err));
+          .then(() => console.log('Service Worker Registered'))
+          .catch(err => console.error('Service Worker Error:', err));
       });
     }
   </script>

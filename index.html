@@ -57,14 +57,38 @@
 </head>
 <body class="bg-pitch text-slate-100 font-sans min-h-screen pb-20 selection:bg-lime-400 selection:text-black">
 
-  <!-- Header Section with Multi-Tournament Dropdown -->
-  <header class="bg-slate-950/90 backdrop-blur-md border-b border-lime-500/20 sticky top-0 z-50 p-4 shadow-2xl">
+  <!-- PRE-NAVIGATION TOURNAMENT LANDING / SELECTOR OVERLAY -->
+  <div id="tournament-selector-overlay" class="fixed inset-0 bg-slate-950/95 backdrop-blur-md z-50 p-4 flex flex-col justify-center items-center">
+    <div class="max-w-md w-full space-y-6 text-center">
+      <div class="space-y-1">
+        <div class="text-xs font-black tracking-widest text-pink-500 uppercase">Welcome To The Turf</div>
+        <h1 class="text-4xl font-black font-poster italic tracking-wide text-[#ccff00] uppercase glow-title">
+          RUPA SUPER CUP
+        </h1>
+        <p class="text-xs text-slate-400 font-semibold tracking-wider uppercase">Select a tournament edition to enter</p>
+      </div>
+
+      <div class="space-y-3 max-h-80 overflow-y-auto pr-1" id="landing-tournaments-list">
+        <!-- Loaded dynamically -->
+      </div>
+
+      <button onclick="toggleAdminModal()" class="text-xs bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-700 px-4 py-2 rounded-lg font-bold transition inline-flex items-center gap-2">
+        <i class="fa-solid fa-user-shield text-[#ccff00]"></i> <span>Admin Access</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Header Section -->
+  <header class="bg-slate-950/90 backdrop-blur-md border-b border-lime-500/20 sticky top-0 z-40 p-4 shadow-2xl">
     <div class="max-w-md mx-auto flex justify-between items-center gap-2">
       <div class="w-2/3">
-        <select id="global-tournament-select" onchange="switchTournament(this.value)" class="bg-slate-900 text-[#ccff00] text-xs font-bold font-poster tracking-wide p-1.5 rounded border border-lime-500/30 uppercase w-full cursor-pointer">
-          <option value="1">Rupa Super Cup • Season 1</option>
-        </select>
-        <p id="tourney-location-sub" class="text-[9px] text-slate-400 font-semibold tracking-wider uppercase mt-0.5">7v7 Football • The Playyard, Guwahati</p>
+        <div class="flex items-center gap-1.5 cursor-pointer" onclick="openTournamentPicker()">
+          <h1 id="header-tourney-title" class="text-2xl font-black font-poster italic tracking-wide text-[#ccff00] uppercase leading-none glow-title truncate">
+            RUPA SUPER CUP
+          </h1>
+          <i class="fa-solid fa-arrows-rotate text-[10px] text-lime-400"></i>
+        </div>
+        <p id="header-tourney-sub" class="text-[10px] text-slate-400 font-semibold tracking-wider uppercase truncate">Loading...</p>
       </div>
       <button onclick="toggleAdminModal()" class="text-xs bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-700 px-3 py-1.5 rounded-md font-bold transition flex items-center gap-1.5">
         <i class="fa-solid fa-user-shield text-[#ccff00]"></i> <span id="admin-btn-text">Admin</span>
@@ -72,8 +96,8 @@
     </div>
   </header>
 
-  <!-- Navigation Slider -->
-  <nav class="bg-slate-950/90 backdrop-blur-sm sticky top-[67px] z-40 border-b border-slate-800 text-xs text-slate-400 font-bold uppercase tracking-wider w-full">
+  <!-- Mobile Touch Nav Slider -->
+  <nav class="bg-slate-950/90 backdrop-blur-sm sticky top-[67px] z-30 border-b border-slate-800 text-xs text-slate-400 font-bold uppercase tracking-wider w-full">
     <div class="max-w-md mx-auto mobile-tab-nav px-2">
       <button onclick="switchTab('matches')" id="tab-matches" class="nav-tab-btn py-3 px-3.5 active-tab transition">Matches</button>
       <button onclick="switchTab('awards')" id="tab-awards" class="nav-tab-btn py-3 px-3.5 transition">Awards</button>
@@ -203,29 +227,7 @@
 
     <!-- TAB 3: SQUADS -->
     <section id="sec-squads" class="hidden space-y-4">
-      <div class="bg-slate-900/80 border border-pink-500/30 rounded-xl p-4 space-y-3">
-        <div class="flex items-center justify-between">
-          <h3 class="font-poster text-2xl font-bold text-pink-500 tracking-wide uppercase flex items-center gap-2"><i class="fa-solid fa-heart"></i> Rupa Lovers</h3>
-          <span class="badge-lovers text-[10px] font-bold px-2 py-0.5 rounded-full">8 Players</span>
-        </div>
-        <div class="grid grid-cols-2 gap-2 text-xs text-slate-300" id="squad-lovers"></div>
-      </div>
-
-      <div class="bg-slate-900/80 border border-yellow-500/30 rounded-xl p-4 space-y-3">
-        <div class="flex items-center justify-between">
-          <h3 class="font-poster text-2xl font-bold text-yellow-400 tracking-wide uppercase flex items-center gap-2"><i class="fa-solid fa-shield-halved"></i> Rupa Warriors</h3>
-          <span class="badge-warriors text-[10px] font-bold px-2 py-0.5 rounded-full">8 Players</span>
-        </div>
-        <div class="grid grid-cols-2 gap-2 text-xs text-slate-300" id="squad-warriors"></div>
-      </div>
-
-      <div class="bg-slate-900/80 border border-blue-500/30 rounded-xl p-4 space-y-3">
-        <div class="flex items-center justify-between">
-          <h3 class="font-poster text-2xl font-bold text-blue-400 tracking-wide uppercase flex items-center gap-2"><i class="fa-solid fa-face-grin-tongue"></i> Rupa Sniffers</h3>
-          <span class="badge-sniffers text-[10px] font-bold px-2 py-0.5 rounded-full">8 Players</span>
-        </div>
-        <div class="grid grid-cols-2 gap-2 text-xs text-slate-300" id="squad-sniffers"></div>
-      </div>
+      <div id="squads-container" class="space-y-4"></div>
     </section>
 
     <!-- TAB 4: GALLERY -->
@@ -275,117 +277,110 @@
       <div class="space-y-3" id="updates-list"></div>
     </section>
 
-    <!-- ADMIN PANEL -->
-    <section id="sec-admin-panel" class="hidden bg-slate-950 border border-[#ccff00]/50 rounded-xl p-4 space-y-6 mt-6 shadow-2xl">
+    <!-- REDESIGNED ADMIN MANAGEMENT PANEL -->
+    <section id="sec-admin-panel" class="hidden bg-slate-950 border border-lime-500/40 rounded-2xl p-4 space-y-5 shadow-2xl mt-6">
       <div class="flex justify-between items-center border-b border-slate-800 pb-3">
-        <h3 class="font-poster text-2xl font-bold text-[#ccff00] uppercase"><i class="fa-solid fa-sliders mr-2"></i> Admin Management</h3>
-        <button onclick="logoutAdmin()" class="text-xs text-red-400 font-bold bg-red-500/10 border border-red-500/30 px-3 py-1 rounded">Logout</button>
+        <div>
+          <h3 class="font-poster text-2xl font-bold text-[#ccff00] uppercase leading-none"><i class="fa-solid fa-sliders mr-1.5"></i> Admin Console</h3>
+          <p class="text-[10px] text-slate-400 font-bold uppercase mt-0.5" id="admin-active-tourney-label">Managing: Season 1</p>
+        </div>
+        <button onclick="logoutAdmin()" class="text-xs text-red-400 font-bold bg-red-500/10 border border-red-500/30 px-3 py-1.5 rounded-lg">Logout</button>
       </div>
 
-      <!-- Section 0: Create New Tournament -->
-      <div class="space-y-3 p-3 bg-slate-900/90 border border-lime-500/30 rounded-xl">
-        <h4 class="text-xs font-bold text-lime-400 uppercase flex items-center gap-1.5"><i class="fa-solid fa-plus-circle"></i> Create New Tournament</h4>
+      <!-- CARD 1: Launch New Tournament -->
+      <div class="bg-slate-900/90 border border-lime-500/30 rounded-xl p-3.5 space-y-3">
+        <h4 class="text-xs font-black text-lime-400 uppercase tracking-wider flex items-center gap-1.5"><i class="fa-solid fa-trophy"></i> 1. Launch New Tournament</h4>
         <div class="space-y-2">
           <input type="text" id="new-tourney-name" placeholder="Tournament Name (e.g. Rupa Super Cup)" class="w-full text-xs p-2 border border-slate-700 bg-slate-950 text-slate-200 rounded-lg">
           <div class="flex gap-2">
-            <input type="text" id="new-tourney-season" placeholder="Season (e.g. Season 2)" class="w-1/2 text-xs p-2 border border-slate-700 bg-slate-950 text-slate-200 rounded-lg">
-            <input type="text" id="new-tourney-loc" placeholder="Location (e.g. Guwahati)" class="w-1/2 text-xs p-2 border border-slate-700 bg-slate-950 text-slate-200 rounded-lg">
+            <input type="text" id="new-tourney-season" placeholder="Season/Edition (e.g. Season 2)" class="w-1/2 text-xs p-2 border border-slate-700 bg-slate-950 text-slate-200 rounded-lg">
+            <input type="text" id="new-tourney-loc" placeholder="Venue/Location" class="w-1/2 text-xs p-2 border border-slate-700 bg-slate-950 text-slate-200 rounded-lg">
           </div>
-          <button onclick="createNewTournament()" class="w-full bg-lime-500 hover:bg-lime-400 text-slate-950 font-black py-2 rounded-lg text-xs uppercase shadow">Launch Tournament</button>
+          <button onclick="createNewTournament()" class="w-full bg-[#ccff00] hover:bg-lime-400 text-slate-950 font-black py-2 rounded-lg text-xs uppercase shadow transition">Create Tournament</button>
         </div>
       </div>
 
-      <!-- Section 0.5: Add Match to Active Tournament -->
-      <div class="space-y-3 p-3 bg-slate-900/90 border border-slate-800 rounded-xl">
-        <h4 class="text-xs font-bold text-sky-400 uppercase flex items-center gap-1.5"><i class="fa-solid fa-calendar-plus"></i> Add Match to Selected Tournament</h4>
+      <!-- CARD 2: Add Match & Match Manager (With Delete Functionality) -->
+      <div class="bg-slate-900/90 border border-sky-500/30 rounded-xl p-3.5 space-y-3">
+        <h4 class="text-xs font-black text-sky-400 uppercase tracking-wider flex items-center gap-1.5"><i class="fa-solid fa-calendar-plus"></i> 2. Fixture & Match Manager</h4>
+        
+        <div class="p-2.5 bg-slate-950 rounded-lg border border-slate-800 space-y-2">
+          <span class="text-[10px] font-bold text-slate-400 uppercase">Add New Fixture</span>
+          <div class="flex gap-2">
+            <input type="text" id="new-match-home" placeholder="Home Team" class="w-1/2 text-xs p-2 border border-slate-700 bg-slate-900 text-slate-200 rounded-lg">
+            <input type="text" id="new-match-away" placeholder="Away Team" class="w-1/2 text-xs p-2 border border-slate-700 bg-slate-900 text-slate-200 rounded-lg">
+          </div>
+          <input type="text" id="new-match-time" placeholder="Kickoff Time (e.g. 9:00 PM)" class="w-full text-xs p-2 border border-slate-700 bg-slate-900 text-slate-200 rounded-lg">
+          <button onclick="createNewMatch()" class="w-full bg-sky-600 hover:bg-sky-500 text-white font-bold py-2 rounded-lg text-xs uppercase shadow transition">+ Save Fixture</button>
+        </div>
+
+        <div class="space-y-2 pt-2 border-t border-slate-800">
+          <span class="text-[10px] font-bold text-slate-400 uppercase">Update Existing Match Score & Names</span>
+          <div class="flex gap-2 items-center">
+            <select id="admin-match-select" onchange="populateAdminMatchInputs()" class="w-4/5 text-xs p-2 border border-slate-700 bg-slate-950 text-slate-200 rounded-lg"></select>
+            <!-- DELETE MATCH BUTTON -->
+            <button onclick="deleteSelectedMatch()" title="Delete Match" class="w-1/5 bg-red-600/20 hover:bg-red-600/40 text-red-400 border border-red-500/30 py-2 rounded-lg text-xs font-bold transition flex justify-center items-center gap-1">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </div>
+          <div class="flex gap-2">
+            <input type="text" id="admin-home-name" placeholder="Home Name" class="w-1/2 p-2 text-xs border border-slate-700 bg-slate-950 text-slate-200 rounded-lg">
+            <input type="text" id="admin-away-name" placeholder="Away Name" class="w-1/2 p-2 text-xs border border-slate-700 bg-slate-950 text-slate-200 rounded-lg">
+          </div>
+          <div class="flex gap-2">
+            <input type="number" id="home-score" placeholder="Home" class="w-1/3 p-2 text-xs border border-slate-700 bg-slate-950 text-slate-200 rounded-lg">
+            <input type="number" id="away-score" placeholder="Away" class="w-1/3 p-2 text-xs border border-slate-700 bg-slate-950 text-slate-200 rounded-lg">
+            <select id="match-status" class="w-1/3 text-xs p-2 border border-slate-700 bg-slate-950 text-slate-200 rounded-lg">
+              <option value="LIVE 1st Half">LIVE 1st Half</option>
+              <option value="HT">HT</option>
+              <option value="LIVE 2nd Half">LIVE 2nd Half</option>
+              <option value="FT">FT (Finished)</option>
+              <option value="UPCOMING">UPCOMING</option>
+            </select>
+          </div>
+          <button onclick="updateScore()" class="w-full bg-[#ccff00] hover:bg-lime-400 text-slate-950 font-black py-2 rounded-lg text-xs uppercase shadow">Update Match Live</button>
+        </div>
+      </div>
+
+      <!-- CARD 3: Record Live Goal -->
+      <div class="bg-slate-900/90 border border-emerald-500/30 rounded-xl p-3.5 space-y-3">
+        <h4 class="text-xs font-black text-emerald-400 uppercase tracking-wider flex items-center gap-1.5"><i class="fa-solid fa-football"></i> 3. Record Live Goal Scorer</h4>
+        <div class="space-y-2">
+          <select id="goal-player-select" class="w-full text-xs p-2 border border-slate-700 bg-slate-950 text-slate-200 rounded-lg"></select>
+          <button onclick="logGoal()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2 rounded-lg text-xs uppercase shadow transition">+ Log Goal Entry</button>
+          <div class="pt-2 border-t border-slate-800 space-y-1">
+            <span class="text-[10px] font-bold text-slate-400 uppercase">Logged Goals Log</span>
+            <div id="admin-goals-log" class="max-h-28 overflow-y-auto space-y-1 divide-y divide-slate-800/80 pr-1"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 4: Squad Roster Setup -->
+      <div class="bg-slate-900/90 border border-yellow-500/30 rounded-xl p-3.5 space-y-3">
+        <h4 class="text-xs font-black text-yellow-400 uppercase tracking-wider flex items-center gap-1.5"><i class="fa-solid fa-users"></i> 4. Tournament Squad Roster</h4>
         <div class="space-y-2">
           <div class="flex gap-2">
-            <input type="text" id="new-match-home" placeholder="Home Team" class="w-1/2 text-xs p-2 border border-slate-700 bg-slate-950 text-slate-200 rounded-lg">
-            <input type="text" id="new-match-away" placeholder="Away Team" class="w-1/2 text-xs p-2 border border-slate-700 bg-slate-950 text-slate-200 rounded-lg">
+            <input type="text" id="squad-team-name" placeholder="Team Name (e.g. Rupa Lovers)" class="w-1/2 text-xs p-2 border border-slate-700 bg-slate-950 text-slate-200 rounded-lg">
+            <input type="text" id="new-player-name" placeholder="Player Name" class="w-1/2 p-2 text-xs border border-slate-700 bg-slate-950 text-slate-200 rounded-lg">
           </div>
-          <input type="text" id="new-match-time" placeholder="Kickoff Time (e.g. 9:00 PM)" class="w-full text-xs p-2 border border-slate-700 bg-slate-950 text-slate-200 rounded-lg">
-          <button onclick="createNewMatch()" class="w-full bg-sky-600 hover:bg-sky-500 text-white font-bold py-2 rounded-lg text-xs uppercase">+ Add Match</button>
+          <button onclick="addPlayerToSquad()" class="w-full bg-yellow-500 hover:bg-yellow-400 text-slate-950 font-black py-2 rounded-lg text-xs uppercase shadow transition">+ Add Player to Squad</button>
         </div>
       </div>
 
-      <!-- Section 1: Score Controls -->
-      <div class="space-y-3">
-        <h4 class="text-xs font-bold text-slate-300 uppercase">1. Match Score Controls</h4>
-        <select id="admin-match-select" onchange="populateAdminMatchInputs()" class="w-full text-xs p-2.5 border border-slate-700 bg-slate-900 text-slate-200 rounded-lg"></select>
-        
-        <div class="flex gap-2">
-          <input type="text" id="admin-home-name" placeholder="Home Team Name" class="w-1/2 p-2 text-xs border border-slate-700 bg-slate-900 text-slate-200 rounded-lg">
-          <input type="text" id="admin-away-name" placeholder="Away Team Name" class="w-1/2 p-2 text-xs border border-slate-700 bg-slate-900 text-slate-200 rounded-lg">
-        </div>
-
-        <div class="flex gap-2">
-          <input type="number" id="home-score" placeholder="Home Score" class="w-1/3 p-2 text-xs border border-slate-700 bg-slate-900 text-slate-200 rounded-lg">
-          <input type="number" id="away-score" placeholder="Away Score" class="w-1/3 p-2 text-xs border border-slate-700 bg-slate-900 text-slate-200 rounded-lg">
-          <select id="match-status" class="w-1/3 text-xs p-2 border border-slate-700 bg-slate-900 text-slate-200 rounded-lg">
-            <option value="LIVE 1st Half">LIVE 1st Half</option>
-            <option value="HT">HT</option>
-            <option value="LIVE 2nd Half">LIVE 2nd Half</option>
-            <option value="FT">FT (Finished)</option>
-            <option value="UPCOMING">UPCOMING</option>
-          </select>
-        </div>
-        <div class="flex gap-2">
-          <button onclick="updateScore()" class="w-2/3 bg-[#ccff00] hover:bg-lime-400 text-slate-950 py-2 rounded-lg text-xs font-black shadow uppercase">Save Score</button>
-          <button onclick="resetMatchScore()" class="w-1/3 bg-red-600/20 hover:bg-red-600/30 text-red-400 border border-red-500/30 py-2 rounded-lg text-xs font-bold">Reset Score</button>
-        </div>
-        
-        <div class="p-3 bg-slate-900/90 rounded-lg border border-slate-800 space-y-3">
-          <p class="text-[10px] font-bold text-slate-400 uppercase">Record Scorer</p>
-          <select id="goal-player-select" class="w-full text-xs p-2 border border-slate-700 bg-slate-950 text-slate-200 rounded-lg"></select>
-          <button onclick="logGoal()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white py-2 rounded-lg text-xs font-bold">+ Record Live Goal</button>
-
-          <div class="pt-2 border-t border-slate-800 flex justify-between items-center">
-            <div>
-              <p class="text-[10px] font-bold text-slate-400 uppercase">Match Predictions</p>
-              <p class="text-[9px] text-slate-500">Reset spectator predictions</p>
-            </div>
-            <button onclick="resetPredictions()" class="bg-red-600/20 hover:bg-red-600/30 text-red-400 border border-red-500/30 px-3 py-1.5 rounded text-xs font-bold">Reset Predictions</button>
-          </div>
-
-          <div class="pt-2 border-t border-slate-800 flex justify-between items-center">
-            <div>
-              <p class="text-[10px] font-bold text-slate-400 uppercase">POTT Voting</p>
-              <p class="text-[9px] text-slate-500">Reset spectator votes</p>
-            </div>
-            <button onclick="resetPottVotes()" class="bg-red-600/20 hover:bg-red-600/30 text-red-400 border border-red-500/30 px-3 py-1.5 rounded text-xs font-bold">Reset Votes</button>
-          </div>
+      <!-- CARD 5: Announcements & Controls -->
+      <div class="bg-slate-900/90 border border-purple-500/30 rounded-xl p-3.5 space-y-3">
+        <h4 class="text-xs font-black text-purple-400 uppercase tracking-wider flex items-center gap-1.5"><i class="fa-solid fa-bullhorn"></i> 5. Announcements & Game Resets</h4>
+        <div class="space-y-2">
+          <input type="text" id="admin-update-text" placeholder="e.g. Final kickoff delayed by 10 mins" class="w-full text-xs p-2 border border-slate-700 bg-slate-950 text-slate-200 rounded-lg">
+          <button onclick="addUpdate()" class="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold py-2 rounded-lg text-xs uppercase">Publish Announcement</button>
           
-          <div class="pt-2 border-t border-slate-800 space-y-1">
-            <p class="text-[10px] font-bold text-slate-400 uppercase">Delete Goal Entry</p>
-            <div id="admin-goals-log" class="max-h-32 overflow-y-auto space-y-1 divide-y divide-slate-800"></div>
+          <div class="pt-2 border-t border-slate-800 flex justify-between gap-2">
+            <button onclick="resetPredictions()" class="w-1/2 bg-red-600/20 hover:bg-red-600/30 text-red-400 border border-red-500/30 py-1.5 rounded text-[10px] font-bold uppercase">Reset Predictions</button>
+            <button onclick="resetPottVotes()" class="w-1/2 bg-red-600/20 hover:bg-red-600/30 text-red-400 border border-red-500/30 py-1.5 rounded text-[10px] font-bold uppercase">Reset Votes</button>
           </div>
         </div>
       </div>
 
-      <div class="space-y-2 pt-3 border-t border-slate-800">
-        <h4 class="text-xs font-bold text-slate-300 uppercase">2. Squad Roster</h4>
-        <div class="flex gap-2">
-          <select id="squad-team-select" class="w-1/2 text-xs p-2 border border-slate-700 bg-slate-900 text-slate-200 rounded-lg">
-            <option value="lovers">Rupa Lovers</option>
-            <option value="warriors">Rupa Warriors</option>
-            <option value="sniffers">Rupa Sniffers</option>
-          </select>
-          <input type="text" id="new-player-name" placeholder="Player Name" class="w-1/2 p-2 text-xs border border-slate-700 bg-slate-900 text-slate-200 rounded-lg">
-        </div>
-        <button onclick="addPlayerToSquad()" class="w-full bg-blue-600 hover:bg-blue-500 text-white py-2 rounded-lg text-xs font-bold">+ Add Player to Squad</button>
-      </div>
-
-      <div class="space-y-2 pt-3 border-t border-slate-800">
-        <h4 class="text-xs font-bold text-slate-300 uppercase">3. Publish Update</h4>
-        <input type="text" id="admin-update-text" placeholder="e.g. Finals kickoff delayed by 10 mins" class="w-full text-xs p-2 border border-slate-700 bg-slate-900 text-slate-200 rounded-lg">
-        <button onclick="addUpdate()" class="w-full bg-purple-600 hover:bg-purple-500 text-white py-2 rounded-lg text-xs font-bold">Publish Announcement</button>
-      </div>
-
-      <div class="space-y-2 pt-3 border-t border-slate-800">
-        <h4 class="text-xs font-bold text-slate-300 uppercase">4. Change Admin Password</h4>
-        <input type="password" id="new-admin-pass" placeholder="Enter new password" class="w-full text-xs p-2 border border-slate-700 bg-slate-900 text-slate-200 rounded-lg">
-        <button onclick="changePassword()" class="w-full bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 py-2 rounded-lg text-xs font-bold">Update Password</button>
-      </div>
     </section>
 
   </main>
@@ -422,10 +417,12 @@
       { id: 4, tournament_id: 1, home_team: 'Team 1', away_team: 'Team 2', home_score: 0, away_score: 0, status: 'UPCOMING', match_time: '10:05 PM' }
     ];
 
-    let squads = JSON.parse(localStorage.getItem('rupa_squads')) || {
-      lovers: ["Tanmoy", "Mayank", "Amar", "Abhishek", "Mrinal", "Divyansh", "Abhinab", "Rahul"],
-      warriors: ["Arpit", "Bhanu", "Shivam", "Sid", "Adhiraj", "Charchit", "Omesh", "Yash"],
-      sniffers: ["Dony", "Sourav", "Rohan", "Patna", "Rohit", "Dhiraj", "Abhijit", "Kaustav"]
+    let tournamentSquads = JSON.parse(localStorage.getItem('rupa_squads_by_tourney')) || {
+      "1": {
+        "Rupa Lovers": ["Tanmoy", "Mayank", "Amar", "Abhishek", "Mrinal", "Divyansh", "Abhinab", "Rahul"],
+        "Rupa Warriors": ["Arpit", "Bhanu", "Shivam", "Sid", "Adhiraj", "Charchit", "Omesh", "Yash"],
+        "Rupa Sniffers": ["Dony", "Sourav", "Rohan", "Patna", "Rohit", "Dhiraj", "Abhijit", "Kaustav"]
+      }
     };
 
     let matches = JSON.parse(localStorage.getItem('rupa_matches_cache')) || defaultMatches;
@@ -444,33 +441,46 @@
       document.getElementById(`tab-${tab}`).classList.add('active-tab');
     }
 
-    function switchTournament(tourneyId) {
+    function openTournamentPicker() {
+      document.getElementById('tournament-selector-overlay').classList.remove('hidden');
+    }
+
+    function selectTournament(tourneyId) {
       currentTournamentId = parseInt(tourneyId);
       localStorage.setItem('rupa_active_tournament_id', currentTournamentId);
+      document.getElementById('tournament-selector-overlay').classList.add('hidden');
       fetchData();
     }
 
     async function fetchData() {
-      // 1. Fetch Tournaments List
+      // 1. Fetch Tournaments
       const { data: tourneyData } = await supabaseClient.from('tournaments').select('*').order('id', { ascending: false });
       if (tourneyData && tourneyData.length > 0) {
         tournaments = tourneyData;
-        if (!tournaments.some(t => t.id === currentTournamentId)) {
-          currentTournamentId = tournaments[0].id;
-        }
       }
 
-      // Update Header Dropdown
-      const selectEl = document.getElementById('global-tournament-select');
-      selectEl.innerHTML = tournaments.map(t => `<option value="${t.id}" ${t.id === currentTournamentId ? 'selected' : ''}>${t.name} • ${t.season}</option>`).join('');
-      
-      const activeTourney = tournaments.find(t => t.id === currentTournamentId);
-      if(activeTourney) {
-        document.getElementById('tourney-location-sub').innerText = `7v7 Football • ${activeTourney.location || 'The Playyard, Guwahati'}`;
+      // Populate Landing Overlay List
+      const landingList = document.getElementById('landing-tournaments-list');
+      landingList.innerHTML = tournaments.map(t => `
+        <div onclick="selectTournament(${t.id})" class="p-3.5 bg-slate-900 hover:bg-slate-800 border ${t.id === currentTournamentId ? 'border-[#ccff00]' : 'border-slate-800'} rounded-xl cursor-pointer flex justify-between items-center text-left shadow transition">
+          <div>
+            <p class="font-bold text-sm text-slate-100">${t.name} • ${t.season}</p>
+            <p class="text-[10px] text-slate-400 uppercase font-semibold">${t.location || 'Guwahati'}</p>
+          </div>
+          <span class="text-xs font-poster font-bold text-[#ccff00] bg-[#ccff00]/10 border border-[#ccff00]/30 px-2 py-0.5 rounded uppercase">Enter ➔</span>
+        </div>
+      `).join('');
+
+      const activeTourney = tournaments.find(t => t.id === currentTournamentId) || tournaments[0];
+      if (activeTourney) {
+        currentTournamentId = activeTourney.id;
+        document.getElementById('header-tourney-title').innerText = activeTourney.name;
+        document.getElementById('header-tourney-sub').innerText = `${activeTourney.season} • ${activeTourney.location || 'Guwahati'}`;
         document.getElementById('active-tourney-badge').innerText = activeTourney.season;
+        document.getElementById('admin-active-tourney-label').innerText = `Managing: ${activeTourney.name} (${activeTourney.season})`;
       }
 
-      // 2. Fetch Data Filtered by Active Tournament ID
+      // 2. Fetch Tournament-Specific Data
       const { data: matchData } = await supabaseClient.from('matches').select('*').eq('tournament_id', currentTournamentId).order('id', { ascending: true });
       const { data: updateData } = await supabaseClient.from('updates').select('*').eq('tournament_id', currentTournamentId).order('created_at', { ascending: false });
       const { data: goalData } = await supabaseClient.from('goals').select('*').eq('tournament_id', currentTournamentId).order('created_at', { ascending: false });
@@ -478,15 +488,12 @@
       const { data: voteData } = await supabaseClient.from('votes').select('*').eq('tournament_id', currentTournamentId).order('created_at', { ascending: false });
       const { data: predData } = await supabaseClient.from('predictions').select('*').eq('tournament_id', currentTournamentId).order('created_at', { ascending: false });
       
-      if(matchData) {
-        matches = matchData;
-        localStorage.setItem('rupa_matches_cache', JSON.stringify(matchData));
-      }
-      if(updateData) updates = updateData;
-      if(goalData) goals = goalData;
-      if(photoData) photos = photoData;
-      if(voteData) votes = voteData;
-      if(predData) predictions = predData;
+      matches = matchData || [];
+      updates = updateData || [];
+      goals = goalData || [];
+      photos = photoData || [];
+      votes = voteData || [];
+      predictions = predData || [];
       
       renderAll();
     }
@@ -561,7 +568,7 @@
         });
         populateAdminMatchInputs();
       } else {
-        matchesEl.innerHTML = '<p class="text-xs text-slate-500">No matches scheduled for this tournament yet.</p>';
+        matchesEl.innerHTML = '<p class="text-xs text-slate-500 italic">No matches scheduled for this tournament yet.</p>';
       }
 
       const savedPredictorName = localStorage.getItem('rupa_predictor_name');
@@ -591,45 +598,42 @@
         }).join('');
       }
 
-      const tableData = {
-        'Rupa Lovers': { p: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0, gd: 0, pts: 0 },
-        'Rupa Warriors': { p: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0, gd: 0, pts: 0 },
-        'Rupa Sniffers': { p: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0, gd: 0, pts: 0 }
-      };
-
+      // Standings Grid Calculation
+      const tableData = {};
       matches.forEach(m => {
+        if (!tableData[m.home_team]) tableData[m.home_team] = { p: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0, gd: 0, pts: 0 };
+        if (!tableData[m.away_team]) tableData[m.away_team] = { p: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0, gd: 0, pts: 0 };
+
         if (m.home_team !== 'Team 1' && m.home_team !== 'Top 2 Teams' && (m.status.includes('FT') || m.status.includes('LIVE'))) {
           const home = m.home_team;
           const away = m.away_team;
           const hScore = m.home_score || 0;
           const aScore = m.away_score || 0;
 
-          if (tableData[home] && tableData[away]) {
-            tableData[home].p += 1;
-            tableData[away].p += 1;
-            tableData[home].gf += hScore;
-            tableData[home].ga += aScore;
-            tableData[away].gf += aScore;
-            tableData[away].ga += hScore;
+          tableData[home].p += 1;
+          tableData[away].p += 1;
+          tableData[home].gf += hScore;
+          tableData[home].ga += aScore;
+          tableData[away].gf += aScore;
+          tableData[away].ga += hScore;
 
-            if (hScore > aScore) {
-              tableData[home].w += 1;
-              tableData[home].pts += 3;
-              tableData[away].l += 1;
-            } else if (aScore > hScore) {
-              tableData[away].w += 1;
-              tableData[away].pts += 3;
-              tableData[home].l += 1;
-            } else {
-              tableData[home].d += 1;
-              tableData[away].d += 1;
-              tableData[home].pts += 1;
-              tableData[away].pts += 1;
-            }
-
-            tableData[home].gd = tableData[home].gf - tableData[home].ga;
-            tableData[away].gd = tableData[away].gf - tableData[away].ga;
+          if (hScore > aScore) {
+            tableData[home].w += 1;
+            tableData[home].pts += 3;
+            tableData[away].l += 1;
+          } else if (aScore > hScore) {
+            tableData[away].w += 1;
+            tableData[away].pts += 3;
+            tableData[home].l += 1;
+          } else {
+            tableData[home].d += 1;
+            tableData[away].d += 1;
+            tableData[home].pts += 1;
+            tableData[away].pts += 1;
           }
+
+          tableData[home].gd = tableData[home].gf - tableData[home].ga;
+          tableData[away].gd = tableData[away].gf - tableData[away].ga;
         }
       });
 
@@ -654,14 +658,31 @@
         </tr>
       `).join('');
 
-      document.getElementById('squad-lovers').innerHTML = squads.lovers.map(p => `<div class="bg-slate-950/60 p-2 rounded-lg border border-slate-800/60 flex items-center gap-1.5"><i class="fa-regular fa-user text-pink-500 text-[10px]"></i>${p}</div>`).join('');
-      document.getElementById('squad-warriors').innerHTML = squads.warriors.map(p => `<div class="bg-slate-950/60 p-2 rounded-lg border border-slate-800/60 flex items-center gap-1.5"><i class="fa-regular fa-user text-yellow-500 text-[10px]"></i>${p}</div>`).join('');
-      document.getElementById('squad-sniffers').innerHTML = squads.sniffers.map(p => `<div class="bg-slate-950/60 p-2 rounded-lg border border-slate-800/60 flex items-center gap-1.5"><i class="fa-regular fa-user text-blue-500 text-[10px]"></i>${p}</div>`).join('');
+      // Render Tournament Squads
+      const currentSquads = tournamentSquads[currentTournamentId] || tournamentSquads["1"] || {};
+      const squadsContainer = document.getElementById('squads-container');
+      squadsContainer.innerHTML = '';
+      
+      const allPlayers = [];
+      Object.entries(currentSquads).forEach(([teamName, players]) => {
+        allPlayers.push(...players);
+        squadsContainer.innerHTML += `
+          <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-4 space-y-3">
+            <div class="flex items-center justify-between">
+              <h3 class="font-poster text-2xl font-bold text-[#ccff00] tracking-wide uppercase flex items-center gap-2">${teamName}</h3>
+              <span class="text-[10px] bg-slate-800 font-bold px-2 py-0.5 rounded-full text-slate-300">${players.length} Players</span>
+            </div>
+            <div class="grid grid-cols-2 gap-2 text-xs text-slate-300">
+              ${players.map(p => `<div class="bg-slate-950/60 p-2 rounded-lg border border-slate-800/60 flex items-center gap-1.5"><i class="fa-regular fa-user text-slate-500 text-[10px]"></i>${p}</div>`).join('')}
+            </div>
+          </div>`;
+      });
 
-      const allPlayers = [...squads.lovers, ...squads.warriors, ...squads.sniffers].sort();
-      document.getElementById('goal-player-select').innerHTML = allPlayers.map(p => `<option value="${p}">${p}</option>`).join('');
-      document.getElementById('pott-vote-select').innerHTML = allPlayers.map(p => `<option value="${p}">${p}</option>`).join('');
+      const uniquePlayers = [...new Set(allPlayers)].sort();
+      document.getElementById('goal-player-select').innerHTML = uniquePlayers.map(p => `<option value="${p}">${p}</option>`).join('');
+      document.getElementById('pott-vote-select').innerHTML = uniquePlayers.map(p => `<option value="${p}">${p}</option>`).join('');
 
+      // Leaderboard Calculations
       const userScores = {};
       predictions.forEach(p => {
         const match = matches.find(m => m.id === p.match_id);
@@ -833,6 +854,23 @@
       fetchData();
     }
 
+    // DELETE MATCH FUNCTION
+    async function deleteSelectedMatch() {
+      const matchSelect = document.getElementById('admin-match-select');
+      if (!matchSelect || !matchSelect.value) return alert('No match selected to delete!');
+      const matchId = parseInt(matchSelect.value);
+
+      if (!confirm('Are you sure you want to DELETE this match? This action cannot be undone.')) return;
+
+      const { error } = await supabaseClient.from('matches').delete().eq('id', matchId);
+      if (error) {
+        alert('Error deleting match: ' + error.message);
+      } else {
+        alert('Match deleted successfully!');
+        fetchData();
+      }
+    }
+
     // --- User Game Interactions ---
     async function submitMatchPrediction() {
       const name = document.getElementById('predictor-user-name').value.trim();
@@ -945,7 +983,10 @@
     }
 
     async function updateScore() {
-      const matchId = parseInt(document.getElementById('admin-match-select').value);
+      const matchSelect = document.getElementById('admin-match-select');
+      if (!matchSelect || !matchSelect.value) return alert('No match selected!');
+      const matchId = parseInt(matchSelect.value);
+
       const hName = document.getElementById('admin-home-name').value.trim();
       const aName = document.getElementById('admin-away-name').value.trim();
       const hScore = parseInt(document.getElementById('home-score').value);
@@ -967,7 +1008,10 @@
     }
 
     async function resetMatchScore() {
-      const matchId = parseInt(document.getElementById('admin-match-select').value);
+      const matchSelect = document.getElementById('admin-match-select');
+      if (!matchSelect || !matchSelect.value) return;
+      const matchId = parseInt(matchSelect.value);
+
       if(!confirm('Reset score to 0 - 0?')) return;
 
       await supabaseClient.from('matches').update({ home_score: 0, away_score: 0, status: 'UPCOMING' }).eq('id', matchId);
@@ -1007,13 +1051,20 @@
     }
 
     function addPlayerToSquad() {
-      const team = document.getElementById('squad-team-select').value;
+      const team = document.getElementById('squad-team-name').value.trim();
       const name = document.getElementById('new-player-name').value.trim();
 
-      if(!name) return alert('Enter player name');
+      if(!team || !name) return alert('Enter team name and player name!');
 
-      squads[team].push(name);
-      localStorage.setItem('rupa_squads', JSON.stringify(squads));
+      if (!tournamentSquads[currentTournamentId]) {
+        tournamentSquads[currentTournamentId] = {};
+      }
+      if (!tournamentSquads[currentTournamentId][team]) {
+        tournamentSquads[currentTournamentId][team] = [];
+      }
+
+      tournamentSquads[currentTournamentId][team].push(name);
+      localStorage.setItem('rupa_squads_by_tourney', JSON.stringify(tournamentSquads));
       document.getElementById('new-player-name').value = '';
       renderAll();
       alert(`Added ${name} to ${team}!`);
@@ -1021,15 +1072,6 @@
 
     function getAdminPassword() {
       return localStorage.getItem('rupa_admin_pass') || 'admin123';
-    }
-
-    function changePassword() {
-      const newPass = document.getElementById('new-admin-pass').value;
-      if(!newPass || newPass.length < 4) return alert('Password must be at least 4 characters long.');
-
-      localStorage.setItem('rupa_admin_pass', newPass);
-      document.getElementById('new-admin-pass').value = '';
-      alert('Password updated successfully!');
     }
 
     function toggleAdminModal() {

@@ -61,9 +61,9 @@
   <div id="tournament-selector-overlay" class="fixed inset-0 bg-slate-950/95 backdrop-blur-md z-50 p-4 flex flex-col justify-center items-center">
     <div class="max-w-md w-full space-y-6 text-center">
       <div class="space-y-1">
-        <div class="text-xs font-black tracking-widest text-pink-500 uppercase">Welcome To The Turf</div>
+        <div class="text-xs font-black tracking-widest text-pink-500 uppercase">The Ultimate Battle. One Cup. One Dream.</div>
         <h1 class="text-4xl font-black font-poster italic tracking-wide text-[#ccff00] uppercase glow-title">
-          THE RUPA CUP
+          RUPA SUPER CUP 2.0
         </h1>
         <p class="text-xs text-slate-400 font-semibold tracking-wider uppercase">Select a tournament edition to enter</p>
       </div>
@@ -81,7 +81,7 @@
       <div class="w-2/3">
         <div class="flex items-center gap-1.5 cursor-pointer" onclick="openTournamentPicker()">
           <h1 id="header-tourney-title" class="text-2xl font-black font-poster italic tracking-wide text-[#ccff00] uppercase leading-none glow-title truncate">
-            THE RUPA CUP
+            RUPA SUPER CUP
           </h1>
           <i class="fa-solid fa-arrows-rotate text-[10px] text-lime-400"></i>
         </div>
@@ -153,25 +153,27 @@
       <div class="space-y-3 pt-2 border-t border-slate-800/80">
         <div class="flex justify-between items-center">
           <h2 class="text-xs font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
-            <i class="fa-solid fa-list-ol text-[#ccff00]"></i> Group Standings
+            <i class="fa-solid fa-list-ol text-[#ccff00]"></i> League Standings
           </h2>
           <span class="text-[10px] text-slate-500 font-bold">Top 4 Qualify for Semis</span>
         </div>
 
-        <div class="bg-slate-900/90 border border-slate-800 rounded-xl overflow-hidden shadow-xl">
-          <table class="w-full text-left text-xs">
-            <thead class="bg-slate-950/80 text-slate-400 font-bold uppercase border-b border-slate-800 text-[10px]">
+        <div class="bg-slate-900/90 border border-slate-800 rounded-xl overflow-x-auto shadow-xl">
+          <table class="w-full text-left text-xs min-w-[340px]">
+            <thead class="bg-slate-950/80 text-slate-400 font-bold uppercase border-b border-slate-800 text-[9px]">
               <tr>
-                <th class="p-3"># Team</th>
-                <th class="p-3 text-center">P</th>
-                <th class="p-3 text-center">W</th>
-                <th class="p-3 text-center">D</th>
-                <th class="p-3 text-center">L</th>
-                <th class="p-3 text-center">GD</th>
-                <th class="p-3 text-center text-[#ccff00] font-black">Pts</th>
+                <th class="p-2.5"># Team</th>
+                <th class="p-2 text-center" title="Played">P</th>
+                <th class="p-2 text-center" title="Won">W</th>
+                <th class="p-2 text-center" title="Drawn">D</th>
+                <th class="p-2 text-center" title="Lost">L</th>
+                <th class="p-2 text-center text-slate-400" title="Goals For">GF</th>
+                <th class="p-2 text-center text-slate-400" title="Goals Against">GA</th>
+                <th class="p-2 text-center" title="Goal Difference">GD</th>
+                <th class="p-2.5 text-center text-[#ccff00] font-black" title="Points">Pts</th>
               </tr>
             </thead>
-            <tbody id="standings-body" class="divide-y divide-slate-800/60 font-semibold text-slate-200"></tbody>
+            <tbody id="standings-body" class="divide-y divide-slate-800/60 font-semibold text-slate-200 text-xs"></tbody>
           </table>
         </div>
       </div>
@@ -267,14 +269,17 @@
       </div>
 
       <div class="bg-slate-900/90 border border-lime-500/30 rounded-xl p-3.5 space-y-3">
-        <h4 class="text-xs font-black text-lime-400 uppercase tracking-wider flex items-center gap-1.5"><i class="fa-solid fa-trophy"></i> 1. Launch New Tournament</h4>
+        <h4 class="text-xs font-black text-lime-400 uppercase tracking-wider flex items-center gap-1.5"><i class="fa-solid fa-pen-to-square"></i> 1. Tournament Info & Venue Details</h4>
         <div class="space-y-2">
-          <input type="text" id="new-tourney-name" placeholder="Tournament Name (e.g. The Rupa Cup)" class="w-full text-xs p-2 border border-slate-700 bg-slate-950 text-slate-200 rounded-lg">
+          <input type="text" id="admin-edit-name" placeholder="Tournament Name (e.g. Rupa Super Cup 2.0)" class="w-full text-xs p-2 border border-slate-700 bg-slate-950 text-slate-200 rounded-lg">
           <div class="flex gap-2">
-            <input type="text" id="new-tourney-season" placeholder="Season/Edition (e.g. Season 2)" class="w-1/2 text-xs p-2 border border-slate-700 bg-slate-950 text-slate-200 rounded-lg">
-            <input type="text" id="new-tourney-loc" placeholder="Venue/Timing Details" class="w-1/2 text-xs p-2 border border-slate-700 bg-slate-950 text-slate-200 rounded-lg">
+            <input type="text" id="admin-edit-season" placeholder="Season/Edition (e.g. Season 2)" class="w-1/3 text-xs p-2 border border-slate-700 bg-slate-950 text-slate-200 rounded-lg">
+            <input type="text" id="admin-edit-loc" placeholder="Venue details (e.g. Arizona Sports Arena)" class="w-2/3 text-xs p-2 border border-slate-700 bg-slate-950 text-slate-200 rounded-lg">
           </div>
-          <button onclick="createNewTournament()" class="w-full bg-[#ccff00] hover:bg-lime-400 text-slate-950 font-black py-2 rounded-lg text-xs uppercase shadow transition">Create Tournament</button>
+          <div class="flex gap-2">
+            <button onclick="updateTournamentDetails()" class="w-2/3 bg-[#ccff00] hover:bg-lime-400 text-slate-950 font-black py-2 rounded-lg text-xs uppercase shadow transition">Save Tournament Info</button>
+            <button onclick="createNewTournament()" class="w-1/3 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 py-2 rounded-lg text-xs font-bold uppercase">+ New Edition</button>
+          </div>
         </div>
       </div>
 
@@ -338,7 +343,7 @@
         <h4 class="text-xs font-black text-yellow-400 uppercase tracking-wider flex items-center gap-1.5"><i class="fa-solid fa-users"></i> 4. Tournament Squad Roster</h4>
         <div class="space-y-2">
           <div class="flex gap-2">
-            <input type="text" id="squad-team-name" placeholder="Team Name (e.g. Rupa Dreamers)" class="w-1/2 text-xs p-2 border border-slate-700 bg-slate-950 text-slate-200 rounded-lg">
+            <input type="text" id="squad-team-name" placeholder="Team Name (e.g. Rupa Stealers)" class="w-1/2 text-xs p-2 border border-slate-700 bg-slate-950 text-slate-200 rounded-lg">
             <input type="text" id="new-player-name" placeholder="Player Name" class="w-1/2 p-2 text-xs border border-slate-700 bg-slate-950 text-slate-200 rounded-lg">
           </div>
           <button onclick="addPlayerToSquad()" class="w-full bg-yellow-500 hover:bg-yellow-400 text-slate-950 font-black py-2 rounded-lg text-xs uppercase shadow transition">+ Add Player to Squad</button>
@@ -348,7 +353,7 @@
       <div class="bg-slate-900/90 border border-pink-500/30 rounded-xl p-3.5 space-y-3">
         <h4 class="text-xs font-black text-pink-400 uppercase tracking-wider flex items-center gap-1.5"><i class="fa-solid fa-scale-balanced"></i> 5. Edit Tournament Rules</h4>
         <div class="space-y-2">
-          <input type="text" id="new-rule-title" placeholder="Rule Section Title (e.g. Squad Limits)" class="w-full text-xs p-2 border border-slate-700 bg-slate-950 text-slate-200 rounded-lg">
+          <input type="text" id="new-rule-title" placeholder="Rule Section Title (e.g. Match Duration)" class="w-full text-xs p-2 border border-slate-700 bg-slate-950 text-slate-200 rounded-lg">
           <textarea id="new-rule-content" placeholder="Rule details (use new lines for bullet points)" rows="3" class="w-full text-xs p-2 border border-slate-700 bg-slate-950 text-slate-200 rounded-lg"></textarea>
           <button onclick="addRule()" class="w-full bg-pink-600 hover:bg-pink-500 text-white font-bold py-2 rounded-lg text-xs uppercase shadow transition">+ Save Rule Section</button>
           
@@ -362,7 +367,7 @@
       <div class="bg-slate-900/90 border border-purple-500/30 rounded-xl p-3.5 space-y-3">
         <h4 class="text-xs font-black text-purple-400 uppercase tracking-wider flex items-center gap-1.5"><i class="fa-solid fa-bullhorn"></i> 6. Announcements & Game Resets</h4>
         <div class="space-y-2">
-          <input type="text" id="admin-update-text" placeholder="e.g. Semi-finals starting in 5 mins" class="w-full text-xs p-2 border border-slate-700 bg-slate-950 text-slate-200 rounded-lg">
+          <input type="text" id="admin-update-text" placeholder="e.g. Matches kicked off at Arizona Sports Arena!" class="w-full text-xs p-2 border border-slate-700 bg-slate-950 text-slate-200 rounded-lg">
           <button onclick="addUpdate()" class="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold py-2 rounded-lg text-xs uppercase">Publish Announcement</button>
           
           <div class="pt-2 border-t border-slate-800 flex justify-between gap-2">
@@ -394,7 +399,7 @@
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     let isAdminLoggedIn = false;
-    let currentTournamentId = parseInt(localStorage.getItem('rupa_active_tournament_id')) || 2; // Default to Season 2
+    let currentTournamentId = parseInt(localStorage.getItem('rupa_active_tournament_id')) || 2;
 
     let tournaments = [];
     let matches = [];
@@ -445,728 +450,4 @@
         </div>
       `).join('');
 
-      const activeTourney = tournaments.find(t => t.id === currentTournamentId) || tournaments[0];
-      if (activeTourney) {
-        currentTournamentId = activeTourney.id;
-        document.getElementById('header-tourney-title').innerText = activeTourney.name;
-        document.getElementById('header-tourney-sub').innerText = `${activeTourney.season} • ${activeTourney.location || 'Guwahati'}`;
-        document.getElementById('active-tourney-badge').innerText = activeTourney.season;
-        document.getElementById('admin-active-tourney-label').innerText = `Managing: ${activeTourney.name} (${activeTourney.season})`;
-      }
-
-      // 2. Fetch All Tables Filtered by Tournament ID
-      const { data: matchData } = await supabaseClient.from('matches').select('*').eq('tournament_id', currentTournamentId).order('id', { ascending: true });
-      const { data: squadData } = await supabaseClient.from('squads').select('*').eq('tournament_id', currentTournamentId).order('id', { ascending: true });
-      const { data: ruleData } = await supabaseClient.from('rules').select('*').eq('tournament_id', currentTournamentId).order('id', { ascending: true });
-      const { data: updateData } = await supabaseClient.from('updates').select('*').eq('tournament_id', currentTournamentId).order('created_at', { ascending: false });
-      const { data: goalData } = await supabaseClient.from('goals').select('*').eq('tournament_id', currentTournamentId).order('created_at', { ascending: false });
-      const { data: photoData } = await supabaseClient.from('photos').select('*').eq('tournament_id', currentTournamentId).order('created_at', { ascending: false });
-      const { data: voteData } = await supabaseClient.from('votes').select('*').eq('tournament_id', currentTournamentId).order('created_at', { ascending: false });
-      const { data: predData } = await supabaseClient.from('predictions').select('*').eq('tournament_id', currentTournamentId).order('created_at', { ascending: false });
-      
-      matches = matchData || [];
-      squads = squadData || [];
-      rules = ruleData || [];
-      updates = updateData || [];
-      goals = goalData || [];
-      photos = photoData || [];
-      votes = voteData || [];
-      predictions = predData || [];
-      
-      renderAll();
-    }
-
-    function setupRealtimeSubscriptions() {
-      supabaseClient
-        .channel('public-schema-changes')
-        .on('postgres_changes', { event: '*', schema: 'public', table: 'tournaments' }, () => fetchData())
-        .on('postgres_changes', { event: '*', schema: 'public', table: 'matches' }, () => fetchData())
-        .on('postgres_changes', { event: '*', schema: 'public', table: 'squads' }, () => fetchData())
-        .on('postgres_changes', { event: '*', schema: 'public', table: 'rules' }, () => fetchData())
-        .on('postgres_changes', { event: '*', schema: 'public', table: 'updates' }, () => fetchData())
-        .on('postgres_changes', { event: '*', schema: 'public', table: 'goals' }, () => fetchData())
-        .on('postgres_changes', { event: '*', schema: 'public', table: 'photos' }, () => fetchData())
-        .on('postgres_changes', { event: '*', schema: 'public', table: 'votes' }, () => fetchData())
-        .on('postgres_changes', { event: '*', schema: 'public', table: 'predictions' }, () => fetchData())
-        .subscribe();
-    }
-
-    function getTeamBadge(teamName) {
-      if(teamName.includes('Lovers')) return 'badge-lovers';
-      if(teamName.includes('Warriors')) return 'badge-warriors';
-      if(teamName.includes('Sniffers')) return 'badge-sniffers';
-      if(teamName.includes('Dreamers')) return 'badge-dreamers';
-      if(teamName.includes('Stealers')) return 'badge-stealers';
-      return 'bg-slate-800 text-slate-300';
-    }
-
-    function isKnockoutMatch(m) {
-      const home = (m.home_team || '').toLowerCase();
-      const away = (m.away_team || '').toLowerCase();
-      return home.includes('rank') || away.includes('rank') || 
-             home.includes('winner') || away.includes('winner') || 
-             home.includes('sf') || away.includes('sf') || 
-             home.includes('final') || away.includes('final');
-    }
-
-    function populateAdminMatchInputs() {
-      const matchSelect = document.getElementById('admin-match-select');
-      if (!matchSelect || !matchSelect.value) return;
-      const matchId = parseInt(matchSelect.value);
-      const match = matches.find(m => m.id === matchId);
-      if (match) {
-        document.getElementById('admin-home-name').value = match.home_team;
-        document.getElementById('admin-away-name').value = match.away_team;
-        document.getElementById('home-score').value = match.home_score;
-        document.getElementById('away-score').value = match.away_score;
-        document.getElementById('match-status').value = match.status;
-      }
-    }
-
-    function renderAll() {
-      const matchesEl = document.getElementById('matches-list');
-      const matchSelect = document.getElementById('admin-match-select');
-      const predMatchSelect = document.getElementById('predictor-match-select');
-      
-      matchesEl.innerHTML = '';
-      matchSelect.innerHTML = '<option value="">-- Select Match --</option>';
-      predMatchSelect.innerHTML = '<option value="">-- Select Match --</option>';
-
-      if (matches.length > 0) {
-        matches.forEach(m => {
-          const isLive = m.status.includes('LIVE');
-          matchesEl.innerHTML += `
-            <div class="bg-slate-900/90 p-4 rounded-xl border border-slate-800/80 flex justify-between items-center shadow-lg">
-              <div class="space-y-2 w-2/3">
-                <div class="flex justify-between items-center font-bold text-sm text-slate-100">
-                  <span class="px-2 py-0.5 rounded text-xs ${getTeamBadge(m.home_team)}">${m.home_team}</span> 
-                  <span class="text-base font-poster text-[#ccff00]">${m.home_score}</span>
-                </div>
-                <div class="flex justify-between items-center font-bold text-sm text-slate-100">
-                  <span class="px-2 py-0.5 rounded text-xs ${getTeamBadge(m.away_team)}">${m.away_team}</span> 
-                  <span class="text-base font-poster text-[#ccff00]">${m.away_score}</span>
-                </div>
-              </div>
-              <div class="text-right border-l border-slate-800/80 pl-3">
-                <span class="text-[9px] font-black px-2 py-0.5 rounded uppercase ${isLive ? 'bg-red-500/20 text-red-400 border border-red-500/30 animate-pulse' : 'bg-slate-800 text-slate-400'}">
-                  ${m.status}
-                </span>
-                <p class="text-[10px] font-bold text-slate-500 mt-1">${m.match_time || ''}</p>
-              </div>
-            </div>`;
-
-          matchSelect.innerHTML += `<option value="${m.id}">${m.home_team} vs ${m.away_team}</option>`;
-          predMatchSelect.innerHTML += `<option value="${m.id}">${m.home_team} vs ${m.away_team}</option>`;
-        });
-      } else {
-        matchesEl.innerHTML = '<p class="text-xs text-slate-500 italic">No matches scheduled for this tournament yet.</p>';
-      }
-
-      const savedPredictorName = localStorage.getItem('rupa_predictor_name');
-      if(savedPredictorName && !document.getElementById('predictor-user-name').value) {
-        document.getElementById('predictor-user-name').value = savedPredictorName;
-      }
-
-      const predFeedEl = document.getElementById('live-predictions-feed');
-      document.getElementById('pred-count-badge').innerText = `${predictions.length} Submission${predictions.length !== 1 ? 's' : ''}`;
-      
-      if (predictions.length === 0) {
-        predFeedEl.innerHTML = '<p class="text-[11px] text-slate-500 italic">No predictions submitted yet.</p>';
-      } else {
-        predFeedEl.innerHTML = predictions.map(p => {
-          const match = matches.find(m => m.id === p.match_id);
-          const matchLabel = match ? `${match.home_team} vs ${match.away_team}` : 'Match';
-          return `
-            <div class="pt-1.5 flex justify-between items-center text-[11px]">
-              <div>
-                <span class="font-bold text-purple-300">${p.predictor_name}</span>
-                <span class="text-slate-500 text-[10px] ml-1">(${matchLabel})</span>
-              </div>
-              <span class="bg-slate-950 px-2 py-0.5 rounded border border-slate-800 font-poster text-xs text-[#ccff00] font-bold">
-                ${p.home_pred} - ${p.away_pred}
-              </span>
-            </div>`;
-        }).join('');
-      }
-
-      // Standings Grid (Excluding Knockouts/Semis/Finals)
-      const tableData = {};
-      matches.forEach(m => {
-        if (!isKnockoutMatch(m)) {
-          if (!tableData[m.home_team]) tableData[m.home_team] = { p: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0, gd: 0, pts: 0 };
-          if (!tableData[m.away_team]) tableData[m.away_team] = { p: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0, gd: 0, pts: 0 };
-
-          if (m.status.includes('FT') || m.status.includes('LIVE')) {
-            const home = m.home_team;
-            const away = m.away_team;
-            const hScore = m.home_score || 0;
-            const aScore = m.away_score || 0;
-
-            tableData[home].p += 1;
-            tableData[away].p += 1;
-            tableData[home].gf += hScore;
-            tableData[home].ga += aScore;
-            tableData[away].gf += aScore;
-            tableData[away].ga += hScore;
-
-            if (hScore > aScore) {
-              tableData[home].w += 1;
-              tableData[home].pts += 3;
-              tableData[away].l += 1;
-            } else if (aScore > hScore) {
-              tableData[away].w += 1;
-              tableData[away].pts += 3;
-              tableData[home].l += 1;
-            } else {
-              tableData[home].d += 1;
-              tableData[away].d += 1;
-              tableData[home].pts += 1;
-              tableData[away].pts += 1;
-            }
-
-            tableData[home].gd = tableData[home].gf - tableData[home].ga;
-            tableData[away].gd = tableData[away].gf - tableData[away].ga;
-          }
-        }
-      });
-
-      const sortedTeams = Object.entries(tableData).sort((a, b) => {
-        if (b[1].pts !== a[1].pts) return b[1].pts - a[1].pts;
-        return b[1].gd - a[1].gd;
-      });
-
-      const standingsBody = document.getElementById('standings-body');
-      standingsBody.innerHTML = sortedTeams.map(([teamName, stats], idx) => `
-        <tr class="${idx < 4 ? 'bg-lime-500/5' : ''} hover:bg-slate-800/40">
-          <td class="p-3 font-bold text-slate-100 flex items-center gap-1.5">
-            <span class="text-[10px] text-slate-500">${idx + 1}</span>
-            <span class="px-2 py-0.5 rounded text-[11px] ${getTeamBadge(teamName)}">${teamName}</span>
-          </td>
-          <td class="p-3 text-center text-slate-400">${stats.p}</td>
-          <td class="p-3 text-center text-slate-400">${stats.w}</td>
-          <td class="p-3 text-center text-slate-400">${stats.d}</td>
-          <td class="p-3 text-center text-slate-400">${stats.l}</td>
-          <td class="p-3 text-center text-slate-300 font-bold">${stats.gd > 0 ? '+' + stats.gd : stats.gd}</td>
-          <td class="p-3 text-center text-[#ccff00] font-black text-sm">${stats.pts}</td>
-        </tr>
-      `).join('');
-
-      // Render Squads
-      const squadGroups = {};
-      squads.forEach(s => {
-        if (!squadGroups[s.team_name]) squadGroups[s.team_name] = [];
-        squadGroups[s.team_name].push(s.player_name);
-      });
-
-      const squadsContainer = document.getElementById('squads-container');
-      squadsContainer.innerHTML = '';
-      
-      const allPlayers = [];
-      if (Object.keys(squadGroups).length === 0) {
-        squadsContainer.innerHTML = '<p class="text-xs text-slate-500 italic">No squad rosters added for this tournament yet.</p>';
-      } else {
-        Object.entries(squadGroups).forEach(([teamName, players]) => {
-          allPlayers.push(...players);
-          squadsContainer.innerHTML += `
-            <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-4 space-y-3">
-              <div class="flex items-center justify-between">
-                <h3 class="font-poster text-2xl font-bold text-[#ccff00] tracking-wide uppercase flex items-center gap-2">${teamName}</h3>
-                <span class="text-[10px] bg-slate-800 font-bold px-2 py-0.5 rounded-full text-slate-300">${players.length} Players</span>
-              </div>
-              <div class="grid grid-cols-2 gap-2 text-xs text-slate-300">
-                ${players.map(p => `<div class="bg-slate-950/60 p-2 rounded-lg border border-slate-800/60 flex items-center gap-1.5"><i class="fa-regular fa-user text-slate-500 text-[10px]"></i>${p}</div>`).join('')}
-              </div>
-            </div>`;
-        });
-      }
-
-      const uniquePlayers = [...new Set(allPlayers)].sort();
-      const goalSelect = document.getElementById('goal-player-select');
-      const pottSelect = document.getElementById('pott-vote-select');
-      goalSelect.innerHTML = '<option value="">-- Select Player --</option>';
-      pottSelect.innerHTML = '<option value="">-- Select Player --</option>';
-
-      uniquePlayers.forEach(p => {
-        goalSelect.innerHTML += `<option value="${p}">${p}</option>`;
-        pottSelect.innerHTML += `<option value="${p}">${p}</option>`;
-      });
-
-      // Render Dynamic Rules
-      const rulesContainer = document.getElementById('rules-container');
-      const adminRulesList = document.getElementById('admin-rules-list');
-      
-      if (rules.length === 0) {
-        rulesContainer.innerHTML = '<p class="text-xs text-slate-500 italic">No rules specified for this tournament yet.</p>';
-        adminRulesList.innerHTML = '<p class="text-[10px] text-slate-500 p-1 italic">No rules added.</p>';
-      } else {
-        rulesContainer.innerHTML = rules.map(r => `
-          <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-800 space-y-2">
-            <h3 class="font-bold text-[#ccff00] uppercase tracking-wider flex items-center gap-1.5">
-              <i class="fa-solid fa-circle-check text-xs"></i> ${r.rule_title}
-            </h3>
-            <div class="text-xs text-slate-300 whitespace-pre-line leading-relaxed">${r.rule_content}</div>
-          </div>`).join('');
-
-        adminRulesList.innerHTML = rules.map(r => `
-          <div class="flex justify-between items-center py-1.5 text-xs text-slate-300">
-            <span class="font-bold truncate max-w-[200px]">${r.rule_title}</span>
-            <button onclick="deleteRule(${r.id})" class="text-red-400 hover:text-red-300 font-bold px-1.5"><i class="fa-solid fa-trash text-[10px]"></i></button>
-          </div>`).join('');
-      }
-
-      // Predictor Leaderboard
-      const userScores = {};
-      predictions.forEach(p => {
-        const match = matches.find(m => m.id === p.match_id);
-        if (match && match.status.includes('FT')) {
-          if (!userScores[p.predictor_name]) userScores[p.predictor_name] = 0;
-
-          const actualHome = match.home_score;
-          const actualAway = match.away_score;
-          const predHome = p.home_pred;
-          const predAway = p.away_pred;
-
-          if (actualHome === predHome && actualAway === predAway) {
-            userScores[p.predictor_name] += 3;
-          } 
-          else if (
-            (actualHome > actualAway && predHome > predAway) ||
-            (actualAway > actualHome && predAway > predHome) ||
-            (actualHome === actualAway && predHome === predAway)
-          ) {
-            userScores[p.predictor_name] += 1;
-          }
-        }
-      });
-
-      const sortedPredictors = Object.entries(userScores).sort((a, b) => b[1] - a[1]);
-      const predTallyEl = document.getElementById('predictor-tally-list');
-
-      if (sortedPredictors.length === 0) {
-        predTallyEl.innerHTML = '<p class="p-4 text-xs text-slate-500 italic">No scored predictions yet. Points update as matches finish!</p>';
-      } else {
-        predTallyEl.innerHTML = sortedPredictors.map(([name, pts], idx) => `
-          <div class="p-3.5 flex justify-between items-center text-xs">
-            <span class="font-bold text-slate-200">${idx + 1}. ${name}</span>
-            <span class="bg-purple-500/10 text-purple-400 font-black px-2.5 py-0.5 rounded border border-purple-500/20">${pts} Pt${pts !== 1 ? 's' : ''}</span>
-          </div>`).join('');
-      }
-
-      // Golden Boot Leaderboard
-      const goalCounts = {};
-      goals.forEach(g => { goalCounts[g.player_name] = (goalCounts[g.player_name] || 0) + 1; });
-      const sortedScorers = Object.entries(goalCounts).sort((a, b) => b[1] - a[1]);
-      const scorersEl = document.getElementById('scorers-list');
-      
-      if(sortedScorers.length === 0) {
-        scorersEl.innerHTML = '<p class="p-4 text-xs text-slate-500 italic">No goals logged yet.</p>';
-      } else {
-        scorersEl.innerHTML = sortedScorers.map(([player, goalNum], idx) => `
-          <div class="p-3.5 flex justify-between items-center text-xs">
-            <span class="font-bold text-slate-200">${idx + 1}. ${player}</span>
-            <span class="bg-[#ccff00]/10 text-[#ccff00] font-bold px-2.5 py-0.5 rounded border border-[#ccff00]/20">${goalNum} Goal${goalNum > 1 ? 's' : ''}</span>
-          </div>`).join('');
-      }
-
-      // POTT Vote Tally
-      const voteCounts = {};
-      votes.forEach(v => { voteCounts[v.player_name] = (voteCounts[v.player_name] || 0) + 1; });
-      const sortedVotes = Object.entries(voteCounts).sort((a, b) => b[1] - a[1]);
-      const pottTallyEl = document.getElementById('pott-tally-list');
-
-      if (sortedVotes.length === 0) {
-        pottTallyEl.innerHTML = '<p class="p-4 text-xs text-slate-500 italic">No votes recorded yet.</p>';
-      } else {
-        pottTallyEl.innerHTML = sortedVotes.map(([player, count], idx) => `
-          <div class="p-3.5 flex justify-between items-center text-xs">
-            <span class="font-bold text-slate-200">${idx + 1}. ${player}</span>
-            <span class="bg-purple-500/10 text-purple-400 font-bold px-2.5 py-0.5 rounded border border-purple-500/20">${count} Vote${count > 1 ? 's' : ''}</span>
-          </div>`).join('');
-      }
-
-      const voteBtn = document.getElementById('vote-btn');
-      if (localStorage.getItem(`rupa_pott_voted_${currentTournamentId}`)) {
-        voteBtn.disabled = true;
-        voteBtn.classList.add('opacity-50', 'cursor-not-allowed');
-        document.getElementById('user-voted-msg').classList.remove('hidden');
-      } else {
-        voteBtn.disabled = false;
-        voteBtn.classList.remove('opacity-50', 'cursor-not-allowed');
-        document.getElementById('user-voted-msg').classList.add('hidden');
-      }
-
-      // Admin Goal Log
-      const adminGoalsLog = document.getElementById('admin-goals-log');
-      if (goals.length === 0) {
-        adminGoalsLog.innerHTML = '<p class="text-[10px] text-slate-500 p-1 italic">No recorded goals.</p>';
-      } else {
-        adminGoalsLog.innerHTML = goals.map(g => `
-          <div class="flex justify-between items-center py-1 text-xs text-slate-300">
-            <span>${g.player_name}</span>
-            <button onclick="deleteGoalRecord(${g.id})" class="text-red-400 hover:text-red-300 font-bold px-1.5"><i class="fa-solid fa-trash text-[10px]"></i></button>
-          </div>`).join('');
-      }
-
-      // Photo Gallery
-      const photosGrid = document.getElementById('photos-grid');
-      if (photos.length === 0) {
-        photosGrid.innerHTML = '<p class="text-xs text-slate-500 col-span-2 italic">No photos uploaded yet. Be the first!</p>';
-      } else {
-        photosGrid.innerHTML = photos.map(p => `
-          <div class="bg-slate-900 border border-slate-800 rounded-lg overflow-hidden space-y-1 relative group">
-            <img src="${p.photo_url}" class="w-full h-36 object-cover" alt="Tournament photo">
-            ${p.caption ? `<p class="p-2 text-[11px] text-slate-300 font-medium truncate">${p.caption}</p>` : ''}
-            ${isAdminLoggedIn ? `
-              <button onclick="deletePhoto(${p.id})" class="absolute top-1 right-1 bg-red-600 text-white p-1.5 rounded-full text-xs shadow hover:bg-red-500">
-                <i class="fa-solid fa-trash text-[10px]"></i>
-              </button>` : ''}
-          </div>`).join('');
-      }
-
-      // Announcements
-      const updatesEl = document.getElementById('updates-list');
-      if (updates.length > 0) {
-        updatesEl.innerHTML = updates.map(u => {
-          const timeStr = new Date(u.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-          return `
-            <div class="bg-slate-900/90 p-3.5 rounded-xl border-l-2 border-[#ccff00] flex justify-between items-start">
-              <div>
-                <p class="text-[10px] text-slate-500 font-bold mb-1">${timeStr}</p>
-                <p class="text-xs text-slate-300">${u.update_text}</p>
-              </div>
-              ${isAdminLoggedIn ? `<button onclick="deleteUpdate(${u.id})" class="text-xs text-red-400 hover:text-red-300 font-bold px-2 py-1"><i class="fa-solid fa-trash"></i></button>` : ''}
-            </div>`;
-        }).join('');
-      } else {
-        updatesEl.innerHTML = '<p class="text-xs text-slate-500 italic">No live announcements posted for this tournament yet.</p>';
-      }
-    }
-
-    // --- Admin Actions ---
-    async function createNewTournament() {
-      const name = document.getElementById('new-tourney-name').value.trim();
-      const season = document.getElementById('new-tourney-season').value.trim();
-      const location = document.getElementById('new-tourney-loc').value.trim();
-
-      if (!name || !season) return alert('Enter tournament name and season!');
-
-      const { data, error } = await supabaseClient.from('tournaments').insert([
-        { name, season, location: location || 'The Playyard, Guwahati' }
-      ]).select();
-
-      if (error) {
-        alert('Error launching tournament: ' + error.message);
-      } else if (data && data.length > 0) {
-        alert(`Successfully launched ${name} (${season})!`);
-        currentTournamentId = data[0].id;
-        localStorage.setItem('rupa_active_tournament_id', currentTournamentId);
-        document.getElementById('new-tourney-name').value = '';
-        document.getElementById('new-tourney-season').value = '';
-        document.getElementById('new-tourney-loc').value = '';
-        fetchData();
-      }
-    }
-
-    async function createNewMatch() {
-      const hName = document.getElementById('new-match-home').value.trim();
-      const aName = document.getElementById('new-match-away').value.trim();
-      const timeStr = document.getElementById('new-match-time').value.trim();
-
-      if (!hName || !aName) return alert('Enter Home and Away team names!');
-
-      await supabaseClient.from('matches').insert([{
-        tournament_id: currentTournamentId,
-        home_team: hName,
-        away_team: aName,
-        home_score: 0,
-        away_score: 0,
-        status: 'UPCOMING',
-        match_time: timeStr || 'TBD'
-      }]);
-
-      document.getElementById('new-match-home').value = '';
-      document.getElementById('new-match-away').value = '';
-      document.getElementById('new-match-time').value = '';
-      alert(`Match added to tournament!`);
-      fetchData();
-    }
-
-    async function deleteSelectedMatch() {
-      const matchSelect = document.getElementById('admin-match-select');
-      if (!matchSelect || !matchSelect.value) return alert('Please select a match to delete!');
-      const matchId = parseInt(matchSelect.value);
-
-      if (!confirm('Are you sure you want to DELETE this match?')) return;
-
-      const { error } = await supabaseClient.from('matches').delete().eq('id', matchId);
-      if (error) {
-        alert('Error deleting match: ' + error.message);
-      } else {
-        alert('Match deleted successfully!');
-        fetchData();
-      }
-    }
-
-    async function addPlayerToSquad() {
-      const team = document.getElementById('squad-team-name').value.trim();
-      const name = document.getElementById('new-player-name').value.trim();
-
-      if(!team || !name) return alert('Enter team name and player name!');
-
-      const { error } = await supabaseClient.from('squads').insert([{
-        tournament_id: currentTournamentId,
-        team_name: team,
-        player_name: name
-      }]);
-
-      if (error) {
-        alert('Error adding squad player: ' + error.message);
-      } else {
-        document.getElementById('new-player-name').value = '';
-        alert(`Added ${name} to ${team}!`);
-        fetchData();
-      }
-    }
-
-    async function addRule() {
-      const title = document.getElementById('new-rule-title').value.trim();
-      const content = document.getElementById('new-rule-content').value.trim();
-
-      if (!title || !content) return alert('Please enter rule title and details!');
-
-      const { error } = await supabaseClient.from('rules').insert([{
-        tournament_id: currentTournamentId,
-        rule_title: title,
-        rule_content: content
-      }]);
-
-      if (error) {
-        alert('Error saving rule: ' + error.message);
-      } else {
-        document.getElementById('new-rule-title').value = '';
-        document.getElementById('new-rule-content').value = '';
-        alert('Rule section saved!');
-        fetchData();
-      }
-    }
-
-    async function deleteRule(ruleId) {
-      if (!confirm('Delete this rule section?')) return;
-      const { error } = await supabaseClient.from('rules').delete().eq('id', ruleId);
-      if (error) alert('Error deleting rule: ' + error.message);
-      else fetchData();
-    }
-
-    async function submitMatchPrediction() {
-      const name = document.getElementById('predictor-user-name').value.trim();
-      const matchSelect = document.getElementById('predictor-match-select');
-      if (!matchSelect || !matchSelect.value) return alert('Please select a match!');
-      const matchId = parseInt(matchSelect.value);
-      const hPred = parseInt(document.getElementById('pred-home-score').value);
-      const aPred = parseInt(document.getElementById('pred-away-score').value);
-
-      if (!name) return alert('Please enter your name!');
-      if (isNaN(hPred) || isNaN(aPred)) return alert('Please enter predicted scores!');
-
-      localStorage.setItem('rupa_predictor_name', name);
-
-      await supabaseClient.from('predictions').insert([{
-        tournament_id: currentTournamentId,
-        predictor_name: name,
-        match_id: matchId,
-        home_pred: hPred,
-        away_pred: aPred
-      }]);
-
-      document.getElementById('pred-home-score').value = '';
-      document.getElementById('pred-away-score').value = '';
-      alert(`Prediction saved for ${name}!`);
-      fetchData();
-    }
-
-    async function resetPredictions() {
-      if (!confirm('Reset ALL spectator predictions for this tournament?')) return;
-      await supabaseClient.from('predictions').delete().eq('tournament_id', currentTournamentId);
-      alert('Match predictions reset!');
-      fetchData();
-    }
-
-    async function castPottVote() {
-      if (localStorage.getItem(`rupa_pott_voted_${currentTournamentId}`)) {
-        return alert('You have already cast your vote for Player of the Tournament!');
-      }
-
-      const player = document.getElementById('pott-vote-select').value;
-      if (!player) return alert('Please select a player!');
-
-      await supabaseClient.from('votes').insert([{ 
-        tournament_id: currentTournamentId, 
-        player_name: player 
-      }]);
-      
-      localStorage.setItem(`rupa_pott_voted_${currentTournamentId}`, 'true');
-      alert(`Vote cast for ${player}!`);
-      renderAll();
-    }
-
-    async function resetPottVotes() {
-      if (!confirm('Reset ALL spectator votes for this tournament?')) return;
-      await supabaseClient.from('votes').delete().eq('tournament_id', currentTournamentId);
-      localStorage.removeItem(`rupa_pott_voted_${currentTournamentId}`);
-      alert('Voting reset!');
-      fetchData();
-    }
-
-    async function uploadPhoto() {
-      const fileInput = document.getElementById('photo-input');
-      const captionInput = document.getElementById('photo-caption');
-      const uploadBtn = document.getElementById('upload-btn');
-
-      if (!fileInput.files || fileInput.files.length === 0) {
-        return alert('Please select an image file to upload!');
-      }
-
-      const file = fileInput.files[0];
-      const fileExt = file.name.split('.').pop();
-      const fileName = `${Date.now()}.${fileExt}`;
-      const filePath = `${fileName}`;
-
-      uploadBtn.disabled = true;
-      uploadBtn.innerHTML = '<i class="fa-solid fa-spinner animate-spin"></i> Uploading...';
-
-      const { data, error: uploadError } = await supabaseClient.storage
-        .from('tournament-photos')
-        .upload(filePath, file);
-
-      if (uploadError) {
-        alert('Upload failed: ' + uploadError.message);
-        uploadBtn.disabled = false;
-        uploadBtn.innerHTML = '<i class="fa-solid fa-cloud-arrow-up"></i> Upload Photo';
-        return;
-      }
-
-      const { data: publicUrlData } = supabaseClient.storage
-        .from('tournament-photos')
-        .getPublicUrl(filePath);
-
-      await supabaseClient.from('photos').insert([{ 
-        tournament_id: currentTournamentId,
-        photo_url: publicUrlData.publicUrl, 
-        caption: captionInput.value.trim() 
-      }]);
-
-      fileInput.value = '';
-      captionInput.value = '';
-      uploadBtn.disabled = false;
-      uploadBtn.innerHTML = '<i class="fa-solid fa-cloud-arrow-up"></i> Upload Photo';
-      alert('Photo uploaded successfully!');
-    }
-
-    async function deletePhoto(photoId) {
-      if(!confirm('Delete photo?')) return;
-      await supabaseClient.from('photos').delete().eq('id', photoId);
-    }
-
-    async function updateScore() {
-      const matchSelect = document.getElementById('admin-match-select');
-      if (!matchSelect || !matchSelect.value) return alert('Please select a match!');
-      const matchId = parseInt(matchSelect.value);
-
-      const hName = document.getElementById('admin-home-name').value.trim();
-      const aName = document.getElementById('admin-away-name').value.trim();
-      const hScore = parseInt(document.getElementById('home-score').value);
-      const aScore = parseInt(document.getElementById('away-score').value);
-      const status = document.getElementById('match-status').value;
-
-      if (!hName || !aName) return alert('Enter valid team names');
-      if (isNaN(hScore) || isNaN(aScore)) return alert('Enter valid scores');
-
-      await supabaseClient.from('matches').update({ 
-        home_team: hName, 
-        away_team: aName, 
-        home_score: hScore, 
-        away_score: aScore, 
-        status: status 
-      }).eq('id', matchId);
-      
-      alert('Match details updated!');
-    }
-
-    async function logGoal() {
-      const player = document.getElementById('goal-player-select').value;
-      if(!player) return alert('Please select a player!');
-
-      await supabaseClient.from('goals').insert([{ 
-        tournament_id: currentTournamentId,
-        player_name: player 
-      }]);
-      alert(`Goal recorded for ${player}!`);
-    }
-
-    async function deleteGoalRecord(goalId) {
-      if(!confirm('Delete goal entry?')) return;
-      await supabaseClient.from('goals').delete().eq('id', goalId);
-    }
-
-    async function addUpdate() {
-      const text = document.getElementById('admin-update-text').value;
-      if(!text) return alert('Enter announcement text!');
-
-      await supabaseClient.from('updates').insert([{ 
-        tournament_id: currentTournamentId,
-        update_text: text 
-      }]);
-      document.getElementById('admin-update-text').value = '';
-    }
-
-    async function deleteUpdate(updateId) {
-      if(!confirm('Delete announcement?')) return;
-      await supabaseClient.from('updates').delete().eq('id', updateId);
-    }
-
-    function getAdminPassword() {
-      return localStorage.getItem('rupa_admin_pass') || 'admin123';
-    }
-
-    function toggleAdminModal() {
-      document.getElementById('login-modal').classList.toggle('hidden');
-      document.getElementById('login-modal').classList.toggle('flex');
-    }
-
-    function loginAdmin() {
-      const enteredPass = document.getElementById('admin-pass').value;
-      if(enteredPass === getAdminPassword()) {
-        isAdminLoggedIn = true;
-        document.getElementById('sec-admin-panel').classList.remove('hidden');
-        document.getElementById('admin-btn-text').innerText = 'Admin Active';
-        toggleAdminModal();
-        document.getElementById('admin-pass').value = '';
-        renderAll();
-      } else {
-        alert('Incorrect password!');
-      }
-    }
-
-    function logoutAdmin() {
-      isAdminLoggedIn = false;
-      document.getElementById('sec-admin-panel').classList.add('hidden');
-      document.getElementById('admin-btn-text').innerText = 'Admin';
-      renderAll();
-    }
-
-    renderAll();
-    fetchData();
-    setupRealtimeSubscriptions();
-  </script>
-
-  <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js')
-          .then(() => console.log('Service Worker Registered'))
-          .catch(err => console.error('Service Worker Error:', err));
-      });
-    }
-  </script>
-</body>
-</html>
+      const activeTourney

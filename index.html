@@ -99,8 +99,7 @@
       <button onclick="switchTab('awards')" id="tab-awards" class="nav-tab-btn py-3 px-3.5 transition">Awards</button>
       <button onclick="switchTab('squads')" id="tab-squads" class="nav-tab-btn py-3 px-3.5 transition">Squads</button>
       <button onclick="switchTab('gallery')" id="tab-gallery" class="nav-tab-btn py-3 px-3.5 transition">Gallery</button>
-      <button onclick="switchTab('rules')" id="tab-rules" class="nav-tab-btn py-3 px-3.5 transition">Rules</button>
-      <button onclick="switchTab('updates')" id="tab-updates" class="nav-tab-btn py-3 px-3.5 transition">Updates</button>
+      <button onclick="switchTab('info')" id="tab-info" class="nav-tab-btn py-3 px-3.5 transition">Rules & Updates</button>
     </div>
   </nav>
 
@@ -248,15 +247,30 @@
       </div>
     </section>
 
-    <section id="sec-rules" class="hidden space-y-3 text-xs text-slate-300">
-      <div id="rules-container" class="space-y-3">
-        <p class="text-xs text-slate-500">Loading tournament rules...</p>
+    <section id="sec-info" class="hidden space-y-6">
+      
+      <div class="space-y-3">
+        <div class="flex justify-between items-center">
+          <h2 class="text-xs font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
+            <i class="fa-solid fa-bullhorn text-lime-400"></i> Live Announcements
+          </h2>
+          <span class="text-[9px] bg-lime-500/10 text-lime-400 border border-lime-500/20 px-2 py-0.5 rounded font-bold">Matchday Desk</span>
+        </div>
+        <div class="space-y-3" id="updates-list"></div>
       </div>
-    </section>
 
-    <section id="sec-updates" class="hidden space-y-3">
-      <h2 class="text-xs font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5"><i class="fa-solid fa-bullhorn text-lime-400"></i> Live Announcements</h2>
-      <div class="space-y-3" id="updates-list"></div>
+      <div class="space-y-3 pt-4 border-t border-slate-800">
+        <div class="flex justify-between items-center">
+          <h2 class="text-xs font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
+            <i class="fa-solid fa-scale-balanced text-yellow-400"></i> Tournament Rules & Format
+          </h2>
+          <span class="text-[9px] bg-yellow-500/10 text-yellow-400 border border-yellow-500/20 px-2 py-0.5 rounded font-bold">Official</span>
+        </div>
+        <div id="rules-container" class="space-y-3">
+          <p class="text-xs text-slate-500">Loading tournament rules...</p>
+        </div>
+      </div>
+
     </section>
 
     <section id="sec-admin-panel" class="hidden bg-slate-950 border border-lime-500/40 rounded-2xl p-4 space-y-5 shadow-2xl mt-6">
@@ -412,7 +426,7 @@
     let predictions = [];
 
     function switchTab(tab) {
-      ['matches', 'awards', 'squads', 'gallery', 'rules', 'updates'].forEach(t => {
+      ['matches', 'awards', 'squads', 'gallery', 'info'].forEach(t => {
         document.getElementById(`sec-${t}`).classList.add('hidden');
         document.getElementById(`tab-${t}`).classList.remove('active-tab');
       });
@@ -614,7 +628,7 @@
             tableData[home].p += 1;
             tableData[away].p += 1;
             tableData[home].gf += hScore;
-            tableData[away].gf += aScore;
+            tableData[home].ga += aScore;
             tableData[away].gf += aScore;
             tableData[away].ga += hScore;
 
@@ -702,7 +716,7 @@
         pottSelect.innerHTML += `<option value="${p}">${p}</option>`;
       });
 
-      // Render Dynamic Rules
+      // Render Dynamic Rules in Tab 5 (Info)
       const rulesContainer = document.getElementById('rules-container');
       const adminRulesList = document.getElementById('admin-rules-list');
       
@@ -834,7 +848,7 @@
           </div>`).join('');
       }
 
-      // Announcements
+      // Announcements in Tab 5 (Info)
       const updatesEl = document.getElementById('updates-list');
       if (updates.length > 0) {
         updatesEl.innerHTML = updates.map(u => {

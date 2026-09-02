@@ -39,7 +39,7 @@
     .mobile-tab-nav {
       display: flex !important;
       width: 100% !important;
-      overflow-x: scroll !important;
+      overflow-x: auto !important;
       white-space: nowrap !important;
       -webkit-overflow-scrolling: touch !important;
       touch-action: pan-x !important;
@@ -58,7 +58,7 @@
 </head>
 <body class="bg-pitch text-slate-100 font-sans min-h-screen pb-20 selection:bg-lime-400 selection:text-black">
 
-  <div id="tournament-selector-overlay" class="fixed inset-0 bg-slate-950/95 backdrop-blur-md z-50 p-4 flex flex-col justify-center items-center">
+  <div id="tournament-selector-overlay" class="fixed inset-0 bg-slate-950/95 backdrop-blur-md z-50 p-4 hidden flex-col justify-center items-center">
     <div class="max-w-md w-full space-y-6 text-center">
       <div class="space-y-1">
         <div class="text-xs font-black tracking-widest text-pink-500 uppercase">The Ultimate Battle. One Cup. One Dream.</div>
@@ -81,11 +81,11 @@
       <div class="w-2/3">
         <div class="flex items-center gap-1.5 cursor-pointer" onclick="openTournamentPicker()">
           <h1 id="header-tourney-title" class="text-2xl font-black font-poster italic tracking-wide text-[#ccff00] uppercase leading-none glow-title truncate">
-            RUPA SUPER CUP
+            RUPA SUPER CUP 2.0
           </h1>
           <i class="fa-solid fa-arrows-rotate text-[10px] text-lime-400"></i>
         </div>
-        <p id="header-tourney-sub" class="text-[10px] text-slate-400 font-semibold tracking-wider uppercase truncate">Loading...</p>
+        <p id="header-tourney-sub" class="text-[10px] text-slate-400 font-semibold tracking-wider uppercase truncate">Season 2 • Arizona Sports Arena</p>
       </div>
       <button onclick="toggleAdminModal()" class="text-xs bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-700 px-3 py-1.5 rounded-md font-bold transition flex items-center gap-1.5">
         <i class="fa-solid fa-user-shield text-[#ccff00]"></i> <span id="admin-btn-text">Admin</span>
@@ -123,12 +123,12 @@
           </h2>
           <span class="text-[9px] bg-purple-500/20 text-purple-300 font-bold px-2 py-0.5 rounded">Fan Game</span>
         </div>
-        <p class="text-[11px] text-slate-300">Predict match scores to earn points on the Fan Leaderboard! (3 pts exact score, 1 pt correct winner)</p>
+        <p class="text-[11px] text-slate-300">Predict match scores before full time! (3 pts exact score, 1 pt correct winner)</p>
         
         <div class="space-y-2 bg-slate-950 p-3 rounded-lg border border-slate-800">
           <input type="text" id="predictor-user-name" placeholder="Enter Your Name" class="w-full text-xs p-2 border border-slate-700 bg-slate-900 text-slate-200 rounded-lg">
           <select id="predictor-match-select" class="w-full text-xs p-2 border border-slate-700 bg-slate-900 text-slate-200 rounded-lg">
-            <option value="">-- Select Match --</option>
+            <option value="">-- Select Upcoming Match --</option>
           </select>
           <div class="flex gap-2 items-center">
             <input type="number" id="pred-home-score" placeholder="Home Score" class="w-1/2 p-2 text-xs border border-slate-700 bg-slate-900 text-slate-200 rounded-lg">
@@ -248,7 +248,6 @@
     </section>
 
     <section id="sec-info" class="hidden space-y-6">
-      
       <div class="space-y-3">
         <div class="flex justify-between items-center">
           <h2 class="text-xs font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
@@ -270,7 +269,6 @@
           <p class="text-xs text-slate-500">Loading tournament rules...</p>
         </div>
       </div>
-
     </section>
 
     <section id="sec-admin-panel" class="hidden bg-slate-950 border border-lime-500/40 rounded-2xl p-4 space-y-5 shadow-2xl mt-6">
@@ -415,33 +413,64 @@
     let isAdminLoggedIn = false;
     let currentTournamentId = parseInt(localStorage.getItem('rupa_active_tournament_id')) || 2;
 
-    let tournaments = [];
-    let matches = [];
-    let squads = [];
-    let rules = [];
-    let goals = [];
-    let updates = [];
-    let photos = [];
-    let votes = [];
-    let predictions = [];
+    // Instant local memory cache to eliminate loading lags on opening
+    const localCache = JSON.parse(localStorage.getItem('rupa_cache_v2_' + currentTournamentId)) || {};
 
+    let tournaments = JSON.parse(localStorage.getItem('rupa_tournaments_cache')) || [
+      { id: 2, name: 'Rupa Super Cup 2.0', season: 'Season 2', location: 'Arizona Sports Arena (06 Sept 2026, 9:00 PM Onwards)' },
+      { id: 1, name: 'Rupa Super Cup', season: 'Season 1', location: 'The Playyard, Guwahati' }
+    ];
+
+    let matches = localCache.matches || [];
+    let squads = localCache.squads || [];
+    let rules = localCache.rules || [];
+    let goals = localCache.goals || [];
+    let updates = localCache.updates || [];
+    let photos = localCache.photos || [];
+    let votes = localCache.votes || [];
+    let predictions = localCache.predictions || [];
+
+    // Smooth tab switching
     function switchTab(tab) {
-      ['matches', 'awards', 'squads', 'gallery', 'info'].forEach(t => {
-        document.getElementById(`sec-${t}`).classList.add('hidden');
-        document.getElementById(`tab-${t}`).classList.remove('active-tab');
+      const allTabs = ['matches', 'awards', 'squads', 'gallery', 'info'];
+      allTabs.forEach(t => {
+        const sec = document.getElementById(`sec-${t}`);
+        const btn = document.getElementById(`tab-${t}`);
+        if (sec) sec.classList.add('hidden');
+        if (btn) btn.classList.remove('active-tab');
       });
-      document.getElementById(`sec-${tab}`).classList.remove('hidden');
-      document.getElementById(`tab-${tab}`).classList.add('active-tab');
+
+      const activeSec = document.getElementById(`sec-${tab}`);
+      const activeBtn = document.getElementById(`tab-${tab}`);
+      if (activeSec) activeSec.classList.remove('hidden');
+      if (activeBtn) activeBtn.classList.add('active-tab');
     }
 
     function openTournamentPicker() {
-      document.getElementById('tournament-selector-overlay').classList.remove('hidden');
+      const overlay = document.getElementById('tournament-selector-overlay');
+      overlay.classList.remove('hidden');
+      overlay.classList.add('flex');
     }
 
     function selectTournament(tourneyId) {
       currentTournamentId = parseInt(tourneyId);
       localStorage.setItem('rupa_active_tournament_id', currentTournamentId);
-      document.getElementById('tournament-selector-overlay').classList.add('hidden');
+      const overlay = document.getElementById('tournament-selector-overlay');
+      overlay.classList.add('hidden');
+      overlay.classList.remove('flex');
+
+      // Load cached data for selected tournament immediately
+      const tourneyCache = JSON.parse(localStorage.getItem('rupa_cache_v2_' + currentTournamentId)) || {};
+      matches = tourneyCache.matches || [];
+      squads = tourneyCache.squads || [];
+      rules = tourneyCache.rules || [];
+      goals = tourneyCache.goals || [];
+      updates = tourneyCache.updates || [];
+      photos = tourneyCache.photos || [];
+      votes = tourneyCache.votes || [];
+      predictions = tourneyCache.predictions || [];
+      
+      renderAll();
       fetchData();
     }
 
@@ -450,6 +479,7 @@
       const { data: tourneyData } = await supabaseClient.from('tournaments').select('*').order('id', { ascending: false });
       if (tourneyData && tourneyData.length > 0) {
         tournaments = tourneyData;
+        localStorage.setItem('rupa_tournaments_cache', JSON.stringify(tournaments));
       }
 
       // Populate Overlay Selection List
@@ -477,24 +507,31 @@
         document.getElementById('admin-edit-loc').value = activeTourney.location || '';
       }
 
-      // 2. Fetch All Tables Filtered by Tournament ID
-      const { data: matchData } = await supabaseClient.from('matches').select('*').eq('tournament_id', currentTournamentId).order('id', { ascending: true });
-      const { data: squadData } = await supabaseClient.from('squads').select('*').eq('tournament_id', currentTournamentId).order('id', { ascending: true });
-      const { data: ruleData } = await supabaseClient.from('rules').select('*').eq('tournament_id', currentTournamentId).order('id', { ascending: true });
-      const { data: updateData } = await supabaseClient.from('updates').select('*').eq('tournament_id', currentTournamentId).order('created_at', { ascending: false });
-      const { data: goalData } = await supabaseClient.from('goals').select('*').eq('tournament_id', currentTournamentId).order('created_at', { ascending: false });
-      const { data: photoData } = await supabaseClient.from('photos').select('*').eq('tournament_id', currentTournamentId).order('created_at', { ascending: false });
-      const { data: voteData } = await supabaseClient.from('votes').select('*').eq('tournament_id', currentTournamentId).order('created_at', { ascending: false });
-      const { data: predData } = await supabaseClient.from('predictions').select('*').eq('tournament_id', currentTournamentId).order('created_at', { ascending: false });
+      // 2. Fetch All Tables Filtered by Tournament ID in parallel
+      const [mRes, sRes, rRes, uRes, gRes, pRes, vRes, prRes] = await Promise.all([
+        supabaseClient.from('matches').select('*').eq('tournament_id', currentTournamentId).order('id', { ascending: true }),
+        supabaseClient.from('squads').select('*').eq('tournament_id', currentTournamentId).order('id', { ascending: true }),
+        supabaseClient.from('rules').select('*').eq('tournament_id', currentTournamentId).order('id', { ascending: true }),
+        supabaseClient.from('updates').select('*').eq('tournament_id', currentTournamentId).order('created_at', { ascending: false }),
+        supabaseClient.from('goals').select('*').eq('tournament_id', currentTournamentId).order('created_at', { ascending: false }),
+        supabaseClient.from('photos').select('*').eq('tournament_id', currentTournamentId).order('created_at', { ascending: false }),
+        supabaseClient.from('votes').select('*').eq('tournament_id', currentTournamentId).order('created_at', { ascending: false }),
+        supabaseClient.from('predictions').select('*').eq('tournament_id', currentTournamentId).order('created_at', { ascending: false })
+      ]);
       
-      matches = matchData || [];
-      squads = squadData || [];
-      rules = ruleData || [];
-      updates = updateData || [];
-      goals = goalData || [];
-      photos = photoData || [];
-      votes = voteData || [];
-      predictions = predData || [];
+      matches = mRes.data || [];
+      squads = sRes.data || [];
+      rules = rRes.data || [];
+      updates = uRes.data || [];
+      goals = gRes.data || [];
+      photos = pRes.data || [];
+      votes = vRes.data || [];
+      predictions = prRes.data || [];
+
+      // Save to local cache for instant sub-millisecond next load
+      localStorage.setItem('rupa_cache_v2_' + currentTournamentId, JSON.stringify({
+        matches, squads, rules, updates, goals, photos, votes, predictions
+      }));
       
       renderAll();
     }
@@ -553,11 +590,13 @@
       
       matchesEl.innerHTML = '';
       matchSelect.innerHTML = '<option value="">-- Select Match --</option>';
-      predMatchSelect.innerHTML = '<option value="">-- Select Match --</option>';
+      predMatchSelect.innerHTML = '<option value="">-- Select Upcoming Match --</option>';
 
       if (matches.length > 0) {
         matches.forEach(m => {
-          const isLive = m.status.includes('LIVE');
+          const isLive = (m.status || '').includes('LIVE');
+          const isFinished = (m.status || '').toUpperCase().includes('FT') || (m.status || '').toUpperCase().includes('FINISHED');
+
           matchesEl.innerHTML += `
             <div class="bg-slate-900/90 p-4 rounded-xl border border-slate-800/80 flex justify-between items-center shadow-lg">
               <div class="space-y-2 w-2/3">
@@ -579,7 +618,11 @@
             </div>`;
 
           matchSelect.innerHTML += `<option value="${m.id}">${m.home_team} vs ${m.away_team}</option>`;
-          predMatchSelect.innerHTML += `<option value="${m.id}">${m.home_team} vs ${m.away_team}</option>`;
+          
+          // LOCK PREDICTIONS: Only allow predictions for matches that are NOT full time / finished
+          if (!isFinished) {
+            predMatchSelect.innerHTML += `<option value="${m.id}">${m.home_team} vs ${m.away_team} (${m.match_time || 'Upcoming'})</option>`;
+          }
         });
       } else {
         matchesEl.innerHTML = '<p class="text-xs text-slate-500 italic">No matches scheduled for this tournament yet.</p>';
@@ -619,7 +662,7 @@
           if (!tableData[m.home_team]) tableData[m.home_team] = { p: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0, gd: 0, pts: 0 };
           if (!tableData[m.away_team]) tableData[m.away_team] = { p: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0, gd: 0, pts: 0 };
 
-          if (m.status.includes('FT') || m.status.includes('LIVE')) {
+          if ((m.status || '').includes('FT') || (m.status || '').includes('LIVE')) {
             const home = m.home_team;
             const away = m.away_team;
             const hScore = m.home_score || 0;
@@ -743,7 +786,7 @@
       const userScores = {};
       predictions.forEach(p => {
         const match = matches.find(m => m.id === p.match_id);
-        if (match && match.status.includes('FT')) {
+        if (match && (match.status || '').includes('FT')) {
           if (!userScores[p.predictor_name]) userScores[p.predictor_name] = 0;
 
           const actualHome = match.home_score;
@@ -1003,8 +1046,14 @@
     async function submitMatchPrediction() {
       const name = document.getElementById('predictor-user-name').value.trim();
       const matchSelect = document.getElementById('predictor-match-select');
-      if (!matchSelect || !matchSelect.value) return alert('Please select a match!');
+      if (!matchSelect || !matchSelect.value) return alert('Please select an active match!');
       const matchId = parseInt(matchSelect.value);
+      
+      const targetMatch = matches.find(m => m.id === matchId);
+      if (targetMatch && ((targetMatch.status || '').toUpperCase().includes('FT') || (targetMatch.status || '').toUpperCase().includes('FINISHED'))) {
+        return alert('This match has already ended. Predictions are closed!');
+      }
+
       const hPred = parseInt(document.getElementById('pred-home-score').value);
       const aPred = parseInt(document.getElementById('pred-away-score').value);
 
@@ -1197,6 +1246,7 @@
       renderAll();
     }
 
+    // Immediate cached render + silent background fetch
     renderAll();
     fetchData();
     setupRealtimeSubscriptions();
